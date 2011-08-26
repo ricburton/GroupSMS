@@ -32,8 +32,8 @@ class SendTexts < ActiveRecord::Base
 
   #initiate the sending of the texts to all the users
   unique_numbers.each do |s| #s here is the next num to be sent to
-    p last_sender_name + ": " + last_text + " will be sent to: " + s
-    #gateway.send last_sender_name + ": " + last_text, s
+    #p last_sender_name + ": " + last_text + " will be sent to: " + s
+    gateway.send last_sender_name + ": " + last_text, s
   end
   
 end

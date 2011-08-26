@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  
   # GET /users
   # GET /users.xml
   def index
@@ -23,9 +24,15 @@ class UsersController < ApplicationController
 
   # GET /users/new
   # GET /users/new.xml
+   # 
+   # gateway = TextMagic::API.new('burtonic', '3AeMiofRgXOFQJT')
+   # number = @user.number.sub( "0","44")
+   # name = @user.name
+   # gateway.send "Hi " + name + ". Welcome to this group. Just reply to this number and everyone will get your message. Sweet!", number  
+  
+
   def new
     @user = User.new
-
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @user }

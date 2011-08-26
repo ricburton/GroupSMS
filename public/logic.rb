@@ -1,59 +1,88 @@
 #class SendTexts < ActiveRecord::Base
 
-  require 'textmagic'
+require 'textmagic'
 
-  gateway = TextMagic::API.new('burtonic', '3AeMiofRgXOFQJT')
-  replies = gateway.receive
-  last_number = replies.last.from
-  last_text = replies.last.text
-  last_sender_name = ""
+gateway = TextMagic::API.new('burtonic', '3AeMiofRgXOFQJT')
+replies = gateway.receive
+last_number = replies.last.from
 
-  @users = User.all #collect all the user data
+last_text = replies.last.text
+last_sender_name = ""
 
-  all_numbers = Array.new
-  
-  #build an array of all the numbers
-  @users.each do |user|
-    number = user.number.sub( "0","44")
-    all_numbers.push number
+@users = User.all #collect all the user data
+
+all_numbers = Array.new
+
+#build an array of all the numbers
+@users.each do |user|
+  number = user.number.sub( "0","44")
+  all_numbers.push number
+  if number == last_number
+    last_sender_name = user.name
   end
-  #delete the number of the sender
-  unique_numbers = all_numbers.delete_if { |x| x[last_number] }
-  
-  # find the last name
-  @users.each do |user|
-    number = last_number.sub( "44","0")
-    if number == user.number
-      last_sender_name = user.name
-    else
-      last_sender_name = "No match" #between number and name
-    end
-  end
+end
 
-  #initiate the sending of the texts to all the users
-  unique_numbers.each do |s| #s here is the next num to be sent to
-    #p last_sender_name + ": " + last_text + " will be sent to: " + s
-    gateway.send last_sender_name + ": " + last_text, s
-  end
-  
+#delete the number of the sender
+unique_numbers = all_numbers.delete_if { |x| x[last_number] }
+
+#loop through the hot numbers and send a text out to them.
+unique_numbers.each do |s| #s here is the next num to be sent to
+  p last_sender_name + ": " + last_text + " will be sent to: " + s
+  #gateway.send last_sender_name + ": " + last_text, s
+end
+
+
+#need to use sent_text to stop duplicates being sent out.
+
+
+
+
+
+#testbox
+#p last_number
+#p last_text
+#p last_sender_name
+#p unique_numbers
+
+=begin  
+count = 0
+# find the last name
+@users.each do |user|
+count += 1
+number = last_number.sub( "44","0")
+if number == user.number
+last_sender_name = user.name
+else
+last_sender_name = "No match" #between number and name
+p number + user.number
+#p @users
+end
+end
+puts count
+#initiate the sending of the texts to all the users
+unique_numbers.each do |s| #s here is the next num to be sent to
+p last_sender_name + ": " + last_text + " will be sent to: " + s
+#gateway.send last_sender_name + ": " + last_text, s
+end
+=end  
 #end
 
 =begin
 
-  @users.each do |u|
-    format_number = u.number.sub( "0","44")
-    p last_number + format_number
-    if last_number == format_number
-      #@users
-      p "match"
-      # @users.each do |send|
-      #p u.name + ": " + last_text + " to " + format_number
-      #gateway.send u.name + ": " + last_text, format_number
-      # end
-    else
-      p "no match" 
-    end
-  end
+@users.each do |u|
+format_number = u.number.sub( "0","44")
+p last_number + format_number
+if last_number == format_number
+#@users
+p "match"
+# @users.each do |send|
+#p u.name + ": " + last_text + " to " + format_number
+#gateway.send u.name + ": " + last_text, format_number
+# end
+else
+p "no match" 
+end
+end
 
 
 replies.each do |t|

@@ -1,4 +1,4 @@
-class SendTexts < ActiveRecord::Base
+#class SendTexts < ActiveRecord::Base
 
   require 'textmagic'
 
@@ -36,7 +36,7 @@ class SendTexts < ActiveRecord::Base
     gateway.send last_sender_name + ": " + last_text, s
   end
   
-end
+#end
 
 =begin
 

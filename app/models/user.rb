@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
   
+  belongs_to :group
+  
   mobile_regex = /\A(([0][7][5-9])(\d{8}))\Z/
   
   validates :name, :presence => true,

@@ -5,11 +5,10 @@ require 'textmagic'
 gateway = TextMagic::API.new('burtonic', '3AeMiofRgXOFQJT')
 replies = gateway.receive
 last_number = replies.last.from
-
 last_text = replies.last.text
 last_sender_name = ""
 
-@users = User.all #collect all the user data
+
 
 all_numbers = Array.new
 
@@ -28,7 +27,7 @@ unique_numbers = all_numbers.delete_if { |x| x[last_number] }
 #loop through the hot numbers and send a text out to them.
 unique_numbers.each do |s| #s here is the next num to be sent to
   p last_sender_name + ": " + last_text + " will be sent to: " + s
-  #gateway.send last_sender_name + ": " + last_text, s
+  gateway.send last_sender_name + ": " + last_text, s
 end
 
 
@@ -121,6 +120,7 @@ num1 = '447851864388'
 num2 = '447590311499'
 num3 = '447740842460'
 
+'447740842460' mum
 
 puts "What's your mobile number?: "
 

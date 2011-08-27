@@ -9,6 +9,11 @@ gem 'sqlite3-ruby', :require => 'sqlite3'
 gem 'textmagic'
 gem 'rufus-scheduler'
 
+group :development do 
+#gem 'rspec-rails', '2.1.0' 
+gem 'annotate-models', '1.0.4'
+end
+
 
 # Use unicorn as the web server
 # gem 'unicorn'

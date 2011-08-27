@@ -28,6 +28,7 @@ GEM
       activemodel (= 3.0.3)
       activesupport (= 3.0.3)
     activesupport (3.0.3)
+    annotate-models (1.0.4)
     arel (2.0.4)
     builder (2.1.2)
     crack (0.1.8)
@@ -76,6 +77,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  annotate-models (= 1.0.4)
   rails (= 3.0.3)
   rufus-scheduler
   sqlite3-ruby

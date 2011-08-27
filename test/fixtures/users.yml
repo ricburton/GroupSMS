@@ -1,3 +1,16 @@
+# == Schema Information
+# Schema version: 20110826221216
+#
+# Table name: users
+#
+#  id         :integer         not null, primary key
+#  name       :string(255)
+#  number     :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#  group_id   :integer
+#
+
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:

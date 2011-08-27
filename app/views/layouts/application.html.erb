@@ -25,15 +25,11 @@
           </ul>
 
           <ul class="nav secondary-nav">
-            <li class="menu">
-              <a href="#" class="menu">My Account</a>
-              <ul class="menu-dropdown">
-                <li><a href="#">Secondary link</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li class="divider"></li>
-                <li><a href="#">Another link</a></li>
-              </ul>
-            </li>
+              <% if signed_in? %>
+              <li><%= link_to "Sign out", signout_path, :method => :delete %></li> 
+              <% else %>
+              <li><%= link_to "Sign in", signin_path %></li> 
+              <% end %>
           </ul>
         </div>
       </div><!-- /fill -->
@@ -50,7 +46,8 @@
 
 
     <%= yield %>
-  </div>
   <%= debug(params) if Rails.env.development? %>
+  </div>
+  
 </body>
 </html>

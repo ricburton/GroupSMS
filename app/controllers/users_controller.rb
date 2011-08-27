@@ -57,6 +57,7 @@ class UsersController < ApplicationController
         format.html { redirect_to(@user) }
         format.xml  { render :xml => @user, :status => :created, :location => @user }
       else
+        @title = "Sign up"
         format.html { render :action => "new" }
         format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
       end

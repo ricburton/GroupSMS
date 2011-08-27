@@ -9,7 +9,7 @@
   <%= csrf_meta_tag %>
 </head>
 <body style="padding-top:50px;">
-  <!-- Topbar
+  <!-- Topbar   
   ================================================== -->
   <div class="topbar-wrapper" style="z-index: 5;">
     <div class="topbar">
@@ -21,13 +21,19 @@
 
             <li><a href="#">Link</a></li>
             <li><a href="#">Link</a></li>
-            <li><%= link_to 'See All Users', users_path %></li>
+        
+
           </ul>
 
           <ul class="nav secondary-nav">
               <% if signed_in? %>
-              <li><%= link_to "Sign out", signout_path, :method => :delete %></li> 
+                <% if is_admin? %>
+                <li><%= link_to 'All Users', users_path %></li>
+                <% end %>
+              <li><%= link_to 'My Account', edit_user_path(current_user) %></li>
+              <li><%= link_to "Sign out", signout_path, :method => :delete %></li>
               <% else %>
+              <li><%= link_to "Sign up", signup_path %></li> 
               <li><%= link_to "Sign in", signin_path %></li> 
               <% end %>
           </ul>

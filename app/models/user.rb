@@ -52,6 +52,11 @@ class User < ActiveRecord::Base
     # >> var == 3 ? puts("its a 3") : puts("its not a 3")
     # its a 3
   end
+  
+    
+  def is_admin?
+    @User.admin?
+  end
 
   private
 

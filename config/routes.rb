@@ -1,4 +1,5 @@
 Groupsms::Application.routes.draw do
+  
   get "sessions/new"
 
   get "pages/home"

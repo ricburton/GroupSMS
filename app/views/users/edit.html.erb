@@ -1,6 +1,49 @@
 <h1>Editing user</h1>
 
-<%= render 'form' %>
+<%= form_for(@user) do |f| %>
+<fieldset>
+  <legend>Edit your account</legend>
+  
+  <%= render 'shared/error_messages', :object => f.object %>
+
+  <div class="clearfix">
+    <%= f.label :name %>
+    <div class="input">
+      <%= f.text_field :name %>
+    </div>
+  </div>
+  <div class="clearfix">
+    <%= f.label :number %>  
+    <div class="input">
+      <%= f.text_field :number %>
+    </div>
+  </div>
+  <div class="clearfix" style="display:none;">
+    <%= f.label :group_id %>
+    <div class="input">
+      <%= f.text_field :group_id %>
+    </div>
+  </div>
+    <div class="clearfix">
+    <%= f.label :password %>
+    <div class="input">
+      <%= f.password_field :password %>
+    </div>
+  </div>
+  <div class="actions" style="background:white;border:none;">
+    <%= f.submit :id => :go, :value => 'Save', :name => :go, :class => 'btn success' %>
+  </div>
+</fieldset>
+<% end %>
+
+
+<fieldset>
+  <legend>Delete your account?</legend>
+  <div class="actions" style="background:white;border:none;">
+  <%= link_to 'Delete my account.', @user, :confirm => 'Are you sure?', :method => :delete, :class => 'btn danger' %>
+  </div>
+  </fieldset>
+
 
 <%= link_to 'Show', @user %> |
 <%= link_to 'Back', users_path %>

@@ -15,7 +15,7 @@ class UsersController < ApplicationController
   # GET /users/1.xml
   def show
     @user = User.find(params[:id])
-
+    @title = @user.name
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @user }
@@ -32,6 +32,7 @@ class UsersController < ApplicationController
   
 
   def new
+    @title = "Join GroupTxt"
     @user = User.new
     respond_to do |format|
       format.html # new.html.erb
@@ -49,9 +50,11 @@ class UsersController < ApplicationController
   def create
     @user = User.new(params[:user])
 
+    
     respond_to do |format|
       if @user.save
-        format.html { redirect_to(@user, :notice => 'User was successfully created.') }
+        flash[:success] = "Welcome to GroupTxt!"
+        format.html { redirect_to(@user) }
         format.xml  { render :xml => @user, :status => :created, :location => @user }
       else
         format.html { render :action => "new" }

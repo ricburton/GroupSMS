@@ -23,7 +23,7 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
   end
 
-  def create
+  def create #todo test for number of groups they're already in before creation
     @group = Group.new(params[:group])
     @group.memberships.build(:user_id => current_user.id)
     

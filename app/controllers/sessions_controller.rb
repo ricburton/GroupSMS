@@ -13,13 +13,17 @@ class SessionsController < ApplicationController
       @title = "Sign in"
       render 'new'
     else
-      #sign_in
-      flash.now[:success] = "Welcome"
-      sign_in user
-      redirect_back_or user
+      if user.memberships.count == 0 #todo adding if they're new onboard them
+        sign_in user
+        redirect_to new_group_path
+        flash.now[:success] = "Welcome"
+      else
+        sign_in user
+        redirect_back_or user
+      end 
     end
   end
-  
+
   def destroy
     sign_out
     redirect_to root_path

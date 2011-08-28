@@ -22,8 +22,6 @@
             <% else %>
             <li class="active"><%= link_to 'Home', new_user_path %></li>
             <% end %>
-            <li><a href="#">Link</a></li>
-            <li><a href="#">Link</a></li>
         
 
           </ul>
@@ -39,8 +37,7 @@
               <li><%= link_to 'My Account', edit_user_path(current_user) %></li>
               <li><%= link_to "Sign out", signout_path, :method => :delete %></li>
               <% else %>
-              <li><%= link_to "Sign up", signup_path %></li> 
-              <li><%= link_to "Sign in", signin_path %></li> 
+              <li style="padding-right:30px"><%= link_to "Sign in", signin_path %></li> 
               <% end %>
           </ul>
         </div>
@@ -58,7 +55,8 @@
 
 
     <div style="padding-bottom:30px"><%= yield %></div>
-  <%= debug(params) if Rails.env.development? %>
+  
+  <!-- debug(params) if Rails.env.development? -->
   </div>
   
 </body>

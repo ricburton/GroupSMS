@@ -2,8 +2,8 @@
 require 'rufus/scheduler'
 require 'textmagic'
 
-@gateway = TextMagic::API.new('burtonic', '3AeMiofRgXOFQJT')
-@replies = @gateway.receive
+@gateway = TextMagic::API.new('burtonic', '3AeMiofRgXOFQJT') #todo put in a check for the connect and error-warning if connection doesn't work
+@replies = @gateway.receive #todo store the latest replies in a DB so bad texts don't go o
 
 
 scheduler = Rufus::Scheduler.start_new
@@ -49,7 +49,7 @@ prior_message_id = @replies.last.message_id
     end
 
     @prior_message_id = new_replies.last.message_id
-    # puts "Message needs to be sent from: #{last_number} saying: #{last_text}!"
+    puts "Message needs to be sent from: #{last_number} saying: #{last_text}!"
   end
 end
 =end

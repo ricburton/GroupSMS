@@ -52,7 +52,7 @@ end
 
   mobile_regex = /\A(([0][7][5-9])(\d{8}))\Z/
 
-  validates :name,     :presence => true,
+  validates :name,     :presence => true, #todo regexp for first name only
   :length => { :maximum => 15 }
   validates :number,   :presence => true,
   :format => { :with => mobile_regex },

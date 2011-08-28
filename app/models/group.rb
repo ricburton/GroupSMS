@@ -10,5 +10,10 @@
 #
 
 class Group < ActiveRecord::Base
-  has_many :users
+  has_many :memberships#, :foreign_key => "group_id"
+                        #dependent => :destroy
+  has_many :users, :through => :memberships #, :source => :joined
+  
+  
+  attr_accessible :group_name
 end

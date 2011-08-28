@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
     @title = "Sign in"
   end
 
-  def create
+  def create #todo when signing up the person isn't signing in...
     user = User.authenticate(params[:session][:number],params[:session][:password])
     if user.nil?
       #error message

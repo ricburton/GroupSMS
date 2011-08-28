@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_filter :authenticate, :only => [:index, :edit, :update, :destroy]
-  before_filter :correct_user, :only => [:edit, :update, :destroy]
+  before_filter :correct_user, :only => [:edit, :update]
   before_filter :admin_user, :only => [:destroy]
 
   def index
@@ -12,6 +12,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @users = User.all
     @title = @user.name
     respond_to do |format|
       format.html # show.html.erb
@@ -30,14 +31,12 @@ class UsersController < ApplicationController
     @title = "Edit your account"
   end
 
-  # POST /users
-  # POST /users.xml
   def create
     @user = User.new(params[:user])
     respond_to do |format|
       if @user.save
         flash[:success] = "Welcome to GroupTxt!"
-        format.html { redirect_to(@user) }
+        format.html { redirect_to(new_group_path) }
       else
         @title = "Sign up"
         format.html { render :action => "new" }
@@ -57,7 +56,7 @@ class UsersController < ApplicationController
     end
   end
 
-  def destroy
+  def destroy 
     @user = User.find(params[:id])
     @user.destroy
     respond_to do |format|

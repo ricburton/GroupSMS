@@ -12,10 +12,43 @@
 #
 require 'digest'
 class User < ActiveRecord::Base
+  
+  has_many :memberships
+  has_many :groups, :through => :memberships
+  
+=begin TODO make member-of or something work
+
+def following?(followed) relationships.find_by_followed_id(followed)
+end
+def follow!(followed) relationships.create!(:followed_id => followed.id)
+end
+
+=end  
+  
+=begin  
+  has_many :memberships, :foreign_key => "group_id" #it's either group_id OR user_id...
+           
+  has_many :groups, :through => :memberships, :source => :joined
+  
+  def member?(joined)
+    memberships.find_by_group_id(joined)
+  end
+  
+  def member!(joined)
+    memberships.create!(:membership_id => joined.id)
+  end
+  
+  def leave!(joined)
+    memberships.find_by_group_id(joined).destroy
+  end
+=end  
+  
+  
+  
   attr_accessor :password
   attr_accessible :name, :number, :password
 
-  belongs_to :group
+  
 
   mobile_regex = /\A(([0][7][5-9])(\d{8}))\Z/
 
@@ -53,11 +86,6 @@ class User < ActiveRecord::Base
     # its a 3
   end
   
-    
-  def is_admin?
-    @User.admin?
-  end
-
   private
 
   def encrypt_password

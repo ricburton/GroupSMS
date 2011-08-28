@@ -1,4 +1,4 @@
-
+=begin
 require 'rufus/scheduler'
 require 'textmagic'
 
@@ -52,3 +52,4 @@ prior_message_id = @replies.last.message_id
     # puts "Message needs to be sent from: #{last_number} saying: #{last_text}!"
   end
 end
+=end

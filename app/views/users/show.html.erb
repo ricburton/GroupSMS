@@ -10,6 +10,21 @@
 </p>
 
 <p>
-  <b>Group ID:</b>
-  <%= @user.group_id %>
+  <b>Number of groups:</b>
+  <%= @user.memberships.count %>
 </p>
+
+<p>
+  <b>Tests:</b>
+  <%= @user.memberships.count %> <!--todo work out how to iterate through the list of someone's groups-->
+</p>
+
+<p>
+  <b>Names of all members:</b>
+  <% @users.each do |u| %>
+  <%= u.name %>
+  <% end %>
+</p>
+
+
+

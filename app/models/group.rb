@@ -21,9 +21,9 @@ class Group < ActiveRecord::Base
  
  #todo - understand how to build Users as group submits....
  
- def users
-   @users = User.all #why is this causing the view to render three new user submits
- end
+ #def users
+  # @users = User.all #why is this causing the view to render three new user submits
+ #end
   
   def user_attributes=(user_attributes)
     user_attributes.each do |attributes|

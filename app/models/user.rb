@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   has_many :memberships
   has_many :groups, :through => :memberships
   
-=begin TODO make member-of or something work
+=begin
 
 def following?(followed) relationships.find_by_followed_id(followed)
 end

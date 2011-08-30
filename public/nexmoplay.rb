@@ -1,15 +1,14 @@
 #todo - get request from callback url to ruby
-require 'rubygems'
-require 'nexmo'
 
 nexmo = Nexmo::Client.new('fd74a959', 'af3fc79f')
 
 nexmo.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
+
 response = nexmo.send_message({ 
-  from: 'RUBY',
+  from: '447559600518',
   to: '447851864388', 
-  text: 'Hello world'})
+  text: 'Hi Father Ted'})
 
   if response.failure?
     raise response.error
@@ -17,3 +16,5 @@ response = nexmo.send_message({
     puts "Sent a message!"
   end
 
+
+puts incoming

@@ -1,3 +1,7 @@
+#todo - Non-Admins: Called id for nil, which would mistakenly be 4 -- if you really wanted the id of nil, use object_id
+
+
+
 class GroupsController < ApplicationController
   def index
     @groups = Group.all

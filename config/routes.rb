@@ -1,5 +1,7 @@
 Groupsms::Application.routes.draw do
   
+  resources :messages
+
   get "sessions/new"
 
   get "pages/home"
@@ -16,6 +18,7 @@ Groupsms::Application.routes.draw do
   match "/signup",  :to => "users#new"
   match "/signin",  :to => "sessions#new"
   match "/signout", :to => "sessions#destroy"
-
+  #match "/messages/external_message", :to => "messages#external_message"
+  match 'nexmo_create' => 'messages#nexmo_create'
   
 end

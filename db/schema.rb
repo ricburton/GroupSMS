@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110827151644) do
+ActiveRecord::Schema.define(:version => 20110830120814) do
 
   create_table "groups", :force => true do |t|
     t.string   "group_name"
@@ -43,6 +43,8 @@ ActiveRecord::Schema.define(:version => 20110827151644) do
     t.string   "encrypted_password"
     t.string   "salt"
     t.boolean  "admin"
+    t.boolean  "creator"
+    t.boolean  "registered"
   end
 
   add_index "users", ["number"], :name => "index_users_on_number", :unique => true

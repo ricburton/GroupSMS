@@ -1,0 +1,20 @@
+<div class="user">
+  <%= fields_for :user do |f| %>
+    <div class="clearfix">
+    <%= f.label :name %>
+    <div class="input">
+      <%= f.text_field :name %>
+    </div>
+  </div>
+  <div class="clearfix">
+    <%= f.label :number %>  
+    <div class="input">
+      <%= f.text_field :number %>
+    </div>
+  </div>
+  <%= link_to_function "remove", "$(this).up('.user').remove()" %>
+  <% end %>
+</div>
+
+
+

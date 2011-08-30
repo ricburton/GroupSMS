@@ -12,8 +12,22 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @users = User.all
     @title = @user.name
+    @groups = Group.all
+    @users = User.all
+    @memberships = Membership.all
+
+    @user_group_ids = Array.new
+
+    @memberships.each do |m|
+      if m.user_id == @user.id #change @users.first to current user
+        @user_group_ids.push m.group_id
+      end
+    end
+
+    @user_groups = Group.where(:id => @user_group_ids ).all.each
+
+
     respond_to do |format|
       format.html # show.html.erb
     end

@@ -19,8 +19,19 @@
   <%= @user.memberships.count %> 
 </p>
 
-<!--todo work out how to iterate through the list of someone's groups-->
+<p>
+  <b>Names of all groups:</b>
+  <% @groups.each do |g| %>
+  <%= g.group_name %>
+  <% end %>
+</p>
 
+<p>  
+  <b>Names of all groups you belong to:</b>  
+  <% @user_groups.each do |g| %>
+  <%= g.group_name %>
+  <% end %>
+</p>
 
 <p>
   <b>Names of all members:</b>

@@ -6,12 +6,13 @@ gem 'rails', '3.0.3'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3-ruby', :require => 'sqlite3'
-gem 'textmagic'
+#gem 'textmagic'
+gem 'nexmo', '0.1.1'
 gem 'rufus-scheduler'
 
 group :development do 
 #gem 'rspec-rails', '2.1.0' 
-gem 'annotate-models', '1.0.4'
+#gem 'annotate-models', '1.0.4'
 end
 
 

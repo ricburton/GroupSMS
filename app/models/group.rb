@@ -16,4 +16,21 @@ class Group < ActiveRecord::Base
   
   
   attr_accessible :group_name
+  
+ # accepts_nested_attributes_for :user
+ 
+ #todo - understand how to build Users as group submits....
+ 
+ def users
+   @users = User.all #why is this causing the view to render three new user submits
+ end
+  
+  def user_attributes=(user_attributes)
+    user_attributes.each do |attributes|
+      users.build(attributes)
+    end
+  end
+  
+  
+  
 end

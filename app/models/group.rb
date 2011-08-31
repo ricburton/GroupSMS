@@ -9,14 +9,6 @@
 #  updated_at :datetime
 #
 
-class Group < ActiveRecord::Base
-  has_many :memberships#, :foreign_key => "group_id"
-                        #dependent => :destroy
-  has_many :users, :through => :memberships #, :source => :joined
-  
-  
-  attr_accessible :group_name
-  
  # accepts_nested_attributes_for :user
  
  #todo - understand how to build Users as group submits....
@@ -24,13 +16,25 @@ class Group < ActiveRecord::Base
  #def users
   # @users = User.all #why is this causing the view to render three new user submits
  #end
+ 
+
+class Group < ActiveRecord::Base
+  has_many :memberships#, :foreign_key => "group_id"
+                        #dependent => :destroy
+  has_many :users, :through => :memberships #, :source => :joined
   
-  def user_attributes=(user_attributes)
-    user_attributes.each do |attributes|
-      users.build(attributes)
-    end
-  end
+  accepts_nested_attributes_for :users  
   
+  attr_accessible :group_name, :name, :number, :password #, :user_number
+  #attr_writer :group_name, :user_name, :user_number
   
+
+
+  
+  #def user_attributes=(user_attributes)
+   # user_attributes.each do |attributes|
+    #  users.build(attributes)
+    #end
+  #end
   
 end

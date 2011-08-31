@@ -16,6 +16,11 @@ class User < ActiveRecord::Base
   has_many :memberships
   has_many :groups, :through => :memberships
   
+  attr_accessible :group_name, :user_name, :user_number
+  accepts_nested_attributes_for :groups
+  attr_writer :group_name, :user_name, :user_number
+  
+  
 =begin
 
 def following?(followed) relationships.find_by_followed_id(followed)

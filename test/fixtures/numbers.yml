@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  inbound_num: 1
+  assigned: false
+
+two:
+  inbound_num: 1
+  assigned: false

@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Inbound num:</b>
+  <%= @number.inbound_num %>
+</p>
+
+<p>
+  <b>Assigned:</b>
+  <%= @number.assigned %>
+</p>
+
+
+<%= link_to 'Edit', edit_number_path(@number) %> |
+<%= link_to 'Back', numbers_path %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110830221622) do
+ActiveRecord::Schema.define(:version => 20110831085221) do
 
   create_table "groups", :force => true do |t|
     t.string   "group_name"
@@ -32,6 +32,13 @@ ActiveRecord::Schema.define(:version => 20110830221622) do
     t.integer  "recipient"
     t.integer  "api_message_id"
     t.integer  "from"
+  end
+
+  create_table "numbers", :force => true do |t|
+    t.integer  "inbound_num"
+    t.boolean  "assigned"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "texts", :force => true do |t|

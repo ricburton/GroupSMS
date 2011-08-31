@@ -1,5 +1,7 @@
 Groupsms::Application.routes.draw do
   
+  resources :numbers
+
   resources :messages
 
   get "sessions/new"

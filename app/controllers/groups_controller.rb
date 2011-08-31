@@ -32,7 +32,7 @@ class GroupsController < ApplicationController
 
   def create #todo test for number of groups they're already in before creation
     @group = Group.new(params[:group])
-    @group.memberships.build(:user_id => current_user.id)
+    #@group.memberships.build(:user_id => current_user.id)
     #@group..build
     
     respond_to do |format|

@@ -1,7 +1,10 @@
 module GroupsHelper
-#  def add_user_link(name)
-#    link_to_function name do |page|
-#      page.insert_html :bottom, :users, :partial => 'user', :object => Group.new
-#    end
-#  end
+  def newpass( len )
+    chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
+    newpass = ""
+    1.upto(len) { |i| newpass << chars[rand(chars.size-1)] }
+    return newpass
+  end
+
+  
 end

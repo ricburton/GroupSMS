@@ -3,6 +3,13 @@
   <%= @group.group_name %>
 </p>
 
+<% @group.users.each do |user| %>
+
+<li>Name: <%= user.name %> Number: <%= user.number %> ID: <%= user.id %></li>
+
+<% end %>
+
+
 
 <%= link_to 'Edit', edit_group_path(@group) %> |
 <%= link_to 'Back', groups_path %>

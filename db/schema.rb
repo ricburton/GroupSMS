@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110831085221) do
+ActiveRecord::Schema.define(:version => 20110831205927) do
 
   create_table "groups", :force => true do |t|
     t.string   "group_name"
@@ -41,6 +41,14 @@ ActiveRecord::Schema.define(:version => 20110831085221) do
     t.datetime "updated_at"
   end
 
+  create_table "subjects", :force => true do |t|
+    t.string   "name"
+    t.integer  "number"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "group_id"
+  end
+
   create_table "texts", :force => true do |t|
     t.string   "content"
     t.integer  "group_id"
@@ -53,7 +61,7 @@ ActiveRecord::Schema.define(:version => 20110831085221) do
 
   create_table "users", :force => true do |t|
     t.string   "name"
-    t.string   "number"
+    t.integer  "number",             :limit => 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "encrypted_password"
@@ -61,6 +69,7 @@ ActiveRecord::Schema.define(:version => 20110831085221) do
     t.boolean  "admin"
     t.boolean  "creator"
     t.boolean  "registered"
+    t.integer  "group_id"
   end
 
   add_index "users", ["number"], :name => "index_users_on_number", :unique => true

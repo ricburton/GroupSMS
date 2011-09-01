@@ -15,52 +15,25 @@ class User < ActiveRecord::Base
   
   has_many :memberships
   has_many :groups, :through => :memberships
+  belongs_to :group
   
-  attr_accessible :group_name, :user_name, :user_number
-  accepts_nested_attributes_for :groups
-  attr_writer :group_name, :user_name, :user_number
-  
-  
-=begin
-
-def following?(followed) relationships.find_by_followed_id(followed)
-end
-def follow!(followed) relationships.create!(:followed_id => followed.id)
-end
-
-=end  
-  
-=begin  
-  has_many :memberships, :foreign_key => "group_id" #it's either group_id OR user_id...
-           
-  has_many :groups, :through => :memberships, :source => :joined
-  
-  def member?(joined)
-    memberships.find_by_group_id(joined)
-  end
-  
-  def member!(joined)
-    memberships.create!(:membership_id => joined.id)
-  end
-  
-  def leave!(joined)
-    memberships.find_by_group_id(joined).destroy
-  end
-=end  
-  
+  #attr_accessible :group_name, :user_name, :user_number
+  #accepts_nested_attributes_for :groups
+  #attr_writer :group_name, :user_name, :user_number
   
   
   attr_accessor :password
-  attr_accessible :name, :number, :password
+  #attr_accessible :name, :number, :password
 
   
 
-  mobile_regex = /\A(([0][7][5-9])(\d{8}))\Z/
+  #mobile_regex = /\A(([0][7][5-9])(\d{8}))\Z/
 
   validates :name,     :presence => true, #todo regexp for first name only
   :length => { :maximum => 15 }
-  validates :number,   :presence => true,
-  :format => { :with => mobile_regex },
+  validates :number, #todo - fix mobile regexp
+  :presence => true,
+  #:format => { :with => mobile_regex },
   :uniqueness => true
 
   validates :password, :presence	=> true,

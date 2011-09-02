@@ -24,6 +24,7 @@ class GroupsController < ApplicationController
     @group = Group.new
     # @group.build_user
 
+    3.times { @group.users.build }
   end
 
   def edit

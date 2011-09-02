@@ -7,6 +7,14 @@
   <%= javascript_include_tag :defaults %>
   <%= javascript_include_tag 'jquery-1.6.2', 'nested_form' %>
   <%= csrf_meta_tag %>
+
+
+  <script>
+  function remove_fields(link) {
+    $(link).previous("input[type=hidden]").value = "1";
+    $(link).up(".fields").hide();
+  }
+  </script>
 </head>
 <body style="padding-top:40px;">
   <!-- Topbar   
@@ -22,26 +30,26 @@
             <% else %>
             <li class="active"><%= link_to 'Home', new_user_path %></li>
             <% end %>
-        
+
 
           </ul>
 
           <ul class="nav secondary-nav">
-              <% if signed_in? %>
-                <% if is_admin? %>
-                <li><%= link_to 'All Users', users_path %></li>
-                <li><%= link_to 'All Messages', messages_path %></li>
-                <li><%= link_to 'All Groups', groups_path %></li>
-                <li><%= link_to 'All Memberships', memberships_path %></li>
-                <% end %>
-              <li><a>Current User: <%= current_user.name %></a></li>
-              <!-- todo change current user link-->
-              
-              <li><%= link_to 'My Account', edit_user_path(current_user) %></li>
-              <li><%= link_to "Sign out", signout_path, :method => :delete %></li>
-              <% else %>
-              <li style="padding-right:30px"><%= link_to "Sign in", signin_path %></li> 
-              <% end %>
+            <% if signed_in? %>
+            <% if is_admin? %>
+            <li><%= link_to 'All Users', users_path %></li>
+            <li><%= link_to 'All Messages', messages_path %></li>
+            <li><%= link_to 'All Groups', groups_path %></li>
+            <li><%= link_to 'All Memberships', memberships_path %></li>
+            <% end %>
+            <li><a>Current User: <%= current_user.name %></a></li>
+            <!-- todo change current user link-->
+
+            <li><%= link_to 'My Account', edit_user_path(current_user) %></li>
+            <li><%= link_to "Sign out", signout_path, :method => :delete %></li>
+            <% else %>
+            <li style="padding-right:30px"><%= link_to "Sign in", signin_path %></li> 
+            <% end %>
           </ul>
         </div>
       </div><!-- /fill -->
@@ -58,9 +66,9 @@
 
 
     <div style="padding-bottom:30px"><%= yield %></div>
-  
-  <!-- debug(params) if Rails.env.development? -->
+
+    <!-- debug(params) if Rails.env.development? -->
   </div>
-  
+
 </body>
 </html>

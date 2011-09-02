@@ -1,7 +1,7 @@
 <h1>New group</h1>
 
 
-<%= nested_form_for(@group) do |form| %>
+<%= form_for(@group) do |form| %>
 <fieldset>
   <legend>Create a new group</legend>
   <%= render 'shared/group_error_messages', :object => form.object %>  
@@ -12,31 +12,11 @@
     </div>
   </div>
 
-  <div id="users">
+  <div class="users">
     <%= form.fields_for :users, :url => {:action => 'new', :controller => 'users', :registered => false}, do |user_form| %>
-    <div class="add_user_fields" id="user">
-      <div class="clearfix">
-        <div class="well" style="padding: 14px 19px;">
-          <div class="input">
-            <div class="inline-inputs">
-              Name:
-              <%= user_form.text_field :name, :class => "small" %>
-              Number: 
-              <%= user_form.text_field :number %>
+    <%= render 'user', :user_form => user_form, :collection => @group.users %>
 
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="clearfix" style="display:none">
-        <%= user_form.password_field :password, :value => newpass(6) %><!-- todo: fix this horrible hack -->
-        <%= user_form.text_field :registered, :value => false %> <!-- todo: fix this horrible hack -->
-        <%= user_form.text_field :id %> <!-- todo: fix this horrible hack -->
-      </div>
-    </div>
-    <%= user_form.link_to_remove "Remove Member" %>
     <% end %>
-    <%= form.link_to_add "Add a member", :users %>
   </div>
 
 </div>

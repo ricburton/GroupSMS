@@ -1,5 +1,6 @@
-<%#
-  user - form builder for a User
-%>
-<%= render 'user', :user => user_form, :collection => @group.users %>
+<p class="fields">
+  asdfasdfasdfasdf
+  <%= user_form.hidden_field :_destroy %>
+  <%= link_to_function "remove", "remove_fields(this)" %>
+</p>
 

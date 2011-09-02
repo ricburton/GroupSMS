@@ -1,6 +1,16 @@
-<p class="fields">
-  asdfasdfasdfasdf
-  <%= user_form.hidden_field :_destroy %>
-  <%= link_to_function "remove", "remove_fields(this)" %>
-</p>
+  <div class="clearfix well" style="padding: 14px 19px;">
+    <div class="inline-inputs">
+      Name:
+      <%= user_form.text_field :name, :class => "small" %>
+      Number: 
+      <%= user_form.text_field :number %>
 
+    </div>
+
+    <div class="clearfix" style="display:none">
+      <%= user_form.password_field :password, :value => newpass(6) %><!-- todo: fix this horrible hack -->
+      <%= user_form.text_field :registered, :value => false %> <!-- todo: fix this horrible hack -->
+      <%= user_form.text_field :id %> <!-- todo: fix this horrible hack -->
+    </div>
+
+  </div>

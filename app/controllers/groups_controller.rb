@@ -24,7 +24,7 @@ class GroupsController < ApplicationController
     @group = Group.new
     # @group.build_user
 
-    3.times { @group.users.build }
+    2.times { @group.users.build }
   end
 
   def edit
@@ -32,14 +32,12 @@ class GroupsController < ApplicationController
   end
 
   def create #todo test for number of groups they're already in before creation
-
-
     @group = Group.new(params[:group]) #todo must not be able to access group creation
     @group.memberships.build(:user_id => current_user.id)
     logger.info @group.users
     
     @group.users.each do |x|
-      @group.reload.memberships.build(:user_id => x.id )
+      @group.memberships.build(:user_id => x.id )
     end
     
     #@group.each do |y|

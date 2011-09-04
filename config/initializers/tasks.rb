@@ -1,8 +1,8 @@
 =begin
 require 'rufus/scheduler'
-require 'textmagic'
+require 'mediaburst'
 
-@gateway = TextMagic::API.new('burtonic', '3AeMiofRgXOFQJT') #todo put in a check for the connect and error-warning if connection doesn't work
+@gateway = MediaBurst::API.new('burtonic', 'Test123') #todo put in a check for the connect and error-warning if connection doesn't work
 @replies = @gateway.receive #todo store the latest replies in a DB so bad texts don't go o
 
 

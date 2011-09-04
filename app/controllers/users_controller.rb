@@ -27,6 +27,7 @@ class UsersController < ApplicationController
 
     @user_groups = Group.where(:id => @user_group_ids ).all.each
 
+    #how to destroy group from user homepage... or perhaps after clicking on the group
 
     respond_to do |format|
       format.html # show.html.erb

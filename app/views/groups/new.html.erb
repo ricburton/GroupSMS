@@ -1,31 +1,57 @@
 <h1>New group</h1>
 
+<script>
+(function ($) {
+  $(document).ready(function () {
+    var members = $('.users');
 
-<%= form_for(@group) do |form| %>
-<fieldset>
-  <legend>Create a new group</legend>
-  <%= render 'shared/group_error_messages', :object => form.object %>  
-  <div class="clearfix">
-    <%= form.label :group_name %>
-    <div class="input">
-      <%= form.text_field :group_name %>
+    var memberDiv = $('.users').html();
+
+    var memberIndex = 0;
+
+    $('#add-member').click(function () {
+      var r1 = new RegExp("\\[0\\]", "g");
+      var r2 = new RegExp("_0_", "g");
+
+      memberIndex += 1;
+
+      members.append(memberDiv.replace(r1, '[' + memberIndex.toString() + ']').replace(r2, '_' + memberIndex.toString() + '_'));
+    });
+
+    $('.remove-member').live('click', function (event) {
+      $(event.target).closest('.member').remove();
+    });
+  });
+  })(jQuery);
+  </script>
+
+  <%= form_for(@group) do |form| %>
+  <fieldset>
+
+    
+    <%= render 'shared/group_error_messages', :object => form.object %>  
+    <div class="clearfix">
+      
+      <div class="inline-inputs">
+        Group name: <%= form.text_field :group_name %><input type="button" value="Add a member" id="add-member" class="btn success">
+      </div>
     </div>
+
+    <div class="users">
+      <%= form.fields_for :users, :url => {:action => 'new', :controller => 'users', :registered => false}, do |user_form| %>
+      <%= render 'user', :user_form => user_form, :collection => @group.users %>
+
+      <% end %>
+    </div>
+
+
   </div>
 
-  <div class="users">
-    <%= form.fields_for :users, :url => {:action => 'new', :controller => 'users', :registered => false}, do |user_form| %>
-    <%= render 'user', :user_form => user_form, :collection => @group.users %>
+  <div class="actions">
+    <%= form.submit :value => 'Create your group', :class => 'btn success'%>
 
-    <% end %>
+    <!-- todo test for if they already have a group...-->
   </div>
-
-</div>
-
-<div class="actions">
-  <%= form.submit :value => 'Create your group', :class => 'btn success'%>
-
-  <!-- todo test for if they already have a group...-->
-</div>
 </fieldset>
 <% end %>
 

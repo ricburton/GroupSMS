@@ -2,8 +2,8 @@
 
 class GroupsController < ApplicationController
   before_filter :authenticate, :only => [:index, :edit, :update, :destroy, :show]
-  before_filter :correct_user, :only => [:edit, :update]
-  before_filter :admin_user, :only => [:destroy]
+  before_filter :correct_user, :only => [:edit, :update, :destroy]
+  #before_filter :admin_user, :only => [:destroy]
 
   def index
     @groups = Group.all
@@ -22,9 +22,8 @@ class GroupsController < ApplicationController
 
   def new
     @group = Group.new
-    # @group.build_user
 
-    2.times { @group.users.build }
+    @group.users.build
   end
 
   def edit
@@ -35,17 +34,19 @@ class GroupsController < ApplicationController
     @group = Group.new(params[:group]) #todo must not be able to access group creation
     @group.memberships.build(:user_id => current_user.id)
     logger.info @group.users
-    
-    @group.users.each do |x|
-      @group.memberships.build(:user_id => x.id )
-    end
-    
+    logger.info params[:group][:users_attributes]
+
+
     #@group.each do |y|
     #  @group.memberships.build(:user_id => y.user_id)
     #end
-    
+
     respond_to do |format|
       if @group.save
+
+        @group.users.each do |x|
+          @group.memberships.create!(:user_id => x.id )
+        end
         format.html { redirect_to(@group, :notice => 'Success!') }
       else
         format.html { render :action => "new" }

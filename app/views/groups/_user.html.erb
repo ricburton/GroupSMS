@@ -1,10 +1,11 @@
-  <div class="clearfix well" style="padding: 14px 19px;">
+  <div class="clearfix well member" style="padding: 14px 19px;">
     <div class="inline-inputs">
       Name:
       <%= user_form.text_field :name, :class => "small" %>
       Number: 
       <%= user_form.text_field :number %>
 
+      <input type="button" value="Remove" class="remove-member btn danger">
     </div>
 
     <div class="clearfix" style="display:none">

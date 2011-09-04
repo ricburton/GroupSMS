@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110831205927) do
+ActiveRecord::Schema.define(:version => 20110901161516) do
 
   create_table "groups", :force => true do |t|
     t.string   "group_name"
@@ -58,6 +58,19 @@ ActiveRecord::Schema.define(:version => 20110831205927) do
   end
 
   add_index "texts", ["user_id"], :name => "index_texts_on_user_id"
+
+  create_table "troups", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "tusers", :force => true do |t|
+    t.string   "name"
+    t.integer  "number"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", :force => true do |t|
     t.string   "name"

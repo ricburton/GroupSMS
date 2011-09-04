@@ -12,6 +12,7 @@ gem 'sqlite3-ruby', :require => 'sqlite3'
 #gem 'nexmo', '0.1.1'
 gem 'rufus-scheduler'
 gem 'nested_form'
+gem 'mediaburst'
 
 group :development do 
 #gem 'rspec-rails', '2.1.0' 

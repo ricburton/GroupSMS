@@ -30,6 +30,7 @@
   <b>Names of all groups you belong to:</b>  
   <% @user_groups.each do |g| %>
   <%= g.group_name %>
+  <%= link_to 'Destroy', g, :confirm => 'Are you sure?', :method => :delete %>
   <% end %>
 </p>
 

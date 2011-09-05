@@ -15,11 +15,27 @@ class GroupsController < ApplicationController
 
   def show
     @group = Group.find(params[:id])
+    @groups = Group.all
+    @users = User.all
+    @memberships = Membership.all
+    @user_group_ids = Array.new
+    @memberships.each do |m|
+      if m.user_id == current_user.id #change @users.first to current user
+        @user_group_ids.push m.group_id
+      end
+    end
+    @user_groups = Group.where(:id => @user_group_ids ).all.each
+    
+    @group_user_ids = Array.new
+    
+    @group.memberships.each do |gm|
+      if gm.group_id == @group.id
+        @group_user_ids.push gm.user_id
+      end
+    end
     
     
-    
-    
-    
+    @group_members = User.where(:id => @user_group_ids ).all.each
     
     respond_to do |format|
       format.html # show.html.erb

@@ -1,17 +1,15 @@
 <div class="row">
   <div class="span3 columns">
     <h3>Your groups</h3>
+      <%= link_to 'New Group', :class => 'btn success' %>
     <div class="list-groups">
       <ul>
-        <% if false %>
+
         <% @user_groups.each do |g| %>
         <li><%= g.name %> <%= link_to 'Go', g %></li>
         <% end %>
-        <% end %>
+
       </ul>
-    </div>
-    <div class="more-groups clearfix" style="margin:10px auto;text-align:center;">
-      <%= button_to 'New Group', :class => 'btn success' %>
     </div>
 
 
@@ -21,7 +19,7 @@
     <h2><%= @group.name %>: Latest Messages</h2>
     <fieldset>
       <div class="clearfix">
-        <textarea class="xxlarge disabled" id="textarea" style="width:570px"></textarea>
+        <textarea class="xxlarge disabled" id="textarea" style="width:570px" disabled="true"></textarea>
         <span class="help-block" style="margin-top:6px">
           You will be able to send messages from the web soon.
           <span style="float:right">
@@ -70,15 +68,12 @@
   </div>
   <div class="span3 columns">
     <h3>Group Members</h3>
-    <% @group.users.each do |user| %>
-    <ul>
-      <li>Name: <%= user.name %></li>
-    </ul>
-    <% end %>
-
-
-    <h3>Settings</h3>
     <div><%= link_to 'Edit group', edit_group_path(@group) %></div>
+    <ul>
+      <% @group_members.each do |user| %>
+      <li><%= user.name %></li>
+      <% end %>
+    </ul>
   </div>
 </div>
 

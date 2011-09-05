@@ -19,7 +19,7 @@ class SessionsController < ApplicationController
         flash.now[:success] = "Welcome"
       else
         sign_in user
-        redirect_back_or user
+        redirect_back_or groups
       end 
     end
   end

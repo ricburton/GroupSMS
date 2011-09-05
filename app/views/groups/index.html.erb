@@ -1,5 +1,5 @@
 <h1>Listing groups</h1>
-<%= link_to 'New Group', new_group_path, :class => 'btn success', :style => 'float:right' %>
+<%= link_to 'New Group', :class => 'btn success', :style => 'float:right' %>
 <table>
   <tr>
     <th>Group name</th>
@@ -11,7 +11,7 @@
 
 <% @groups.each do |group| %>
   <tr>
-    <td><%= group.group_name %></td>
+    <td><%= group.name %></td>
     <td><%= group.id %></td>
     <td><%= link_to 'Show', group %></td>
     <td><%= link_to 'Edit', edit_group_path(group) %></td>

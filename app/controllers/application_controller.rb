@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
-    before_filter :authenticate, :only => [:edit, :update, :destroy]
+  before_filter :authenticate, :only => [:edit, :update, :destroy]
   
-  #todo Destroy isn't working....
+  #todo - add title as person's name
   
   protect_from_forgery
   include SessionsHelper

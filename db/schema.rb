@@ -10,10 +10,34 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110901161516) do
+ActiveRecord::Schema.define(:version => 20110905120727) do
+
+  create_table "assignments", :force => true do |t|
+    t.integer  "number_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "envelopes", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "message_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "groups", :force => true do |t|
-    t.string   "group_name"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "number_id"
+  end
+
+  add_index "groups", ["number_id"], :name => "index_groups_on_number_id"
+
+  create_table "limits", :force => true do |t|
+    t.string   "type"
+    t.integer  "amount"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -23,6 +47,7 @@ ActiveRecord::Schema.define(:version => 20110901161516) do
     t.integer  "group_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "status"
   end
 
   create_table "messages", :force => true do |t|
@@ -32,42 +57,16 @@ ActiveRecord::Schema.define(:version => 20110901161516) do
     t.integer  "recipient"
     t.integer  "api_message_id"
     t.integer  "from"
+    t.string   "origin"
+    t.integer  "user_id"
+    t.string   "status"
   end
+
+  add_index "messages", ["user_id"], :name => "index_messages_on_user_id"
 
   create_table "numbers", :force => true do |t|
     t.integer  "inbound_num"
     t.boolean  "assigned"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "subjects", :force => true do |t|
-    t.string   "name"
-    t.integer  "number"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "group_id"
-  end
-
-  create_table "texts", :force => true do |t|
-    t.string   "content"
-    t.integer  "group_id"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "texts", ["user_id"], :name => "index_texts_on_user_id"
-
-  create_table "troups", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "tusers", :force => true do |t|
-    t.string   "name"
-    t.integer  "number"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -83,8 +82,10 @@ ActiveRecord::Schema.define(:version => 20110901161516) do
     t.boolean  "creator"
     t.boolean  "registered"
     t.integer  "group_id"
+    t.integer  "number_id"
   end
 
   add_index "users", ["number"], :name => "index_users_on_number", :unique => true
+  add_index "users", ["number_id"], :name => "index_users_on_number_id"
 
 end

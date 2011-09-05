@@ -5,7 +5,7 @@ module ApplicationHelper
   end
 
   def title
-    base_title = "GroupTxt"
+    base_title = "GroupHug"
     if @title.nil?
       @title = base_title
     else

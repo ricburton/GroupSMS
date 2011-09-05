@@ -12,8 +12,8 @@ class Group < ActiveRecord::Base
                                 :reject_if => :all_blank
   #attr_accessible :user_attributes
   
-  #attr_accessible :group_name, :name, :number, :password #, :user_number
-  #attr_writer :group_name, :user_name, :user_number
+  #attr_accessible :name, :name, :number, :password #, :user_number
+  #attr_writer :name, :user_name, :user_number
   
 
 

@@ -1,15 +1,94 @@
-<p>
-  <b>Group name:</b>
-  <%= @group.group_name %>
-</p>
+<div class="row">
+  <div class="span3 columns">
+    <h3>Your groups</h3>
+    <div class="list-groups">
+      <ul>
+        <% if false %>
+        <% @user_groups.each do |g| %>
+        <li><%= g.name %> <%= link_to 'Go', g %></li>
+        <% end %>
+        <% end %>
+      </ul>
+    </div>
+    <div class="more-groups clearfix" style="margin:10px auto;text-align:center;">
+      <%= button_to 'New Group', :class => 'btn success' %>
+    </div>
 
-<% @group.users.each do |user| %>
-
-<li>Name: <%= user.name %> Number: <%= user.number %> ID: <%= user.id %></li>
-
-<% end %>
 
 
+  </div>
+  <div class="span10 columns" style="background:">
+    <h2><%= @group.name %>: Latest Messages</h2>
+    <fieldset>
+      <div class="clearfix">
+        <textarea class="xxlarge disabled" id="textarea" style="width:570px"></textarea>
+        <span class="help-block" style="margin-top:6px">
+          You will be able to send messages from the web soon.
+          <span style="float:right">
+            <input type="button" class="btn success disabled" value="Send message"></input>  
+          </span>
+        </span>
+      </div>
+    </fieldset>
+    <div class="messages clearfix">
+      <div class="alert-message block-message info">
+        <p>Message!</p>
+        <div class="alert-actions">
+          <p>Sent: 16:55 3rd September 2011</p> <!-- todo add the time ago it was sent -->
+        </div>
+      </div>
+      <div class="alert-message block-message info">
 
-<%= link_to 'Edit', edit_group_path(@group) %> |
-<%= link_to 'Back', groups_path %>
+        <p><strong>Richard: </strong>Let's get lashed</p>
+        <div class="alert-actions" style="text-align:right;">
+          <p style="color:#C7C3C4;"><i>Sent: 16:55 3rd September 2011</i></p> <!-- todo add the time ago it was sent -->
+        </div>
+      </div>
+      <div class="alert-message block-message info">
+        <p>Message!</p>
+        <div class="alert-actions">
+          <p>Sent: 16:55 3rd September 2011</p> <!-- todo add the time ago it was sent -->
+        </div>
+      </div>
+      <div class="alert-message block-message info">
+        <p>Message!</p>
+        <div class="alert-actions">
+          <p>Sent: 16:55 3rd September 2011</p> <!-- todo add the time ago it was sent -->
+        </div>
+      </div>
+
+    </div>
+    <div class="more-messages clearfix" style="margin:10px auto;text-align:center;">
+      <input type="button" class="btn large disabled" value="Load more messages"></input>
+      <span class="help-block" style="margin-top:6px">
+        This button will work soon.
+      </span>
+      <!-- todo make this work -->
+    </div>
+
+
+  </div>
+  <div class="span3 columns">
+    <h3>Group Members</h3>
+    <% @group.users.each do |user| %>
+    <ul>
+      <li>Name: <%= user.name %></li>
+    </ul>
+    <% end %>
+
+
+    <h3>Settings</h3>
+    <div><%= link_to 'Edit group', edit_group_path(@group) %></div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+

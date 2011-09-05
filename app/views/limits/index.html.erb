@@ -1,0 +1,25 @@
+<h1>Listing limits</h1>
+
+<table>
+  <tr>
+    <th>Type</th>
+    <th>Amount</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @limits.each do |limit| %>
+  <tr>
+    <td><%= limit.type %></td>
+    <td><%= limit.amount %></td>
+    <td><%= link_to 'Show', limit %></td>
+    <td><%= link_to 'Edit', edit_limit_path(limit) %></td>
+    <td><%= link_to 'Destroy', limit, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Limit', new_limit_path %>

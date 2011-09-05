@@ -1,15 +1,3 @@
-# == Schema Information
-# Schema version: 20110826221216
-#
-# Table name: users
-#
-#  id         :integer         not null, primary key
-#  name       :string(255)
-#  number     :string(255)
-#  created_at :datetime
-#  updated_at :datetime
-#  group_id   :integer
-#
 require 'digest'
 class User < ActiveRecord::Base
   
@@ -17,9 +5,9 @@ class User < ActiveRecord::Base
   has_many :groups, :through => :memberships
   belongs_to :group
   
-  #attr_accessible :group_name, :user_name, :user_number
+  #attr_accessible :name, :user_name, :user_number
   #accepts_nested_attributes_for :groups
-  #attr_writer :group_name, :user_name, :user_number
+  #attr_writer :name, :user_name, :user_number
   
   
   attr_accessor :password

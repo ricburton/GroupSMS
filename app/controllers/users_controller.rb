@@ -16,7 +16,6 @@ class UsersController < ApplicationController
     @groups = Group.all
     @users = User.all
     @memberships = Membership.all
-
     @user_group_ids = Array.new
 
     @memberships.each do |m|

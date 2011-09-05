@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Type:</b>
+  <%= @limit.type %>
+</p>
+
+<p>
+  <b>Amount:</b>
+  <%= @limit.amount %>
+</p>
+
+
+<%= link_to 'Edit', edit_limit_path(@limit) %> |
+<%= link_to 'Back', limits_path %>

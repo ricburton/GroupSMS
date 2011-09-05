@@ -1,9 +1,9 @@
 #todo - Non-Admins: Called id for nil, which would mistakenly be 4 -- if you really wanted the id of nil, use object_id
 
 class GroupsController < ApplicationController
-  before_filter :authenticate, :only => [:index, :edit, :update, :destroy, :show]
-  before_filter :correct_user, :only => [:edit, :update, :destroy]
-  #before_filter :admin_user, :only => [:destroy]
+  before_filter :authenticate, :only => [:edit, :update, :show, :destroy]
+  before_filter :correct_user, :only => [:edit, :update] 
+  #before_filter :admin_user, :only => [:index, :destroy]
 
   def index
     @groups = Group.all
@@ -14,7 +14,13 @@ class GroupsController < ApplicationController
   end
 
   def show
-    @group = Group.find(params[:id])    
+    @group = Group.find(params[:id])
+    
+    
+    
+    
+    
+    
     respond_to do |format|
       format.html # show.html.erb
     end

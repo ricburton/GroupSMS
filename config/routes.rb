@@ -1,5 +1,7 @@
 Groupsms::Application.routes.draw do
   
+  resources :limits
+
   resources :numbers
 
   resources :messages

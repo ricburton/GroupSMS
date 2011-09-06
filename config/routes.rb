@@ -23,6 +23,6 @@ Groupsms::Application.routes.draw do
   match "/signin",  :to => "sessions#new"
   match "/signout", :to => "sessions#destroy"
   #match "/messages/external_message", :to => "messages#external_message"
-  match 'nexmo_create' => 'messages#nexmo_create'
+  match 'mediaburst_create' => 'messages#mediaburst_create'
   
 end

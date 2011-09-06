@@ -1,4 +1,7 @@
 module SessionsHelper
+  
+  
+    #sessions help cut and paste
   def sign_in(user)
     cookies.permanent.signed[:remember_token] = [user.id, user.salt]
     current_user = user
@@ -12,7 +15,7 @@ module SessionsHelper
   def signed_in?
     !current_user.nil? #current user is !not nil
   end
-  
+
   def is_admin?
     current_user.admin?
   end
@@ -21,22 +24,13 @@ module SessionsHelper
     cookies.delete(:remember_token)
     current_user = nil
   end
-  
-    
+
+
   def current_user?(user)
     user == current_user
   end
-  
-  def deny_access
-    #store_location #this will store where the user is trying to get to and then redirect after sign in
-    redirect_to signin_path, :notice => "Please sign in to access this page."
-  end
-  
-  def redirect_back_or(default)
-    redirect_to(session[:return_to] || default) #not sure what this does
-    clear_return_to #what's this going to do
-  end
 
+  
   private
   
   def store_location

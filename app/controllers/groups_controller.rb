@@ -1,7 +1,7 @@
 #todo - Non-Admins: Called id for nil, which would mistakenly be 4 -- if you really wanted the id of nil, use object_id
 
 class GroupsController < ApplicationController
-  before_filter :authenticate, :only => [:edit, :update, :show, :destroy]
+  before_filter :authenticate, :only => [:edit, :update, :show, :destroy, :create]
   before_filter :correct_user, :only => [:edit, :update] 
   #before_filter :admin_user, :only => [:index, :destroy]
 

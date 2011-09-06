@@ -1,3 +1,5 @@
+
+=begin
 require 'faker'
 namespace :db do desc "Fill database with sample data" task :populate => :environment do
   Rake::Task['db:reset'].invoke 
@@ -10,3 +12,4 @@ namespace :db do desc "Fill database with sample data" task :populate => :enviro
     :email => email, :password => password, :password_confirmation => password)
   end end
 end
+=end

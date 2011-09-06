@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110905120727) do
+ActiveRecord::Schema.define(:version => 20110905133558) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "number_id"
@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(:version => 20110905120727) do
     t.string   "origin"
     t.integer  "user_id"
     t.string   "status"
+    t.datetime "api_timestamp"
   end
 
   add_index "messages", ["user_id"], :name => "index_messages_on_user_id"

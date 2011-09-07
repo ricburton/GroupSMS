@@ -47,12 +47,12 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(params[:user])
-    
+
     respond_to do |format|
       if @user.save
-          #sign_in @user
-          redirect_to new_group_path
-          #flash.now[:success] = "Welcome"
+        sign_in @user
+        format.html { redirect_to new_group_path }
+        flash.now[:success] = "Welcome" #TODO add onboarding flash to new group
       else
         @title = "Sign up"
         format.html { render :action => "new" }

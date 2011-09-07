@@ -14,7 +14,6 @@ class SessionsController < ApplicationController
     else
         sign_in user
         redirect_to user #todo fix redirection to new group path
-        
         flash.now[:success] = "Welcome"
     end
   end

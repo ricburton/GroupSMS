@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110905133558) do
+ActiveRecord::Schema.define(:version => 20110907072102) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "number_id"
@@ -35,13 +35,6 @@ ActiveRecord::Schema.define(:version => 20110905133558) do
 
   add_index "groups", ["number_id"], :name => "index_groups_on_number_id"
 
-  create_table "limits", :force => true do |t|
-    t.string   "type"
-    t.integer  "amount"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "memberships", :force => true do |t|
     t.integer  "user_id"
     t.integer  "group_id"
@@ -61,6 +54,7 @@ ActiveRecord::Schema.define(:version => 20110905133558) do
     t.integer  "user_id"
     t.string   "status"
     t.datetime "api_timestamp"
+    t.string   "network"
   end
 
   add_index "messages", ["user_id"], :name => "index_messages_on_user_id"

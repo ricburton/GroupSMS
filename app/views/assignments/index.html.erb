@@ -1,0 +1,22 @@
+<h1>Listing assignments</h1>
+<table>
+  <tr>
+    <th>Ass ID</th>
+    <th>User ID</th>
+    <th>Number ID</th>
+    <th></th>
+  </tr>
+
+<% @assignments.each do |ass| %>
+  <tr>
+    <td><%= ass.id %></td>
+    <td><%= ass.user_id %></td>
+    <td><%= ass.number_id %></td>
+    <td><%= link_to 'Destroy', ass, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+

@@ -26,18 +26,18 @@ class GroupsController < ApplicationController
       end
     end
     @user_groups = Group.where(:id => @user_group_ids ).all.each
-    
+
     @group_user_ids = Array.new
-    
+
     @group.memberships.each do |gm|
       if gm.group_id == @group.id
         @group_user_ids.push gm.user_id
       end
     end
-    
-    
+
+
     @group_members = User.where(:id => @user_group_ids ).all.each
-    
+
     respond_to do |format|
       format.html # show.html.erb
     end
@@ -45,6 +45,17 @@ class GroupsController < ApplicationController
 
   def new
     @group = Group.new
+    @max_nums = Number.all.count
+    @used_nums = current_user.assignments.count
+
+    if @used_nums >= @max_nums
+      flash.now[:error] = "XXXXWe're really sorry but you can only start or be added to #{@max_nums.to_s} groups at the moment."
+      #Todo - disable the group-creation form
+      #todo - make the error red
+    else
+      remaining_nums = @max_nums - @used_nums
+      flash.now[:success] = "You're free to start or be added to #{remaining_nums} groups." #todo - pluralization check
+    end
 
     @group.users.build
   end
@@ -54,30 +65,69 @@ class GroupsController < ApplicationController
   end
 
   def create #todo test for number of groups they're already in before creation
-    @group = Group.new(params[:group]) #todo must not be able to access group creation
-    @group.memberships.build(:user_id => current_user.id)
-    logger.info @group.users
-    logger.info params[:group][:users_attributes]
+    @group = Group.new(params[:group]) #todo must not be able to access group creation if not signed in
+    @max_nums = Number.all.count
+    @used_nums = current_user.assignments.count
+    #checking algo against numbers
+    @assignments = Assignment.all
+    @numbers = Number.all
 
 
-    #@group.each do |y|
-    #  @group.memberships.build(:user_id => y.user_id)
-    #end
+    current_user_number_ids = Array.new #numbers the user has been assigned
+    current_user.assignments.each do |cua|
+      current_user_number_ids.push cua.number_id
+    end
+
+    @free_nums = Number.find(:all, :conditions => ['id NOT IN (?)', current_user_number_ids])
+   
+   current_user.assignments.create!(:user_id => current_user.id, :number_id => 3)
+   
+   
+=begin   
+    if current_user.assignments.count == 0
+      current_user.assignments.build(:user_id => current_user.id, :number_id => Number.first.id) #free_nums.first.id
+    else
+      current_user.assignments.build(:user_id => current_user.id, :number_id => @free_nums.first.id)
+    end
+=end
+
+
+    #flash.now[:error] = "#{free_nums}"
+=begin
+    if current_user.assignments.count >= @max_nums
+          flash.now[:error] = "We're really sorry but you can only start or belong to #{@max_nums.to_s} groups." #make this a modal pop-up box
+        elsif current_user.assignments.count == 0
+          current_user.assignments.build(:user_id => current_user.id, :number_id => Number.first.id) #free_nums.first.id
+        else
+          current_user.assignments.build(:user_id => current_user.id, :number_id => @free_nums.first.id)
+    end
+=end
 
     respond_to do |format|
       if @group.save
+        #creator-user attributes
 
+
+
+
+        #current_user.creator = true #TODO - get this to work...
+        @group.memberships.create!(:user_id => current_user.id, :group_id => @group.id)
+        #member-user attributes
         @group.users.each do |x|
-          @group.memberships.create!(:user_id => x.id )
+          @group.memberships.create!(:user_id => x.id, :group_id => @group.id)
         end
         format.html { redirect_to(@group, :notice => 'Success!') }
       else
         format.html { render :action => "new" }
       end
     end
-
-
   end
+
+  #logger.info @group.users
+  #logger.info params[:group][:users_attributes]
+
+  #@user = User.new
+
 
 
   def update
@@ -101,3 +151,32 @@ class GroupsController < ApplicationController
     end
   end
 end
+
+
+=begin
+
+# ever user assignment creation algo
+
+#creator-user attributes
+current_user.creator = true #TODO - get this to work...
+@group.memberships.create!(:user_id => current_user.id, :group_id => @group.id)
+current_user.assignments.create!(:user_id => current_user.id, :number_id => free_nums.first.id)
+
+#member-user attributes
+@group.users.each do |x|
+@group.memberships.create!(:user_id => x.id, :group_id => @group.id)
+if x.assignments >= @numbers.count
+flash.now[:error] = "We're really sorry but #{x.name} already belongs to #{@max_nums.to_s} groups."
+elsif x.assignments == 0
+x.assignments.create!(:user_id => x.id, :number_id => @numbers.first.id)
+else
+fresh_user_number_ids = Array.new
+x.assignments.each do |ass|
+fresh_user_number_ids.push x.number_id
+end
+free_nums_for_fresh_user = Number.find(:all, :conditions => ['id NOT IN (?)', fresh_user_number_ids])
+x.assignments.create!(:user_id => x.id, :number_id => free_nums_for_fresh_user.first.id)
+end
+end
+
+=end

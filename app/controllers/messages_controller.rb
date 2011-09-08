@@ -29,10 +29,23 @@ class MessagesController < ApplicationController
     @message.api_message_id = params[:messageId]
   end
 
+  def nexmo_create
+    @message = Message.new(:message => params[:message],
+                           :recipient => params[:to], 
+                           :api_message_id => params[:messageId], 
+                           :from => params[:from])
+    @message.save
+  end
+
   #http://smsgroup.heroku.com/mediaburst_create
 
   def mediaburst_create
-    @message = Message.new(:message => params[:PAYLOAD], :recipient => params[:DEST_ADDR], :api_message_id => params[:MSG_ID], :from => params[:SRC_ADDR], :api_timestamp => params[:DATETIME], :network => params[:NETWORK])
+    @message = Message.new(:message => params[:PAYLOAD], 
+                           :recipient => params[:DEST_ADDR], 
+                           :api_message_id => params[:MSG_ID], 
+                           :from => params[:SRC_ADDR], 
+                           :api_timestamp => params[:DATETIME], 
+                           :network => params[:NETWORK])
     @message.save
   end
 

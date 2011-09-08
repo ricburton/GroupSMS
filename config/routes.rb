@@ -1,10 +1,9 @@
 Groupsms::Application.routes.draw do
   
-  resources :limits
-
   resources :numbers
-
   resources :messages
+  resources :envelopes
+  resources :assignments
 
   get "sessions/new"
 
@@ -22,7 +21,9 @@ Groupsms::Application.routes.draw do
   match "/signup",  :to => "users#new"
   match "/signin",  :to => "sessions#new"
   match "/signout", :to => "sessions#destroy"
-  #match "/messages/external_message", :to => "messages#external_message"
-  match 'mediaburst_create' => 'messages#mediaburst_create'
+  match "/nexmo_create", :to => "messages#nexmo_create"
+  #match "mediaburst_create" => "messages#mediaburst_create"
+  match "/mediaburst_create" => "messages#mediaburst_create"
+  #match "/messages/mediaburst_create" => "messages#mediaburst_create"
   
 end

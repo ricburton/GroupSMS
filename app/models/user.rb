@@ -5,6 +5,11 @@ class User < ActiveRecord::Base
   has_many :groups, :through => :memberships
   belongs_to :group
   
+  #does this work?
+  has_many :assignments
+  has_many :numbers, :through => :assignments, :uniq => true
+  accepts_nested_attributes_for :numbers
+  
   #attr_accessible :name, :user_name, :user_number
   #accepts_nested_attributes_for :groups
   #attr_writer :name, :user_name, :user_number

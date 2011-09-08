@@ -52,6 +52,8 @@ class GroupsController < ApplicationController
       flash.now[:error] = "XXXXWe're really sorry but you can only start or be added to #{@max_nums.to_s} groups at the moment."
       #Todo - disable the group-creation form
       #todo - make the error red
+
+      @hide_form = true
     else
       remaining_nums = @max_nums - @used_nums
       flash.now[:success] = "You're free to start or be added to #{remaining_nums} groups." #todo - pluralization check
@@ -66,52 +68,30 @@ class GroupsController < ApplicationController
 
   def create #todo test for number of groups they're already in before creation
     @group = Group.new(params[:group]) #todo must not be able to access group creation if not signed in
-    @max_nums = Number.all.count
-    @used_nums = current_user.assignments.count
-    #checking algo against numbers
     @assignments = Assignment.all
     @numbers = Number.all
-
 
     current_user_number_ids = Array.new #numbers the user has been assigned
     current_user.assignments.each do |cua|
       current_user_number_ids.push cua.number_id
     end
 
-    @free_nums = Number.find(:all, :conditions => ['id NOT IN (?)', current_user_number_ids])
-   
-   current_user.assignments.create!(:user_id => current_user.id, :number_id => 3)
-   
-   
-=begin   
-    if current_user.assignments.count == 0
-      current_user.assignments.build(:user_id => current_user.id, :number_id => Number.first.id) #free_nums.first.id
-    else
-      current_user.assignments.build(:user_id => current_user.id, :number_id => @free_nums.first.id)
+    all_number_ids = Array.new
+    @numbers.each do |number|
+      all_number_ids.push number.id
     end
-=end
 
-
-    #flash.now[:error] = "#{free_nums}"
-=begin
-    if current_user.assignments.count >= @max_nums
-          flash.now[:error] = "We're really sorry but you can only start or belong to #{@max_nums.to_s} groups." #make this a modal pop-up box
-        elsif current_user.assignments.count == 0
-          current_user.assignments.build(:user_id => current_user.id, :number_id => Number.first.id) #free_nums.first.id
-        else
-          current_user.assignments.build(:user_id => current_user.id, :number_id => @free_nums.first.id)
-    end
-=end
+    free_number_ids = all_number_ids - current_user_number_ids
+    
+    current_user.assignments.create!(:number_id => free_number_ids.first, :user_id => current_user.id)
+    @group.memberships.build(:user_id => current_user.id, :group_id => @group.id)
+    #TODO - need to stop group creation happening on model side if they're out of numbers!
 
     respond_to do |format|
       if @group.save
         #creator-user attributes
 
-
-
-
         #current_user.creator = true #TODO - get this to work...
-        @group.memberships.create!(:user_id => current_user.id, :group_id => @group.id)
         #member-user attributes
         @group.users.each do |x|
           @group.memberships.create!(:user_id => x.id, :group_id => @group.id)

@@ -7,12 +7,12 @@ current_user.assignments.each do |cua|
   current_user_number_ids.push cua.number_id
 end
 
-puts current_user_number_ids
-puts current_user_number_ids.count
-
-free_nums = Number.find(:all, :conditions => ['id NOT IN (?)', current_user_number_ids])
-
-free_nums.each do |freenum|
-  puts freenum.inbound_num
+all_number_ids = Array.new
+@numbers.each do |number|
+  all_number_ids.push number.id
 end
+
+free_number_ids = all_number_ids - current_user_number_ids
+
+current_user.assignments.create!(:number_id => free_number_ids.first, :user_id => current_user.id)
 

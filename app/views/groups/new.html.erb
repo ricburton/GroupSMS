@@ -30,6 +30,13 @@
 
     
     <%= render 'shared/group_error_messages', :object => form.object %>  
+    
+    <% if @hide_form == true %>
+    
+    Sorry!
+    
+    <% else %>
+    
     <div class="clearfix">
       
       <div class="inline-inputs">
@@ -52,6 +59,11 @@
 
     <!-- todo test for if they already have a group...-->
   </div>
+  
+  <% end %>
+  
+  
+  
 </fieldset>
 <% end %>
 

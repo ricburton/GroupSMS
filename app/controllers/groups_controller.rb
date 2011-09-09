@@ -82,21 +82,38 @@ class GroupsController < ApplicationController
     end
 
     free_number_ids = all_number_ids - current_user_number_ids
-    
-    current_user.assignments.create!(:number_id => free_number_ids.first, :user_id => current_user.id)
-    @group.memberships.build(:user_id => current_user.id, :group_id => @group.id)
-    #TODO - need to stop group creation happening on model side if they're out of numbers!
 
     respond_to do |format|
-      if @group.save
-        #creator-user attributes
 
-        #current_user.creator = true #TODO - get this to work...
-        #member-user attributes
+      if @group.save
+        ### creator-user attributes ###
+        current_user.assignments.create!(:number_id => free_number_ids.first, 
+        :user_id => current_user.id,
+        :group_id => @group.id)
+        current_user.memberships.create!(:user_id => current_user.id,
+        :group_id => @group.id)
+
+
+
+        current_user.creator = true #TODO - get this to work...
+        ### member-user attributes ###
+        member_number_ids = Array.new
+
         @group.users.each do |x|
           @group.memberships.create!(:user_id => x.id, :group_id => @group.id)
+
+          x.assignments.each do |ass|
+            member_number_ids.push ass.number_id
+          end
+
+          free_number_ids_for_member = all_number_ids - member_number_ids
+          x.assignments.create!(:number_id => free_number_ids_for_member.first, 
+          :user_id => x.id, 
+          :group_id => @group.id)   
+
         end
-        format.html { redirect_to(@group, :notice => 'Success!') }
+
+        format.html { redirect_to(@group, :notice => 'Success! #{free_number_ids_for_member}') }
       else
         format.html { render :action => "new" }
       end
@@ -131,32 +148,3 @@ class GroupsController < ApplicationController
     end
   end
 end
-
-
-=begin
-
-# ever user assignment creation algo
-
-#creator-user attributes
-current_user.creator = true #TODO - get this to work...
-@group.memberships.create!(:user_id => current_user.id, :group_id => @group.id)
-current_user.assignments.create!(:user_id => current_user.id, :number_id => free_nums.first.id)
-
-#member-user attributes
-@group.users.each do |x|
-@group.memberships.create!(:user_id => x.id, :group_id => @group.id)
-if x.assignments >= @numbers.count
-flash.now[:error] = "We're really sorry but #{x.name} already belongs to #{@max_nums.to_s} groups."
-elsif x.assignments == 0
-x.assignments.create!(:user_id => x.id, :number_id => @numbers.first.id)
-else
-fresh_user_number_ids = Array.new
-x.assignments.each do |ass|
-fresh_user_number_ids.push x.number_id
-end
-free_nums_for_fresh_user = Number.find(:all, :conditions => ['id NOT IN (?)', fresh_user_number_ids])
-x.assignments.create!(:user_id => x.id, :number_id => free_nums_for_fresh_user.first.id)
-end
-end
-
-=end

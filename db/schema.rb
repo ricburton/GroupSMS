@@ -10,14 +10,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110907194532) do
+ActiveRecord::Schema.define(:version => 20110909060220) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "number_id"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "group_id"
   end
+
+  add_index "assignments", ["group_id"], :name => "index_assignments_on_group_id"
 
   create_table "envelopes", :force => true do |t|
     t.integer  "user_id"

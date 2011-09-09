@@ -14,6 +14,7 @@ gem 'jquery-rails'
 gem 'rufus-scheduler'
 gem 'nested_form'
 gem 'mediaburst'
+gem 'faker', '0.3.1'
 
 group :development do 
 #gem 'rspec-rails', '2.1.0' 

@@ -13,6 +13,12 @@ namespace :db do desc "Fill database with sample data"
     :number => "07851864389", 
     :password => "plokijmn",
     :admin => false,
+    :registered => true)
+    
+    User.create!(:name => "Laurens",
+    :number => "07851864387", 
+    :password => "plokijmn",
+    :admin => false,
     :registered => false)
     
     Number.create!(:inbound_num => "447786201383")

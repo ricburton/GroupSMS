@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  before_filter :authenticate, :only => [:edit, :update, :destroy]
+  #before_filter :authenticate, :only => [:edit, :update, :destroy]
 
   #todo - add title as person's name
 

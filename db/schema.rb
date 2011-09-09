@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110909060220) do
+ActiveRecord::Schema.define(:version => 20110909085558) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "number_id"
@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(:version => 20110909060220) do
     t.integer  "group_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "status"
+    t.boolean  "status"
   end
 
   create_table "messages", :force => true do |t|

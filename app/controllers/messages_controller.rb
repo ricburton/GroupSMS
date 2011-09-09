@@ -1,6 +1,7 @@
 class MessagesController < ApplicationController
+  before_filter :authenticate
   def index
-    @messages = Message.all
+    @messages = Message.all #todo change to only user's messages
 
     respond_to do |format|
       format.html

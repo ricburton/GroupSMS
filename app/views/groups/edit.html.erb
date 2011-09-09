@@ -1,6 +1,3 @@
-<h1>Editing group</h1>
-
-
 <%= form_for(@group) do |f| %>
 <fieldset>
   <legend>Edit your group</legend>
@@ -12,10 +9,8 @@
   </div>
   </div>
   <div class="actions">
-    <%= f.submit :value => 'Create your group', :class => 'btn success'%> <!-- test for if they already have a group...-->
+    <%= f.submit :value => 'Save your changes', :class => 'btn success'%> <!-- test for if they already have a group...-->
   </div>
 <% end %>
 
-
-<%= link_to 'Show', @group %> |
 <%= link_to 'Back', groups_path %>

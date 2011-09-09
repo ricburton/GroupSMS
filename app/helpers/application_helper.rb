@@ -3,6 +3,11 @@ module ApplicationHelper
   def link_to_remove_fields(name, f)
     f.hidden_field(:_destroy) + link_to_function(name, "remove_fields(this)")
   end
+  
+  def is_active?(page_name)
+    "active" if params[:action] == page_name
+  end
+  
 
   def title
     base_title = "GroupHug"

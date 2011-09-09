@@ -3,10 +3,14 @@
     <h3>Your groups</h3>
     <%= link_to 'New Group', new_group_path, :class => 'btn small success' %>
     <div class="list-groups">
-      <ul>
+      <ul class="unstyled">
 
         <% @user_groups.each do |g| %>
+        <% if g.id == @group.id %>
+        <li style="background:red"><%= g.name %> <%= link_to 'Go', g %></li>
+        <% else %>
         <li><%= g.name %> <%= link_to 'Go', g %></li>
+        <% end %>
         <% end %>
 
       </ul>

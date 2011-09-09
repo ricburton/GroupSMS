@@ -33,16 +33,32 @@ class UsersController < ApplicationController
     end
   end
 
+
   def new
     @title = "Join GroupTxt"
     @user = User.new
-    respond_to do |format|
-      format.html # new.html.erb
+
+    if signed_in?
+      if current_user.memberships == 0
+        redirect_to new_group_path
+      else
+        cugroup = current_user.memberships.first.group_id
+        redirect_to group_path(cugroup)
+      end
+    else
+      respond_to do |format|
+        format.html # new.html.erb
+      end
     end
+
+
+
+
   end
 
   def edit
     @title = "Edit your account"
+    @active_page = "EditUser"
   end
 
   def create

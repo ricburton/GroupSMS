@@ -16,6 +16,7 @@ Groupsms::Application.routes.draw do
   resources :users
   resources :memberships
   root :to => "users#new"
+
   
   resources :sessions, :only => [:new, :create, :destroy]
   match "/signup",  :to => "users#new"

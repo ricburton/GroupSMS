@@ -3,8 +3,7 @@ class GroupsController < ApplicationController
   #before_filter :authenticate, :only => [:edit, :update, :show, :destroy, :create]
   before_filter :correct_user, :only => [:edit, :update] #TODO - work out how to only show the correct user's groups
   #before_filter :admin_user, :only => [:index, :destroy]
-
-
+  
   def index
     @groups = Group.all
 
@@ -15,6 +14,7 @@ class GroupsController < ApplicationController
 
   def show
     @group = Group.find(params[:id])
+    @active_page = "UserHome"
     
     @user_group_ids = Array.new    
     current_user.memberships.each do |cuser|
@@ -38,7 +38,7 @@ class GroupsController < ApplicationController
     @max_nums = Number.all.count
     @used_nums = current_user.assignments.count
 
-    if @used_nums >= @max_nums
+    if @used_nums == @max_nums
       flash.now[:error] = "XXXXWe're really sorry but you can only start or be added to #{@max_nums.to_s} groups at the moment."
       #todo - make the error red
 

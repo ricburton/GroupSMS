@@ -22,81 +22,66 @@
     <div class="topbar">
       <div class="fill">
         <div class="container">
-          <!--<h3><a href="#">Project Name</a></h3>-->
-
           <% if signed_in? %>
           <ul>
-            <li><h3 style="color:white"><%= link_to 'GroupHug' %></h3>
-  <% if false %>            
-<% if current_user.memberships == 0 %>
-<h3 style="color:white"><%= link_to 'GroupHug', :controller => "users", :action => "show", :id => current_user.id %></h3>
-<% else %>
-<h3 style="color:white"><%= link_to 'GroupHug', :controller => "groups", :action => "show", :id => current_user.groups.first.id %></h3>
-
-<!-- todo: destroy memberships when groups are destroyed //-->
-
-<% end %>
-<% end %>
-              
-              
-            </li>
+            <li><h3 style="color:white"><%= link_to 'GroupHug', root_path %></h3></li>
+          </ul>
+          <ul class="nav">
+            <li class="<%= "active" if @active_page == "UserHome" %>"><%= link_to 'My Groups', root_path %></li>
           </ul>
           <% else %>
-
-
-          <%= form_for(:session, :url => sessions_path) do |f| %>
-
           <ul>
             <li><h3 style="color:white"><%= link_to 'GroupHug', root_path %></h3></li>
-            <li><div class="inline-inputs" style="color:white;float:left">
-              Number: <%= f.text_field :number %> Password: <%= f.password_field :password %>
+            <li>
+              <%= form_for(:session, :url => sessions_path) do |f| %>
+              <div class="inline-inputs" style="color:white;float:left">
+                Number: <%= f.text_field :number %> Password: <%= f.password_field :password %>
+                <%= f.submit :value => 'Sign In', :class => 'btn primary', :style => 'width:110px; line-height:18px;' %>
+                <% end %>
+              </div>
+            </li>
+          </ul>
 
-              <%= f.submit :value => 'Sign In', :class => 'btn primary', :style => 'width:110px; line-height:18px;' %>
 
-            </div></li></ul>
 
+          <% end %>
+
+
+
+          <ul class="nav secondary-nav">
+            <% if signed_in? %>
+            <% if is_admin? %>
+            <li><%= link_to 'All Users', users_path %></li>
+            <li><%= link_to 'All Messages', messages_path %></li>
+            <li><%= link_to 'All Groups', groups_path %></li>
+            <li><%= link_to 'All Memberships', memberships_path %></li>
             <% end %>
 
+            <li class="<%= "active" if @active_page == "EditUser" %>"><%= link_to 'My Account', edit_user_path(current_user) %></li>
+            <li><%= link_to "Sign out", signout_path, :method => :delete %></li>
             <% end %>
+          </ul>
+        </div>
+      </div><!-- /fill -->
+    </div><!-- /topbar -->
+  </div><!-- /topbar-wrapper -->
 
 
-
-            <ul class="nav secondary-nav">
-              <% if signed_in? %>
-              <% if is_admin? %>
-              <li><%= link_to 'All Users', users_path %></li>
-              <li><%= link_to 'All Messages', messages_path %></li>
-              <li><%= link_to 'All Groups', groups_path %></li>
-              <li><%= link_to 'All Memberships', memberships_path %></li>
-              <% end %>
-              <li><a>Current User: <%= current_user.name %></a></li>
-              <!-- todo change current user link-->
-
-              <li><%= link_to 'My Account', edit_user_path(current_user) %></li>
-              <li><%= link_to "Sign out", signout_path, :method => :delete %></li>
-              <% end %>
-            </ul>
-          </div>
-        </div><!-- /fill -->
-      </div><!-- /topbar -->
-    </div><!-- /topbar-wrapper -->
-
-
-    <div class="container" style="padding-top:15px">
-      <% flash.each do |key, value| %>
-      <div class="alert-message success <%= key %>">
-        <%= value %>
-      </div>
-      <% end %>
-
-
-      <div style="padding-bottom:30px"><%= yield %></div>
-
-      <!-- debug(params) if Rails.env.development? -->
+  <div class="container" style="padding-top:15px">
+    <% flash.each do |key, value| %>
+    <div class="alert-message success <%= key %>">
+      <%= value %>
     </div>
+    <% end %>
 
-  </body>
-  
-  <!-- todo: add getclicky tracking-->
-  
-  </html>
+
+    <div style="padding-bottom:30px"><%= yield %></div>
+
+    <!-- debug(params) if Rails.env.development? -->
+  </div>
+
+</body>
+
+<!-- todo: add getclicky tracking-->
+
+</html>

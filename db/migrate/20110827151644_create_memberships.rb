@@ -1,6 +1,6 @@
 class CreateMemberships < ActiveRecord::Migration
   def self.up
-    add_column :membership, :
+    #add_column :membership,
   end
 
   def self.down

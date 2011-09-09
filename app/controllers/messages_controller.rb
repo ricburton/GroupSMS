@@ -1,5 +1,5 @@
 class MessagesController < ApplicationController
-  before_filter :authenticate
+  #before_filter :authenticate
   def index
     @messages = Message.all #todo change to only user's messages
 
@@ -30,7 +30,7 @@ class MessagesController < ApplicationController
     @message.api_message_id = params[:messageId]
   end
 
-  def nexmo_create
+  def mediaburst_create
     @message = Message.new(:message => params[:message],
                            :recipient => params[:to], 
                            :api_message_id => params[:messageId], 
@@ -39,7 +39,7 @@ class MessagesController < ApplicationController
   end
 
   #http://smsgroup.heroku.com/mediaburst_create
-
+=begin
   def mediaburst_create
     @message = Message.new(:message => params[:PAYLOAD], 
                            :recipient => params[:DEST_ADDR], 
@@ -49,6 +49,9 @@ class MessagesController < ApplicationController
                            :network => params[:NETWORK])
     @message.save
   end
+=end
+
+
 
   def edit
     @message = Message.find(params[:id])

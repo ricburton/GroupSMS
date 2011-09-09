@@ -12,11 +12,23 @@
     $('#add-member').click(function () {
       var r1 = new RegExp("\\[0\\]", "g");
       var r2 = new RegExp("_0_", "g");
+      
+      
 
+      members.append(memberDiv.replace(r1, '[' + memberIndex.toString() + ']').replace(r2, '_' + memberIndex.toString() + '_').replace('member', 'member ' + memberIndex.toString()));
+      
+      plusIndex = memberIndex + 1
+      
+      $('.member ' + plusIndex.toString()).effect("highlight", {}, 1000);
       memberIndex += 1;
-
-      members.append(memberDiv.replace(r1, '[' + memberIndex.toString() + ']').replace(r2, '_' + memberIndex.toString() + '_'));
+      
+      ///TODO get the highlight to work
+      
+      
+      
     });
+    
+    
 
     $('.remove-member').live('click', function (event) {
       $(event.target).closest('.member').remove();

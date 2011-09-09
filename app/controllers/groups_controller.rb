@@ -14,6 +14,7 @@ class GroupsController < ApplicationController
 
   def show
     @group = Group.find(params[:id])
+    @message = Message.new
     @active_page = "UserHome"
     
     @user_group_ids = Array.new    
@@ -23,14 +24,26 @@ class GroupsController < ApplicationController
     @user_groups = Group.where(:id => @user_group_ids ).all.each
     
     @group_user_ids = Array.new
-    @group.memberships.each do |cgroup|
-      @group_user_ids.push cgroup.user_id
+    @user_number_ids = Array.new
+    all_assignments = Assignment.where(:group_id => @group.id).all.each
+    
+    all_assignments.each do |ass|
+      @group_user_ids.push ass.user_id
+      @user_number_ids.push ass.number_id
     end
       
     @group_users = User.where(:id => @group_user_ids ).all.each
+    @user_numbers = Number.where(:id => @user_number_ids).all.each
     respond_to do |format|
       format.html
     end
+    
+    
+    
+    #all_assignments.each do
+    
+    
+    
   end
 
   def new

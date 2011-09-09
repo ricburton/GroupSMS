@@ -19,17 +19,40 @@
   </div>
   <div class="span10 columns" style="background:">
     <h2><%= @group.name %>: Latest Messages</h2>
+    
+    <div style="display:none">
     <fieldset>
       <div class="clearfix">
-        <textarea class="xxlarge disabled" id="textarea" style="width:570px" disabled="true"></textarea>
-        <span class="help-block" style="margin-top:6px">
-          You will be able to send messages from the web soon.
-          <span style="float:right">
-            <input type="button" class="btn success disabled" value="Send message"></input>  
-          </span>
-        </span>
+        <%= form_for(@message) do |f| %>
+        <% if @message.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@message.errors.count, "error") %> prohibited this message from being sent:</h2>
+          <ul>
+            <% @message.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+        <% end %>
       </div>
-    </fieldset>
+    </fieldset>    
+
+
+    <div class="field">
+      <%= f.text_area :message, :class => "xxlarge disabled", :rows => 5, :cols => "", :style => "resize:none" %>
+    </div>
+
+    <span class="help-block" style="margin-top:6px">
+      You will be able to send messages from the web soon.
+      <span style="float:right">
+        <%= f.submit %>
+      </span>
+    </span>
+
+
+    <% end %>
+    </div>
+
     <div class="messages clearfix">
       <div class="alert-message block-message info">
         <p>Message!</p>
@@ -71,9 +94,13 @@
   <div class="span3 columns">
     <h3>Group Members</h3>
     <div><%= link_to 'Edit group', edit_group_path(@group), :class => 'btn small success' %></div>
-    <ul>
-      <% @group_users.each do |user| %>
-      <li><%= user.name %></li>
+    <ul class="unstyled">
+      <% @group_users.each do |user| %> <!-- todo why are numbers saving without a zero in front? because of integer/string?-->
+      <li><%= user.name %> <%= user.number %></li>
+      <% end %>
+      <li><b>Their inbound nums:</b></li>
+      <% @user_numbers.each do |number| %>
+      <li><%= number.inbound_num %></li> <!-- todo: make this line up and hash the inbound num and name together-->
       <% end %>
     </ul>
   </div>

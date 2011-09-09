@@ -6,6 +6,11 @@
     <th>From</th>
     <th>Recipient</th>
     <th>API Message ID</th>
+    <th>Origin</th>
+    <th>User ID</th>
+    <th>Status</th>
+    <th>API Timestamp</th>
+    <th>Network</th>
     <th></th>
     <th></th>
     <th></th>
@@ -17,6 +22,11 @@
     <td><%= message.from %></td>
     <td><%= message.recipient %></td>
     <td><%= message.api_message_id %></td>
+    <td><%= message.origin %></td>
+    <td><%= message.user_id %></td>
+    <td><%= message.status %></td> 
+    <td><%= message.api_timestamp %></td>
+    <td><%= message.network %></td> 
     <td><%= link_to 'Show', message %></td>
     <td><%= link_to 'Edit', edit_message_path(message) %></td>
     <td><%= link_to 'Destroy', message, :confirm => 'Are you sure?', :method => :delete %></td>

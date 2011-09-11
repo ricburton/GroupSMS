@@ -24,22 +24,6 @@ class MessagesController < ApplicationController
     end
   end
 
-  def external_message
-    @message.text = params[:message]
-    @message.recipient = params[:to]
-    @message.api_message_id = params[:messageId]
-  end
-
-  def mediaburst_create
-    @message = Message.new(:message => params[:message],
-                           :recipient => params[:to], 
-                           :api_message_id => params[:messageId], 
-                           :from => params[:from])
-    @message.save
-  end
-
-  #http://smsgroup.heroku.com/mediaburst_create
-=begin
   def mediaburst_create
     @message = Message.new(:message => params[:PAYLOAD], 
                            :recipient => params[:DEST_ADDR], 
@@ -48,10 +32,8 @@ class MessagesController < ApplicationController
                            :api_timestamp => params[:DATETIME], 
                            :network => params[:NETWORK])
     @message.save
+    redirect_to @message
   end
-=end
-
-
 
   def edit
     @message = Message.find(params[:id])

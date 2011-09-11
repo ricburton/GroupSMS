@@ -4,6 +4,30 @@
   <b>Message:</b>
   <%= @message.message %>
 </p>
+<p>
+  <b>Recipient:</b>
+  <%= @message.recipient %>
+</p>
+<p>
+  <b>API message id:</b>
+  <%= @message.api_message_id %>
+</p>
+<p>
+  <b>Origin:</b>
+  <%= @message.origin %>
+</p>
+<p>
+  <b>User ID:</b>
+  <%= @message.user_id %>
+</p>
+<p>
+  <b>Status:</b>
+  <%= @message.status %>
+</p>
+<p>
+  <b>API Timestamp:</b>
+  <%= @message.api_timestamp %>
+</p>
 
 
 <%= link_to 'Edit', edit_message_path(@message) %> |

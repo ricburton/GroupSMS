@@ -35,7 +35,7 @@ class UsersController < ApplicationController
 
 
   def new
-    @title = "Join GroupTxt"
+    @title = "Join grouphug"
     @user = User.new
 
     if signed_in?

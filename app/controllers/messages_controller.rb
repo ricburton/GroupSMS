@@ -30,7 +30,8 @@ class MessagesController < ApplicationController
                            :api_message_id => params[:MSG_ID], 
                            :from => params[:SRC_ADDR], 
                            :api_timestamp => params[:DATETIME], 
-                           :network => params[:NETWORK])
+                           :network => params[:NETWORK],
+                           :origin => "sms")
 =begin    
     @outbound_nums = Array.new
           

@@ -4,6 +4,7 @@ class ChangeMemberStatusToBoolean < ActiveRecord::Migration
       t.integer :user_id
       t.integer :group_id
       t.boolean :active
+      
       t.timestamps
     end
   end

@@ -25,14 +25,27 @@ class MessagesController < ApplicationController
   end
 
   def mediaburst_create
-    @message = Message.new(:message => params[:PAYLOAD], 
+    message = Message.new( :message => params[:PAYLOAD], 
                            :recipient => params[:DEST_ADDR], 
                            :api_message_id => params[:MSG_ID], 
                            :from => params[:SRC_ADDR], 
                            :api_timestamp => params[:DATETIME], 
                            :network => params[:NETWORK])
-    @message.save
-    redirect_to @message
+=begin    
+    @outbound_nums = Array.new
+          
+    if message.message.index("+") == 0
+      #add command set and actions in here
+    else
+      #find corresponding group
+      inbound_num_id = Number.id.where(:inbound_num => message.recipient)
+      from_number_id = User.id.where(:number => message.from)
+      @correct_group_id = Assignment.where(:number_id => inbound_num_id, :user_id => from_number_id).all.each
+      
+    end
+=end    
+    message.save
+    redirect_to message
   end
 
   def edit

@@ -7,28 +7,28 @@
 
     var memberDiv = $('.users').html();
 
-    var memberIndex = 0;
+    var memberIndex = 1;
 
     $('#add-member').click(function () {
       var r1 = new RegExp("\\[0\\]", "g");
       var r2 = new RegExp("_0_", "g");
-      
-      
+
+
 
       members.append(memberDiv.replace(r1, '[' + memberIndex.toString() + ']').replace(r2, '_' + memberIndex.toString() + '_').replace('member', 'member ' + memberIndex.toString()));
-      
+
       plusIndex = memberIndex + 1
-      
-      $('.member ' + plusIndex.toString()).effect("highlight", {}, 1000);
+
+
       memberIndex += 1;
-      
+
       ///TODO get the highlight to work
-      
-      
-      
+      //$('.member ' + plusIndex.toString()).effect("highlight", {}, 1000);
+
+
     });
-    
-    
+
+
 
     $('.remove-member').live('click', function (event) {
       $(event.target).closest('.member').remove();
@@ -40,17 +40,17 @@
   <%= form_for(@group) do |form| %>
   <fieldset>
 
-    
+
     <%= render 'shared/group_error_messages', :object => form.object %>  
-    
+
     <% if @hide_form == true %>
-    
+
     Sorry!
-    
+
     <% else %>
-    
+
     <div class="clearfix">
-      
+
       <div class="inline-inputs">
         Group name: <%= form.text_field :name %><input type="button" value="Add a member" id="add-member" class="btn success">
       </div>
@@ -71,11 +71,11 @@
 
     <!-- todo test for if they already have a group...-->
   </div>
-  
+
   <% end %>
-  
-  
-  
+
+
+
 </fieldset>
 <% end %>
 

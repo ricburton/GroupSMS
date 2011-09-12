@@ -72,6 +72,8 @@ class GroupsController < ApplicationController
     @group = Group.new(params[:group]) #todo must not be able to access group creation if not signed in
     @assignments = Assignment.all
     @numbers = Number.all
+    
+    @group.creator_id = current_user.id
 
     current_user_number_ids = Array.new #numbers the user has been assigned
     current_user.assignments.each do |cua|
@@ -84,20 +86,22 @@ class GroupsController < ApplicationController
     end
 
     free_number_ids = all_number_ids - current_user_number_ids
-
+    
     respond_to do |format|
 
       if @group.save
         ### creator-user attributes ###
         current_user.assignments.create!(:number_id => free_number_ids.first, 
-        :user_id => current_user.id,
-        :group_id => @group.id)
+                                         :user_id => current_user.id,
+                                         :group_id => @group.id)
+                                         
         current_user.memberships.create!(:user_id => current_user.id,
-        :group_id => @group.id)
+                                         :group_id => @group.id)
 
 
 
-        current_user.creator = true #TODO - get this to work...
+        #current_user(:creator => true) #TODO - get this to work...
+        
         ### member-user attributes ###
         member_number_ids = Array.new
 

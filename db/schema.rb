@@ -70,7 +70,7 @@ ActiveRecord::Schema.define(:version => 20110912174310) do
   add_index "messages", ["user_id"], :name => "index_messages_on_user_id"
 
   create_table "numbers", :force => true do |t|
-    t.integer  "inbound_num", :limit => 10
+    t.integer  "inbound_num", :limit => 8
     t.boolean  "assigned"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -95,7 +95,7 @@ ActiveRecord::Schema.define(:version => 20110912174310) do
     t.string   "salt"
     t.boolean  "admin"
     t.boolean  "registered"
-    t.integer  "group_id",           :limit => 10
+    t.integer  "group_id",           :limit => 8
     t.integer  "number_id"
   end
 

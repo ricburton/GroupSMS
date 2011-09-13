@@ -39,7 +39,7 @@ class UsersController < ApplicationController
     @user = User.new
 
     if signed_in?
-      if current_user.memberships == 0
+      if current_user.memberships.empty?
         redirect_to new_group_path
       else
         cugroup = current_user.memberships.first.group_id

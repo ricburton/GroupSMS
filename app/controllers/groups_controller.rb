@@ -41,10 +41,7 @@ class GroupsController < ApplicationController
     
     
     #all_assignments.each do
-    
-    
-    
-  end
+    end
 
   def new
     @group = Group.new

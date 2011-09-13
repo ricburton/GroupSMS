@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110912174310) do
+ActiveRecord::Schema.define(:version => 20110912175709) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "number_id"
@@ -88,14 +88,14 @@ ActiveRecord::Schema.define(:version => 20110912174310) do
 
   create_table "users", :force => true do |t|
     t.string   "name"
-    t.string   "number"
+    t.integer  "number",             :limit => 8
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "encrypted_password"
     t.string   "salt"
     t.boolean  "admin"
     t.boolean  "registered"
-    t.integer  "group_id",           :limit => 8
+    t.integer  "group_id"
     t.integer  "number_id"
   end
 

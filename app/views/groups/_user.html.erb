@@ -1,16 +1,13 @@
-  <div class="clearfix well member" style="padding: 14px 19px;">
-    <div class="inline-inputs">
-      Name:
-      <%= user_form.text_field :name, :class => "small" %>
-      Number: 
-      <%= user_form.text_field :number %>
+<div class="clearfix member well" style="padding:15px 10px">
+  <div class="inline-inputs">
+    First Name: <%= user_form.text_field :name, :class => "small" %>
+    Number: <%= user_form.text_field :number, :class => "medium" %>
 
-      <input type="button" value="Remove" class="remove-member btn danger">
-    </div>
-
-    <div class="clearfix" style="display:none">
-      <%= user_form.hidden_field :password, :value => newpass(8) %><!-- todo: fix this horrible hack -->
-      <%= user_form.hidden_field :registered, :value => false %><!-- todo check if they are registered or not!-->
-    </div>
-
+    <input type="button" value="Remove" class="remove-member btn danger">
   </div>
+
+  <div class="clearfix" style="display:none">
+    <%= user_form.hidden_field :password, :value => newpass(8) %><!-- todo: fix this horrible hack -->
+    <%= user_form.hidden_field :registered, :value => false %><!-- todo check if they are registered or not!-->
+  </div>
+</div>

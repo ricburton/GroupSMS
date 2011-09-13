@@ -1,0 +1,10 @@
+<% @group.users.each do |user|%>
+<div class="usersold">
+  <div class="clearfix member well" style="padding:15px 10px;background:white;border:1px dotted #ccc;">
+    <div class="inline-inputs">
+      First Name: <%= user_form.text_field :name, :class => "small" %> Number: <%= user_form.text_field :number, :style => "width:130px" %> <%= button_to 'Remove', membership_path(user.memberships.first.id), :confirm => 'Are you sure?', :method => :delete, :class => "btn danger" %>
+    </div>
+    <% end %>
+    <% end %>
+  </div>
+</div>

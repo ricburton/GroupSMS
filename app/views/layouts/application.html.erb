@@ -5,8 +5,10 @@
   <link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap-1.2.0.min.css">
   <%= stylesheet_link_tag :all %>
   <%= javascript_include_tag :all %>
+  <% if false %>
   <%= javascript_include_tag  "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" %>
   <%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js" %>
+  <% end %>
   <%= csrf_meta_tag %>
   <script>
   function remove_fields(link) {

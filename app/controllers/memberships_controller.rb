@@ -33,9 +33,9 @@ class MembershipsController < ApplicationController
   end
   
   def destroy
-    @user = Relationship.find(params[:id]).joined
-    current_user.leave!(@user)
-    redirect_to @user
+    @membership = Membership.find(params[:id])
+    @membership.destroy
+    redirect_to root_path
   end
 
 end

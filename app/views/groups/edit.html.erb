@@ -40,36 +40,54 @@
         <h1>Edit your group  <span style="float:right"><%= button_to 'Delete group', @group, :confirm => 'Are you sure?', :method => :delete, :class => 'btn danger' %></span></h1>
       </div>
 
-      <% if @hide_form == true %>
-      Sorry!
-      <% else %>
       <%= render 'shared/group_error_messages', :object => form.object %> 
-      <div class="modal-header" style="padding:15px">
+      <div class="modal-header" style="padding:0px 17px 17px">
         <h3>1) Change the name: <%= form.text_field :name , :style => 'width:300px;'%></h3>
       </div>
-      <div class="modal-body">
-        
+      <%= form.fields_for :users, :url => {:action => 'new', :controller => 'users', :registered => false}, do |user_form| %>
+      <div class="modal-header">
         <div class="clearfix" style="padding-bottom:13px">
-<h3>2) Add some people to your group: <input type="button" value="Add someone" id="add-member" class="btn success" style="font-size:17px;width:160px;height:36px;margin-left:13px"></h3>
-        </div>
-        <div class="users">
-          <%= form.fields_for :users, :url => {:action => 'new', :controller => 'users', :registered => false}, do |user_form| %>
-          <%= render 'user', :user_form => user_form, :collection => @group.users %>
+          <h3>2) Remove some people from your group:</h3>
 
-          <% end %>
-        </div>
-      </div>
-      <div class="modal-footer" >
-       
-<div class="inline-inputs"><%= form.submit :id => :go, :value => 'Save changes', :name => :go, :class => 'btn primary'%><%= link_to 'Discard changes', root_path, :class => 'btn default' %></div>
+          <% if @group.users.count <= 1 %>
 
-      </div>
-    </div>
+          <h1><small>You have no one to remove!</small></h1>
+          <% else %>
+          <% @group.users.each do |user|%>
+          <div class="usersold">
+            <div class="clearfix member well" style="padding:15px 10px;background:white;border:1px dotted #ccc;">
+              <div class="inline-inputs">
+                First Name: <%= user_form.text_field :name, :class => "small" %> Number: <%= user_form.text_field :number, :style => "width:130px" %> <%= button_to 'Remove', membership_path(user.memberships.first.id), :confirm => 'Are you sure?', :method => :delete, :class => "btn danger" %>
+              </div>
+              <% end %>
+              <% end %>
+            </div>
+          </div>
+          <div class="modal-body">
+            <div class="clearfix" style="padding-bottom:13px">
+              <h3>3) Add some people to your group: <input type="button" value="Add someone" id="add-member" class="btn success" style="font-size:17px;width:160px;height:36px;margin-left:13px"></h3>
+            </div>
+
+            <div class="users">
+              <%= render 'editusernew', :user_form => user_form, :collection => @group.users %>
+            </div>
             
-      <% end %>
-          <% end %>
-    
-</div>
+          </div>
+          <div class="modal-footer" >
+            <div class="inline-inputs">
+              <% end %>
+              
+             <%= form.submit 'Save Changes', :class => 'btn primary' %>
+             <% end %>
+              <%= link_to 'Go Back', root_path, :class => 'btn default' %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+
+    </div>
 
 
 
@@ -77,4 +95,4 @@
 
 
 
-   
+

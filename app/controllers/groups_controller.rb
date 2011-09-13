@@ -16,31 +16,33 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
     @message = Message.new
     @active_page = "UserHome"
-    #@group_envelopes = "love"
-    #@group_envelopes = Envelope.where(:group_id => @group.id).all.each
     @group_messages = Message.order("created_at DESC").where(:group_id => @group.id)
 
-    @user_group_ids = Array.new    
+    user_group_ids = Array.new    
     current_user.memberships.each do |cuser|
-      @user_group_ids.push cuser.group_id
+      user_group_ids.push cuser.group_id
     end
-    @user_groups = Group.where(:id => @user_group_ids ).all.each
-
-    @group_user_ids = Array.new
-    @user_number_ids = Array.new
-    @all_assignments = Assignment.where(:group_id => @group.id).all.each
-
-    @all_assignments.each do |ass|
-      @group_user_ids.push ass.user_id
-      @user_number_ids.push ass.number_id
+    @user_groups = Group.where(:id => user_group_ids ).all.each
+    
+    all_group_assignments = Assignment.where(:group_id => @group.id).all.each
+    all_group_memberships = Membership.where(:group_id => @group.id).all.each
+    
+    group_user_ids = Array.new
+    all_group_memberships.each do |membership|
+      group_user_ids.push membership.user_id
+    end
+    
+    user_number_ids = Array.new
+    all_group_assignments.each do |ass|
+      user_number_ids.push ass.number_id
     end
 
-    @group_users = User.where(:id => @group_user_ids ).all.each
-    @user_numbers = Number.where(:id => @user_number_ids).all.each
+    @group_users = User.where(:id => group_user_ids ).all.each
+    @user_numbers = Number.where(:id => user_number_ids).all.each
     respond_to do |format|
       format.html
     end
-    
+
 
 
   end

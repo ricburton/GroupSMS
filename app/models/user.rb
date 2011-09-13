@@ -20,6 +20,12 @@ class User < ActiveRecord::Base
   #attr_writer :name, :user_name, :user_number
   
   
+    before_destroy { |user| 
+    user.memberships.destroy_all
+    user.assignments.destroy_all
+    }
+  
+  
   attr_accessor :password
   #attr_accessible :name, :number, :password
 

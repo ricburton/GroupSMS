@@ -1,7 +1,7 @@
 <div class="row">
   <div class="span2 columns">
     <h4>Your groups</h4>
-    <div class="list-groups">
+    <div class="list-groups" style="text-align:center">
       <ul class="pills" style="margin:0;list-style-type:none;padding:0;">
 
         <% @user_groups.each do |g| %>
@@ -91,12 +91,8 @@
     <div class="span3 columns">
       <h4>Group Members</h4>
       <ul class="unstyled">
-        <% @group_users.each do |user| %> <!-- todo why are numbers saving without a zero in front? because of integer/string?-->
-        <li><%= user.name %> <%= user.number %></li>
-        <% end %>
-        <li><b>Their inbound nums:</b></li>
-        <% @user_numbers.each do |number| %>
-        <li><%= number.inbound_num %></li> <!-- todo: make this line up and hash the inbound num and name together-->
+        <% @group_users.each do |user| %>
+        <li style="font-size:15px;padding-bottom:5px;"><%= user.name %></li>
         <% end %>
       </ul>
       <% if current_user.id == @group.creator_id %>

@@ -2,6 +2,8 @@
 
 <table>
   <tr>
+    <th>Message ID</th>
+    <th>Group ID</th>
     <th>Message</th>
     <th>From</th>
     <th>Recipient</th>
@@ -18,6 +20,8 @@
 
   <% @messages.each do |message| %>
   <tr>
+    <td><%= message.id %></td>
+        <td><%= message.group_id %></td>
     <td><%= message.message %></td>
     <td><%= message.from %></td>
     <td><%= message.recipient %></td>

@@ -37,7 +37,7 @@
     <div class="modal" style="position: relative; top: auto; left: auto; margin: 0 auto; z-index: 1;width:530px;margin-top:55px;">
       <%= form_for(@group) do |form| %>
       <div class="modal-header" style="padding:15px 15px 0px 18px">
-        <h1>Edit your group  <span style="float:right"><%= link_to 'Delete group', @group, :confirm => 'Are you sure?', :method => :delete, :class => 'btn danger' %></span></h1>
+        <h1>Edit your group  <span style="float:right"><%= button_to 'Delete group', @group, :confirm => 'Are you sure?', :method => :delete, :class => 'btn danger' %></span></h1>
       </div>
 
       <% if @hide_form == true %>
@@ -59,7 +59,7 @@
           <% end %>
         </div>
       </div>
-      <div class="modal-footer" style="margin-bottom:-17px">
+      <div class="modal-footer" >
        
 <div class="inline-inputs"><%= form.submit :id => :go, :value => 'Save changes', :name => :go, :class => 'btn primary'%><%= link_to 'Discard changes', root_path, :class => 'btn default' %></div>
 

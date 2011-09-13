@@ -37,6 +37,7 @@ class UsersController < ApplicationController
   def new
     @title = "Join grouphug"
     @user = User.new
+    @max_nums = Number.all.count
 
     if signed_in?
       if current_user.memberships.empty?

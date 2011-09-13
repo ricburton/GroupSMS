@@ -1,5 +1,5 @@
 class GroupsController < ApplicationController
-  #before_filter :authenticate
+  before_filter :authenticate
   #before_filter :authenticate, :only => [:edit, :update, :show, :destroy, :create]
   #before_filter :correct_user, :only => [:edit, :update] #TODO - work out how to only show the correct user's groups
   #before_filter :admin_user, :only => [:index, :destroy, :edit, :show]
@@ -17,20 +17,8 @@ class GroupsController < ApplicationController
     @message = Message.new
     @active_page = "UserHome"
     #@group_envelopes = "love"
-    @group_envelopes = Envelope.where(:group_id => @group.id).all.each
-    @group_messages = Message.order("created_at DESC").where(:group_id => @group_id)
-
-    @max_nums = Number.all.count
-    @used_nums = current_user.assignments.count
-    if @used_nums == @max_nums
-      #flash.now[:error] = "XXXXWe're really sorry but you can only start or be added to #{@max_nums.to_s} groups at the moment."
-      #todo - make the error red
-
-      @hide_form = true
-    else
-      remaining_nums = @max_nums - @used_nums
-      flash.now[:success] = "You're free to start or be added to #{remaining_nums} groups." #todo - pluralization check
-    end
+    #@group_envelopes = Envelope.where(:group_id => @group.id).all.each
+    @group_messages = Message.order("created_at DESC").where(:group_id => @group.id)
 
     @user_group_ids = Array.new    
     current_user.memberships.each do |cuser|
@@ -52,22 +40,17 @@ class GroupsController < ApplicationController
     respond_to do |format|
       format.html
     end
+    
+
 
   end
 
   def new
     @group = Group.new
     @max_nums = Number.all.count
-    @used_nums = current_user.assignments.count
-
+    @used_nums = current_user.memberships.count
     if @used_nums == @max_nums
-      flash.now[:error] = "XXXXWe're really sorry but you can only start or be added to #{@max_nums.to_s} groups at the moment."
-      #todo - make the error red
-
       @hide_form = true
-    else
-      remaining_nums = @max_nums - @used_nums
-      flash.now[:success] = "You're free to start or be added to #{remaining_nums} groups." #todo - pluralization check
     end
 
     @group.users.build
@@ -159,7 +142,7 @@ class GroupsController < ApplicationController
     @group.destroy
 
     respond_to do |format|
-      format.html { redirect_to(groups_url) }
+      format.html { redirect_to root_path }
     end
   end
 end

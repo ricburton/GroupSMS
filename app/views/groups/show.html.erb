@@ -1,28 +1,40 @@
 <div class="row">
   <div class="span3 columns">
-    <h3>Your groups</h3>
-    <%= link_to 'New Group', new_group_path, :class => 'btn small success' %>
+    <h4>Your groups</h4>
     <div class="list-groups">
-      <ul class="unstyled">
+      <ul class="pills" style="margin:0;list-style-type:none;padding:0;">
 
         <% @user_groups.each do |g| %>
         <% if g.id == @group.id %>
-        <li style="background:red"><%= g.name %> <%= link_to 'Go', g %></li>
+        <li class="active" style="clear:both;"><%= link_to g.name, g, :style => "display:block;width:auto;" %></li>
         <% else %>
-        <li><%= g.name %> <%= link_to 'Go', g %></li>
+        <li style="clear:both;"><%= link_to g.name, g,  :style => "display:block;width:auto;"  %></li>
         <% end %>
         <% end %>
-
       </ul>
+      <% if @hide_form == true %>
+      <%= link_to 'Start a group', group_path, :class => 'btn success disabled' %>
+      <span class="help-block" style="margin-top:6px">
+        Sorry, right now you can only belong to <%= @max_nums %> groups.
+      </span>
+      <% else %>
+      <%= link_to 'Start a group', new_group_path, :class => 'btn success' %>
+      <% end %>
     </div>
 
   </div>
   <div class="span10 columns" style="background:">
-    <h2><%= @group.name %>: Latest Messages</h2>
-    
-    <div style="display:none">
-    <fieldset>
-      <div class="clearfix">
+    <% flash.each do |key, value| %>
+    <div class="alert-message block-message success <%= key %>">
+      <%= value %>
+    </div>
+    <% end %>
+    <!-- Modal -->
+    <div class="modal" style="position: relative; top: auto; left: auto; margin: 0 auto; z-index: 1">
+      <div class="modal-header">
+        <h3><%= @group.name %>: Latest Messages</h3>
+      </div>
+      <div class="modal-body">
         <%= form_for(@message) do |f| %>
         <% if @message.errors.any? %>
         <div id="error_explanation">
@@ -33,67 +45,49 @@
             <% end %>
           </ul>
         </div>
+        <% end %>   
+
+        <div class="field">
+          <%= f.text_area :message, :class => "xxlarge", :rows => 5, :style => "resize:none; width:500px" %>
+          <%= f.hidden_field :group_id, :value => @group.id %>
+        </div>
+
+        <span class="help-block" style="margin-top:6px">
+          You can send messages over the web.
+          <span style="float:right">
+            <%= f.submit :value => "Send message", :class => "btn primary" %>
+          </span>
+        </span>
         <% end %>
       </div>
-    </fieldset>    
-
-
-    <div class="field">
-      <%= f.text_area :message, :class => "xxlarge disabled", :rows => 5, :cols => "", :style => "resize:none" %>
-    </div>
-
-    <span class="help-block" style="margin-top:6px">
-      You will be able to send messages from the web soon.
-      <span style="float:right">
-        <%= f.submit %>
-      </span>
-    </span>
-
-
-    <% end %>
-    </div>
-
-    <div class="messages clearfix">
-      <div class="alert-message block-message info">
-        <p>Message!</p>
-        <div class="alert-actions">
-          <p>Sent: 16:55 3rd September 2011</p> <!-- todo add the time ago it was sent -->
+      <div class="modal-body">
+        <% if @group_messages.blank? %>
+        <div style="text-align:center">
+          <h5>Sorry, no messages have been sent.</h5>
         </div>
-      </div>
-      <div class="alert-message block-message info">
+        <% else %>
+        <% @group_messages.each do |message|  %>        
+        <div class="alert-message block-message info">
+          <p><strong><%= User.find(message.envelopes.user_id).name %>: </strong><%= message.message%></p>
+          <p style="color:#C7C3C4;"><i><%= message.created_at %></i></p>
+        </div>
 
-        <p><strong>Richard: </strong>Let's get lashed</p>
-        <div class="alert-actions" style="text-align:right;">
-          <p style="color:#C7C3C4;"><i>Sent: 16:55 3rd September 2011</i></p> <!-- todo add the time ago it was sent -->
-        </div>
-      </div>
-      <div class="alert-message block-message info">
-        <p>Message!</p>
-        <div class="alert-actions">
-          <p>Sent: 16:55 3rd September 2011</p> <!-- todo add the time ago it was sent -->
-        </div>
-      </div>
-      <div class="alert-message block-message info">
-        <p>Message!</p>
-        <div class="alert-actions">
-          <p>Sent: 16:55 3rd September 2011</p> <!-- todo add the time ago it was sent -->
-        </div>
-      </div>
+        <% end %>
+        <% end %>
 
-    </div>
-    <div class="more-messages clearfix" style="margin:10px auto;text-align:center;">
-      <input type="button" class="btn large disabled" value="Load more messages"></input>
-      <span class="help-block" style="margin-top:6px">
-        This button will work soon.
-      </span>
-      <!-- todo make this work -->
+
+        <div class="more-messages clearfix" style="margin:10px auto;text-align:center;">
+          <input type="button" class="btn large disabled" value="Load more messages" style="align:center"></input>
+          <!-- todo make this work -->
+        </div>
+
+      </div>
     </div>
 
 
   </div>
   <div class="span3 columns">
-    <h3>Group Members</h3>
-    <div><%= link_to 'Edit group', edit_group_path(@group), :class => 'btn small success' %></div>
+    <h4>Group Members</h4>
     <ul class="unstyled">
       <% @group_users.each do |user| %> <!-- todo why are numbers saving without a zero in front? because of integer/string?-->
       <li><%= user.name %> <%= user.number %></li>
@@ -103,6 +97,7 @@
       <li><%= number.inbound_num %></li> <!-- todo: make this line up and hash the inbound num and name together-->
       <% end %>
     </ul>
+    <%= link_to 'Edit group', edit_group_path(@group), :class => 'btn success' %>
   </div>
 </div>
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110912175709) do
+ActiveRecord::Schema.define(:version => 20110913085900) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "number_id"
@@ -27,7 +27,10 @@ ActiveRecord::Schema.define(:version => 20110912175709) do
     t.integer  "message_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "group_id"
   end
+
+  add_index "envelopes", ["group_id"], :name => "index_envelopes_on_group_id"
 
   create_table "groups", :force => true do |t|
     t.string   "name"
@@ -65,6 +68,7 @@ ActiveRecord::Schema.define(:version => 20110912175709) do
     t.string   "status"
     t.datetime "api_timestamp"
     t.string   "network"
+    t.integer  "group_id"
   end
 
   add_index "messages", ["user_id"], :name => "index_messages_on_user_id"
@@ -97,8 +101,10 @@ ActiveRecord::Schema.define(:version => 20110912175709) do
     t.boolean  "registered"
     t.integer  "group_id"
     t.integer  "number_id"
+    t.integer  "envelope_id"
   end
 
+  add_index "users", ["envelope_id"], :name => "index_users_on_envelope_id"
   add_index "users", ["number"], :name => "index_users_on_number", :unique => true
   add_index "users", ["number_id"], :name => "index_users_on_number_id"
 

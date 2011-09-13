@@ -1,4 +1,3 @@
-
 <script>
 (function ($) {
   $(document).ready(function () {
@@ -30,26 +29,28 @@
     });
   });
   })(jQuery);
+
   </script>
 
   <div class="span12 columns">
     <!-- Modal -->
-    <div class="modal" style="position: relative; top: auto; left: auto; margin: 0 auto; z-index: 1;width:530px">
+    <div class="modal" style="position: relative; top: auto; left: auto; margin: 0 auto; z-index: 1;width:530px;margin-top:55px;">
       <%= form_for(@group) do |form| %>
-      <div class="modal-header" style="padding-top:19px">
+      <div class="modal-header" style="padding:15px 15px 0px 18px">
         <h1>Create a new group</h1>
       </div>
-      
+
       <% if @hide_form == true %>
       Sorry!
       <% else %>
       <%= render 'shared/group_error_messages', :object => form.object %> 
       <div class="modal-header" style="padding:15px">
         <h3>1) Name your group: <%= form.text_field :name , :style => 'width:300px;'%></h3>
-        </div>
-      <div class="modal-header" style="padding:15px">
+      </div>
+      <div class="modal-body">
+        
         <div class="clearfix" style="padding-bottom:13px">
-        <h3>2) Add some people to your group: <input type="button" value="Add someone" id="add-member" class="btn success" style="font-size:17px;width:160px;height:36px;margin-left:13px"></h3>
+<h3>2) Add some people to your group: <input type="button" value="Add someone" id="add-member" class="btn success" style="font-size:17px;width:160px;height:36px;margin-left:13px"></h3>
         </div>
         <div class="users">
           <%= form.fields_for :users, :url => {:action => 'new', :controller => 'users', :registered => false}, do |user_form| %>
@@ -58,11 +59,14 @@
           <% end %>
         </div>
       </div>
-      <div class="modal-footer">
-        <h3>3) Hit this button to set it up: <%= form.submit :id => :go, :value => 'Start the group', :name => :go, :class => 'btn large primary', :style => 'font-size:20px'%><% end %>
-      <% end %></h3>
+      <div class="modal-footer" style="margin-bottom:-17px">
+        <%= form.submit :id => :go, :value => 'Start the group', :name => :go, :class => 'btn large primary', :style => 'font-size:20px'%>
       </div>
     </div>
+            
+      <% end %>
+          <% end %>
+    
   </div>
 
 

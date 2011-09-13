@@ -55,10 +55,11 @@ class MessagesController < ApplicationController
 
   def create
     @message = Message.new(params[:message])
-
+                           
     respond_to do |format|
       if @message.save
-        format.html { redirect_to(@message, :notice => 'Message was successfully created.') }
+        current_user.envelopes.create!(:user_id => current_user.id, :group_id => @message.group_id, :message_id => @message.id)
+        format.html { redirect_to group_path(@message.group_id), :notice => 'Message was sent.' } #
       else
         format.html { render :action => "new" }
       end

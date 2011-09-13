@@ -68,16 +68,9 @@
 
 
   <div class="container" style="padding-top:15px">
-    <% flash.each do |key, value| %>
-    <div class="alert-message success <%= key %>">
-      <%= value %>
-    </div>
-    <% end %>
-
 
     <div style="padding-bottom:30px"><%= yield %></div>
 
-    <!-- debug(params) if Rails.env.development? -->
   </div>
 
 </body>

@@ -1,8 +1,8 @@
 class GroupsController < ApplicationController
-  before_filter :authenticate
+  #before_filter :authenticate
   #before_filter :authenticate, :only => [:edit, :update, :show, :destroy, :create]
-  before_filter :correct_user, :only => [:edit, :update] #TODO - work out how to only show the correct user's groups
-  #before_filter :admin_user, :only => [:index, :destroy]
+  #before_filter :correct_user, :only => [:edit, :update] #TODO - work out how to only show the correct user's groups
+  #before_filter :admin_user, :only => [:index, :destroy, :edit, :show]
 
   def index
     @groups = Group.all
@@ -13,9 +13,15 @@ class GroupsController < ApplicationController
   end
 
   def show
+    @group = Group.find(params[:id])
+    @message = Message.new
+    @active_page = "UserHome"
+    #@group_envelopes = "love"
+    @group_envelopes = Envelope.where(:group_id => @group.id).all.each
+    @group_messages = Message.order("created_at DESC").where(:group_id => @group_id)
+
     @max_nums = Number.all.count
     @used_nums = current_user.assignments.count
-
     if @used_nums == @max_nums
       #flash.now[:error] = "XXXXWe're really sorry but you can only start or be added to #{@max_nums.to_s} groups at the moment."
       #todo - make the error red
@@ -26,10 +32,6 @@ class GroupsController < ApplicationController
       flash.now[:success] = "You're free to start or be added to #{remaining_nums} groups." #todo - pluralization check
     end
 
-    @group = Group.find(params[:id])
-    @message = Message.new
-    @active_page = "UserHome"
-
     @user_group_ids = Array.new    
     current_user.memberships.each do |cuser|
       @user_group_ids.push cuser.group_id
@@ -38,9 +40,9 @@ class GroupsController < ApplicationController
 
     @group_user_ids = Array.new
     @user_number_ids = Array.new
-    all_assignments = Assignment.where(:group_id => @group.id).all.each
+    @all_assignments = Assignment.where(:group_id => @group.id).all.each
 
-    all_assignments.each do |ass|
+    @all_assignments.each do |ass|
       @group_user_ids.push ass.user_id
       @user_number_ids.push ass.number_id
     end
@@ -50,15 +52,6 @@ class GroupsController < ApplicationController
     respond_to do |format|
       format.html
     end
-
-    group_envelopes = Envelope.where(:group_id => @group.id).all.each
-
-    group_message_ids = Array.new
-    group_envelopes.each do |env|
-      group_message_ids.push env.message_id
-    end
-
-    @group_messages = Message.order("created_at DESC").where(:id => group_message_ids).all.each
 
   end
 

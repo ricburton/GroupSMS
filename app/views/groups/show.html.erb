@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="span3 columns">
+  <div class="span2 columns">
     <h4>Your groups</h4>
     <div class="list-groups">
       <ul class="pills" style="margin:0;list-style-type:none;padding:0;">
@@ -12,25 +12,26 @@
         <% end %>
         <% end %>
       </ul>
-      <% if @hide_form == true %>
-      <%= link_to 'Start a group', group_path, :class => 'btn success disabled' %>
+      
+<div class="clearfix" style="text-align:center">      <% if @hide_form == true %>
+      <%= link_to 'New Group', group_path, :class => 'btn success disabled' %>
       <span class="help-block" style="margin-top:6px">
-        Sorry, right now you can only belong to <%= @max_nums %> groups.
+        Sorry, you can only join or start <%= @max_nums %> groups.
       </span>
       <% else %>
-      <%= link_to 'Start a group', new_group_path, :class => 'btn success' %>
-      <% end %>
+      <%= link_to 'New Group', new_group_path, :class => 'btn success' %>
+      <% end %></div>
     </div>
 
   </div>
-  <div class="span10 columns" style="background:">
+  <div class="span11 columns" style="background:">
     <% flash.each do |key, value| %>
     <div class="alert-message block-message success <%= key %>">
       <%= value %>
     </div>
     <% end %>
     <!-- Modal -->
-    <div class="modal" style="position: relative; top: auto; left: auto; margin: 0 auto; z-index: 1">
+    <div class="modal" style="position: relative; top: auto; left: auto; margin: 0 auto; z-index: 1; width:100%">
       <div class="modal-header">
         <h3><%= @group.name %>: Latest Messages</h3>
       </div>
@@ -47,8 +48,8 @@
         </div>
         <% end %>   
 
-        <div class="field">
-          <%= f.text_area :message, :class => "xxlarge", :rows => 5, :style => "resize:none; width:500px" %>
+        <div class="field" style="padding-right:10px">
+          <%= f.text_area :message, :class => "xxlarge", :rows => 5, :style => "resize:none; width:100%;" %>
           <%= f.hidden_field :group_id, :value => @group.id %>
         </div>
 
@@ -64,15 +65,24 @@
         <% if @group_messages.blank? %>
         <div style="text-align:center">
           <h5>Sorry, no messages have been sent.</h5>
+          Group ID: <%= @group.id %> <br/>
+          Group User IDs: <%= @group_user_ids %> <br/>
+          User Number IDs: <%= @user_number_ids %> <br/>
+          Assignments: <%= @all_assignments %> <br/>
+          Messages:<%= @group_messages %>     <br/>
+          Envelopes:<%= @group_envelopes %>   <br/>
+          User numbers:<%= @user_numbers %>   <br/>
+          Group users:<%= @group_users %>     <br/>
         </div>
         <% else %>
-        <% @group_messages.each do |message|  %>        
+         <% @group_envelopes.each do |env|  %>        
         <div class="alert-message block-message info">
-          <p><strong><%= User.find(message.envelopes.user_id).name %>: </strong><%= message.message%></p>
-          <p style="color:#C7C3C4;"><i><%= message.created_at %></i></p>
+          <p><strong> <%= User.find(env.user_id).name %>: </strong><%= Message.find(env.message_id).message %></p>
+          <p style="color:#C7C3C4;"><i><%= Message.find(env.message_id).created_at %></i></p>
         </div>
 
         <% end %>
+      
         <% end %>
 
 
@@ -97,7 +107,11 @@
       <li><%= number.inbound_num %></li> <!-- todo: make this line up and hash the inbound num and name together-->
       <% end %>
     </ul>
-    <%= link_to 'Edit group', edit_group_path(@group), :class => 'btn success' %>
+    <% if current_user.id == @group.creator_id %>
+    <%= link_to 'Edit group', edit_group_path(@group), :class => 'btn default' %>
+
+    <% end %>
+    
   </div>
 </div>
 

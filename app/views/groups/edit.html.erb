@@ -1,16 +1,80 @@
-<%= form_for(@group) do |f| %>
-<fieldset>
-  <legend>Edit your group</legend>
-  <%= render 'shared/group_error_messages', :object => f.object %>  
-  <div class="clearfix">
-    <%= f.label :name %>
-    <div class="input">
-    <%= f.text_field :name %>
-  </div>
-  </div>
-  <div class="actions">
-    <%= f.submit :value => 'Save your changes', :class => 'btn success'%> <!-- test for if they already have a group...-->
-  </div>
-<% end %>
+<script>
+(function ($) {
+  $(document).ready(function () {
+    var members = $('.users');
 
-<%= link_to 'Back', groups_path %>
+    var memberDiv = $('.users').html();
+
+    var memberIndex = 1;
+
+    $('#add-member').click(function () {
+      var r1 = new RegExp("\\[0\\]", "g");
+      var r2 = new RegExp("_0_", "g");
+
+      members.append(memberDiv.replace(r1, '[' + memberIndex.toString() + ']').replace(r2, '_' + memberIndex.toString() + '_').replace('member', 'member ' + memberIndex.toString()));
+
+      plusIndex = memberIndex + 1
+
+
+      memberIndex += 1;
+
+      ///TODO get the highlight to work
+      //$('.member ' + plusIndex.toString()).effect("highlight", {}, 1000);
+
+
+    });
+
+    $('.remove-member').live('click', function (event) {
+      $(event.target).closest('.member').remove();
+    });
+  });
+  })(jQuery);
+
+  </script>
+
+  <div class="span12 columns">
+    <!-- Modal -->
+    <div class="modal" style="position: relative; top: auto; left: auto; margin: 0 auto; z-index: 1;width:530px;margin-top:55px;">
+      <%= form_for(@group) do |form| %>
+      <div class="modal-header" style="padding:15px 15px 0px 18px">
+        <h1>Edit your group  <span style="float:right"><%= link_to 'Delete group', @group, :confirm => 'Are you sure?', :method => :delete, :class => 'btn danger' %></span></h1>
+      </div>
+
+      <% if @hide_form == true %>
+      Sorry!
+      <% else %>
+      <%= render 'shared/group_error_messages', :object => form.object %> 
+      <div class="modal-header" style="padding:15px">
+        <h3>1) Change the name: <%= form.text_field :name , :style => 'width:300px;'%></h3>
+      </div>
+      <div class="modal-body">
+        
+        <div class="clearfix" style="padding-bottom:13px">
+<h3>2) Add some people to your group: <input type="button" value="Add someone" id="add-member" class="btn success" style="font-size:17px;width:160px;height:36px;margin-left:13px"></h3>
+        </div>
+        <div class="users">
+          <%= form.fields_for :users, :url => {:action => 'new', :controller => 'users', :registered => false}, do |user_form| %>
+          <%= render 'user', :user_form => user_form, :collection => @group.users %>
+
+          <% end %>
+        </div>
+      </div>
+      <div class="modal-footer" style="margin-bottom:-17px">
+       
+<div class="inline-inputs"><%= form.submit :id => :go, :value => 'Save changes', :name => :go, :class => 'btn primary'%><%= link_to 'Discard changes', root_path, :class => 'btn default' %></div>
+
+      </div>
+    </div>
+            
+      <% end %>
+          <% end %>
+    
+</div>
+
+
+
+
+
+
+
+   

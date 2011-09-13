@@ -10,6 +10,8 @@ class Group < ActiveRecord::Base
   
   accepts_nested_attributes_for :users,
                                 :reject_if => :all_blank
+                                
+  before_destroy { |post| group.memberships.destroy_all }
   #attr_accessible :user_attributes
   
   #attr_accessible :name, :name, :number, :password #, :user_number

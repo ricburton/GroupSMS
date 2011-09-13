@@ -18,3 +18,6 @@ puts @group_messages
   p message.origin
   p message.created_at
 end
+
+p @group_messages.blank?
+

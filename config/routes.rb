@@ -5,19 +5,11 @@ Groupsms::Application.routes.draw do
   resources :envelopes
   resources :assignments
 
-  get "sessions/new"
-
-  get "pages/home"
-
-  get "pages/about"
-
-  get "pages/contact"
   resources :groups
   resources :users
   resources :memberships
   root :to => "users#new"
-
-  
+  get "sessions/new"
   resources :sessions, :only => [:new, :create, :destroy]
   match "/signup",  :to => "users#new"
   match "/signin",  :to => "sessions#new"

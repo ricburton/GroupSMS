@@ -42,17 +42,16 @@ class UsersController < ApplicationController
       if current_user.memberships.empty?
         redirect_to new_group_path
       else
-        cugroup = current_user.memberships.first.group_id
-        redirect_to group_path(cugroup)
+        user_memberships = Array.new
+        current_user.memberships.each {|mem| user_memberships.push mem.group_id}
+        belonging_groups = Group.where(:id => user_memberships)
+        redirect_to group_path(belonging_groups.first)
       end
     else
       respond_to do |format|
         format.html # new.html.erb
       end
-    end
-
-
-
+    end 
 
   end
 

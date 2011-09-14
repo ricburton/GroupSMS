@@ -2,7 +2,18 @@
 #@user = User.find(3)
 @user = User.new(:registered => false)
 
+=begin
+---> signup(fresh)  ---> add fresh new users
+                    ---> add some registered users ----> just add memberships
+
+---> signup(added become registered)  ---> confirm membership? ---> add fresh new users
+                                      ---> add some registered users ----> just add memberships
+                                      
+
+=end
+
 p @user
+
 
 
 @user.number.nil? ? test = "" : test = User.where(:number => @user.number)

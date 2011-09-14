@@ -4,7 +4,7 @@ Groupsms::Application.routes.draw do
   resources :messages
   resources :envelopes
   resources :assignments
-
+  resources :interstatials
   resources :groups
   resources :users
   resources :memberships

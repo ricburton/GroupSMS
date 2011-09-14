@@ -33,7 +33,6 @@ class UsersController < ApplicationController
     end
   end
 
-
   def new
     @title = "Join grouphug"
     @user = User.new
@@ -56,15 +55,20 @@ class UsersController < ApplicationController
 
   end
 
+ # def newadded
+  #logger.info("Newadded called")
+  #@user = User.new(params[:user])
+  #@user.save
+  #end
+  
   def edit
     @title = "Edit your account"
     @active_page = "EditUser"
   end
 
-  def create
+  def create #TODO - figure out how fields_for functions
     @user = User.new(params[:user])
-  
-    
+    logger.info("User creation")
     respond_to do |format|
       if @user.save
         sign_in @user

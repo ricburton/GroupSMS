@@ -63,7 +63,8 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(params[:user])
-
+  
+    
     respond_to do |format|
       if @user.save
         sign_in @user

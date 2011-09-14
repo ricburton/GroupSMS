@@ -1,44 +1,44 @@
 require 'digest'
 class User < ActiveRecord::Base
-  
+
   has_many :memberships
   has_many :groups, :through => :memberships
   belongs_to :group
-  
+
   #does this work?
   has_many :assignments
   has_many :numbers, :through => :assignments, :uniq => true
   accepts_nested_attributes_for :numbers
-  
-  
+
+
   has_many :envelopes
   has_many :messages, :through => :envelopes
   accepts_nested_attributes_for :envelopes
-  
+
   #attr_accessible :name, :user_name, :user_number
   #accepts_nested_attributes_for :groups
   #attr_writer :name, :user_name, :user_number
-  
-  
-    before_destroy { |user| 
+
+
+  before_destroy { |user| 
     user.memberships.destroy_all
     user.assignments.destroy_all
-    }
-  
-  
+  }
+
+
   attr_accessor :password
   #attr_accessible :name, :number, :password
 
-  
+
 
   #mobile_regex = /\A(([0][7][5-9])(\d{8}))\Z/
 
   validates :name,     :presence => true, #todo regexp for first name only
   :length => { :maximum => 15 }
   validates :number, #todo - fix mobile regexp
-  :presence => true,
+  :presence => true
   #:format => { :with => mobile_regex },
-  :uniqueness => true
+  #:uniqueness => true
 
   validates :password, :presence	=> true,
   :confirmation => true,
@@ -46,19 +46,19 @@ class User < ActiveRecord::Base
 
   before_save :encrypt_password
 
- #before_create callback - set defaults
+  #before_create callback - set defaults
 
- 
+
   def has_password?(submitted_password)
     encrypted_password == encrypt(submitted_password)
   end
-  
+
   def self.authenticate(number, submitted_password)
     user = find_by_number(number)
     return nil  if user.nil?
     return user if user.has_password?(submitted_password)
   end
-  
+
   def self.authenticate_with_salt(id, cookie_salt)
     user = find_by_id(id)
     (user && user.salt == cookie_salt) ? user : nil #ternary operator here
@@ -70,7 +70,7 @@ class User < ActiveRecord::Base
     # >> var == 3 ? puts("its a 3") : puts("its not a 3")
     # its a 3
   end
-  
+
   private
 
   def encrypt_password
@@ -81,11 +81,11 @@ class User < ActiveRecord::Base
   def encrypt(string)
     secure_hash("#{salt}--#{string}")
   end
-  
+
   def make_salt
     secure_hash("#{Time.now.utc}--#{password}")
   end
-  
+
   def secure_hash(string)
     Digest::SHA2.hexdigest(string)
   end

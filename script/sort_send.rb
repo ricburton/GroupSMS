@@ -1,3 +1,5 @@
+
+
 message = Message.new( :message => "blasshhh", :recipient => "447786201383" , :from => "7851864388")
 
 @outbound_nums = Array.new
@@ -25,7 +27,7 @@ else
     puts "No group ID found"
   else
     message.save
-    
+    #TODO - how to turn this into a big method or readily accessible sending machine
     nexmo = Nexmo::Client.new('fd74a959', 'af3fc79f')
     nexmo.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 

@@ -1,6 +1,6 @@
 <div class="clearfix member well" style="padding:15px 10px;background:white;border:1px dotted #ccc;">
-  <div class="inline-inputs">
-    First Name: <%= user_form.text_field :name, :class => "small", :value => "" %> Number: <%= user_form.text_field :number, :style => "width:130px", :value => "" %> <input type="button" value="Remove" class="remove-member btn danger">
+  <div class="inline-inputs" style="color:black">
+    First Name: <%= user_form.text_field :name, :class => "small", :value => "" %> Mobile Number: <%= user_form.text_field :number, :style => "width:130px", :value => "" %> <input type="button" value="Remove" class="remove-member btn danger">
     <%= user_form.hidden_field :password, :value => newpass(8) %>
     <%= user_form.hidden_field :registered, :value => false %>
   </div>

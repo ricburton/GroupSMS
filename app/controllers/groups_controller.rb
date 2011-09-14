@@ -1,7 +1,7 @@
 class GroupsController < ApplicationController
   before_filter :authenticate
   #before_filter :authenticate, :only => [:edit, :update, :show, :destroy, :create]
-  #before_filter :correct_user, :only => [:edit, :update] #TODO - work out how to only show the correct user's groups
+  #before_filter :correct_user, :only => [:edit, :update]
   #before_filter :admin_user, :only => [:index, :destroy, :edit, :show]
 
   def index
@@ -62,8 +62,8 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
   end
 
-  def create #todo test for number of groups they're already in before creation
-    @group = Group.new(params[:group]) #todo must not be able to access group creation if not signed in
+  def create
+    @group = Group.new(params[:group])
     @assignments = Assignment.all
     @numbers = Number.all
 

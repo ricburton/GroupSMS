@@ -1,7 +1,7 @@
 class MessagesController < ApplicationController
   #before_filter :authenticate
   def index
-    @messages = Message.all #todo change to only user's messages
+    @messages = Message.all
 
     respond_to do |format|
       format.html
@@ -32,19 +32,7 @@ class MessagesController < ApplicationController
                            :api_timestamp => params[:DATETIME], 
                            :network => params[:NETWORK],
                            :origin => "sms")
-=begin    
-    @outbound_nums = Array.new
-          
-    if message.message.index("+") == 0
-      #add command set and actions in here
-    else
-      #find corresponding group
-      inbound_num_id = Number.id.where(:inbound_num => message.recipient)
-      from_number_id = User.id.where(:number => message.from)
-      @correct_group_id = Assignment.where(:number_id => inbound_num_id, :user_id => from_number_id).all.each
-      
-    end
-=end    
+ 
     message.save
     redirect_to message
   end

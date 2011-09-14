@@ -49,7 +49,10 @@
           <% end %>   
 
           <div class="field" style="padding-right:10px">
-            <%= f.text_area :message, :class => "xxlarge", :rows => 5, :style => "resize:none; width:100%;" %>
+            <%= f.text_area :message, :class => "xxlarge", :rows => 5, :style => "resize:none; width:100%;", :value => current_user.name + ":" %>
+            <!--todo work out how to count chars and keep name untouchable-->
+            
+            
             <%= f.hidden_field :group_id, :value => @group.id %>
             <%= f.hidden_field :user_id, :value => current_user.id %>
           </div>
@@ -67,10 +70,15 @@
           No messages yet.
           <% else %>
           <% @group_messages.each do |mess| %>
-          <div class="clearfix">
-          <% timediff = Time.now - mess.created_at %>
-          <strong><%= User.find(mess.user_id).name %>:</strong> <%= mess.message %>
-          <span style="float:right"><i><%= time_ago_in_words(Time.now - timediff,include_seconds = false) %> ago </i></span>
+          <div>
+            <!-- todo stop overflow -->
+          <strong><%= User.find(mess.user_id).name %>:</strong>
+          <div class="span4 columns"><%= mess.message %></div>
+          
+          <span style="float:right">
+            <% timediff = Time.now - mess.created_at %>
+            <i><%= time_ago_in_words(Time.now - timediff,include_seconds = false) %> ago </i>
+            </span>
           </div>
           <% end %>
           <% end %>

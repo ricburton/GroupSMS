@@ -1,8 +1,6 @@
 class ApplicationController < ActionController::Base
   #before_filter :authenticate, :only => [:edit, :update, :destroy]
 
-  #todo - add title as person's name
-
   def deny_access
     #store_location #this will store where the user is trying to get to and then redirect after sign in
     redirect_to signin_path, :notice => "Please sign in to access this page."
@@ -12,8 +10,6 @@ class ApplicationController < ActionController::Base
     redirect_to(session[:return_to] || default) #not sure what this does
     clear_return_to #what's this going to do
   end
-
-
 
   protect_from_forgery
   include SessionsHelper

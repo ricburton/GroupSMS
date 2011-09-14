@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
     @title = "Sign in"
   end
 
-  def create #todo when signing up the person isn't signing in...
+  def create
     user = User.authenticate(params[:session][:number],params[:session][:password])
     if user.nil?
       flash.now[:error] = "Invalid number/password combination." 

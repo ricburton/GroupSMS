@@ -1,14 +1,24 @@
 <div class="row">
+  <ul class="tabs">
+    <li class="active"><a href="">Uist</a></li>
+    <li><a href="" style="background:#ccc">Sods</a></li>
+    <li><a href="" class="btn small success">+</a></li>
+  </ul>
+</div>
+<div class="row">
+
+  <% if false %>
+
   <div class="span2 columns">
     <h4 style="margin-bottom:0">Your groups</h4>
     <div class="list-groups" style="text-align:center">
       <div class="clearfix">
         <% if @hide_form == true %>
-          <div class="twipsy right">
-            <!--<div class="twipsy-arrow"></div>-->
-            <div class="twipsy-inner" style="margin:0px 0px 10px 2px">Max. <%= @max_nums %> groups</div>
-          </div>
-          <%= link_to 'New group', group_path, :class => 'btn success disabled', :style => 'margin-top:3px' %>
+        <div class="twipsy right">
+          <!--<div class="twipsy-arrow"></div>-->
+          <div class="twipsy-inner" style="margin:0px 0px 10px 2px">Max. <%= @max_nums %> groups</div>
+        </div>
+        <%= link_to 'New group', group_path, :class => 'btn success disabled', :style => 'margin-top:3px' %>
 
 
         <% else %>
@@ -27,14 +37,23 @@
       </ul>
 
     </div>
+
+    <% end %>
+
+
     <div class="span11 columns" style="background:">
+
+
+
+
       <% flash.each do |key, value| %>
       <div class="alert-message success <%= key %>">
         <%= value %>
       </div>
       <% end %>
       <!-- Modal -->
-      <div class="modal" style="position: relative; top: auto; left: auto; margin: 0 auto; z-index: 1; width:100%">
+      <div style="position: relative; top: auto; left: auto; margin: 0 auto; z-index: 1; width:100%">
+        <% if false %>
         <div class="modal-header">
           <h3>
             <%= @group.name %>
@@ -46,8 +65,10 @@
               <%= link_to 'Delete group', @group, :confirm => 'Are you sure?', :method => :delete, :style => 'color:red' %>
             </span>
           </h3>
-
         </div>
+        <% end %>
+
+
         <div class="modal-body">
           <%= form_for(@message) do |f| %>
           <% if @message.errors.any? %>
@@ -112,20 +133,19 @@
 
     </div>
     <div class="span3 columns">
-      <h4>Group Members</h4>
       <div class="clearfix" style="margin-bottom:9px;">
         <% if current_user.id == @group.creator_id %>
-      <% if @group_users.each.count < 9 %>
-      <!--TODO make a add people modal -->
-      <%= link_to 'Add people', edit_group_path(@group), :class => 'btn success' %>
-      <% else %>
-      <div class="twipsy right">
-            <!--<div class="twipsy-arrow"></div>-->
-            <div class="twipsy-inner" style="margin:0px 0px 10px 1px">Max. 8 people</div>
-          </div>
-      <%= link_to 'Add people', group_path, :class => 'btn success disabled' , :style => 'margin-top:3px'%>
-      <% end %>
-      <% end %>
+        <% if @group_users.each.count < 9 %>
+        <!--TODO make a add people modal -->
+        <%= link_to 'Add people', edit_group_path(@group), :class => 'btn success' %>
+        <% else %>
+        <div class="twipsy right">
+          <!--<div class="twipsy-arrow"></div>-->
+          <div class="twipsy-inner" style="margin:0px 0px 10px 1px">Max. 8 people</div>
+        </div>
+        <%= link_to 'Add people', group_path, :class => 'btn success disabled' , :style => 'margin-top:3px'%>
+        <% end %>
+        <% end %>
       </div>
       <ul class="unstyled">
         <% @group_users.each do |user| %>
@@ -137,12 +157,12 @@
           <%= image_tag("red.gif", :alt => "Active User") %>
           <% end %>
           <%= user.name %> 
-          
+
           <span style="float:right;font-size:10px">
             <% if this_membership.user_id == current_user.id %>
-                      <%= link_to 'Leave', this_membership, :confirm => 'Are you sure?', :method => :delete, :style => 'color:red;' %>
+            <%= link_to 'Leave', this_membership, :confirm => 'Are you sure?', :method => :delete, :style => 'color:red;' %>
             <% else %>
-          <%= link_to 'Remove', this_membership, :confirm => 'Are you sure?', :method => :delete, :style => 'color:red;' %>
+            <%= link_to 'Remove', this_membership, :confirm => 'Are you sure?', :method => :delete, :style => 'color:red;' %>
             <% end %>
           </span>
         </li>

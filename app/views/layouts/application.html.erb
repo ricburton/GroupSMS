@@ -2,17 +2,17 @@
 <html>
 <head>
   <title>
-  <% if signed_in? %>
-   GroupHug - <%= current_user.name %>
-  <% else %>
-  <%= @title %>
-  <% end %>
-    </title>
+    <% if signed_in? %>
+    GroupHug - <%= current_user.name %>
+    <% else %>
+    <%= @title %>
+    <% end %>
+  </title>
 
   <%= stylesheet_link_tag :all %>
   <%= javascript_include_tag :all %>
   <% if false %>
-    <link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap-1.2.0.min.css">
+  <link rel="stylesheet" href="http://twitter.github.com/bootstrap/assets/css/bootstrap-1.2.0.min.css">
   <%= javascript_include_tag  "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" %>
   <%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js" %>
   <% end %>
@@ -36,11 +36,14 @@
             <li><h3 style="color:white"><%= link_to 'GroupHug', root_path %></h3></li>
           </ul>
           <ul class="nav">
+            <% if current_user.memberships.count > 0 %>
             <li class="<%= "active" if @active_page == "UserHome" %>"><%= link_to 'My Groups', root_path %></li>
+            <% end %>
           </ul>
           <% else %>
           <ul>
             <li><h3 style="color:white"><%= link_to 'GroupHug', root_path %></h3></li>
+            <% if false %>
             <li>
               <%= form_for(:session, :url => sessions_path) do |f| %>
               <div class="inline-inputs" style="color:white;float:left">
@@ -49,6 +52,7 @@
                 <% end %>
               </div>
             </li>
+            <% end %>
           </ul>
 
 
@@ -68,6 +72,11 @@
 
             <li class="<%= "active" if @active_page == "EditUser" %>"><%= link_to 'My Account', edit_user_path(current_user) %></li>
             <li><%= link_to "Sign out", signout_path, :method => :delete %></li>
+            <% else %>
+            <% if @active_page == "signin" %>
+            <% else %>
+            <li><%= link_to "Sign in", signin_path %></li>
+            <% end %>
             <% end %>
           </ul>
         </div>

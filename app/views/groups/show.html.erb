@@ -67,7 +67,10 @@
         </div>
         <div class="modal-body">
           <% if @group_messages.empty? %>
-          No messages yet.
+          <div style="width:100%;text-align:center;padding-bottom:20px">
+            No messages yet.
+            <!--todo - ajaxify showing and loading of messages -->
+          </div>
           <% else %>
           <% @group_messages.each do |mess| %>
           <div>
@@ -82,14 +85,13 @@
           </div>
           <% end %>
           <% end %>
-
-
-
-
+          
+          <% if false %>
           <div class="more-messages clearfix" style="margin:10px auto;text-align:center;">
             <input type="button" class="btn large disabled" value="Load more messages" style="align:center"></input>
             <!-- todo make this work -->
           </div>
+          <% end %>
 
         </div>
       </div>

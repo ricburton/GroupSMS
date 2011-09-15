@@ -7,34 +7,71 @@
 
     var memberIndex = 1;
 
+    var totalMembers = 1;
+
     $('#add-member').click(function () {
       var r1 = new RegExp("\\[0\\]", "g");
       var r2 = new RegExp("_0_", "g");
 
-      members.append(memberDiv.replace(r1, '[' + memberIndex.toString() + ']').replace(r2, '_' + memberIndex.toString() + '_').replace('member', 'member ' + memberIndex.toString()));
-
-      plusIndex = memberIndex + 1
-
-
-      memberIndex += 1;
 
       ///TODO get the highlight to work
-      //$('.member ' + plusIndex.toString()).effect("highlight", {}, 1000);
+
+
+      if (totalMembers == 8) {
+        alert('The maximum number of members you can have is 8.');
+      } else {
+        members.append(memberDiv.replace(r1, '[' + memberIndex.toString() + ']').replace(r2, '_' + memberIndex.toString() + '_').replace('member', 'member ' + memberIndex.toString()));
+
+        plusIndex = memberIndex + 1
+        memberIndex += 1;
+        totalMembers += 1;
+
+        // $(".clearfix member " + plusIndex.toString() + " well").effect("highlight", {}, 1000);
+        
+      //          $(".users").click(function () {
+      //  $(this).effect("highlight", {}, 3000);
+      //});
+  
+
+      };
+
 
 
     });
 
     $('.remove-member').live('click', function (event) {
       $(event.target).closest('.member').remove();
+      totalMembers -= 1;
     });
   });
   })(jQuery);
 
   </script>
 
+  <script type="text/javascript">
+  
+  
+
+  
+  window.onload = function() {
+    document.getElementById('group_name').focus();
+  }
+
+  </script>
+
+  <% if current_user.memberships.count == 0 %>
+
+  <div class="row"> 
+    <div class="span8 columns offset4">
+      Onboard explanation.
+    </div>
+  </div>
+
+  <% end %>
+
   <div class="span12 columns">
     <!-- Modal -->
-    <div class="modal" style="position: relative; top: auto; left: auto; margin: 0 auto; z-index: 1;width:560px;margin-top:55px;">
+    <div class="modal" style="position: relative; top: auto; left: auto; margin: 0 auto; z-index: 1;width:580px;margin-top:55px;">
       <%= form_for(@group) do |form| %>
       <div class="modal-header" style="padding:15px 15px 0px 18px">
         <h1>Create a new group</h1>
@@ -48,9 +85,9 @@
         <h3>1) Name your group: <span style="float:right;padding-right:11px;"><%= form.text_field :name , :style => 'width:300px;'%></span></h3>
       </div>
       <div class="modal-body">
-        
+
         <div class="clearfix" style="padding-bottom:15px">
-<h3>2) Add some people to your group: <span style="float:right;padding-right:12px"><input type="button" value="Add someone" id="add-member" class="btn success" style="font-size:17px;width:160px;height:36px;margin-left:13px"></span></h3>
+          <h3>2) Add up to 8 people to your group: <span style="float:right;padding-right:12px"><input type="button" value="Add someone" id="add-member" class="btn success" style="font-size:17px;width:160px;height:36px;margin-left:13px"></span></h3>
         </div>
         <div class="users">
           <%= form.fields_for :users, @newadded do |user_form| %>
@@ -63,12 +100,12 @@
         <%= form.submit :id => :go, :value => 'Start the group', :name => :go, :class => 'btn large primary', :style => 'font-size:20px'%>
       </div>
     </div>
-            
-      <% end %>
-          <% end %>
-    
-  </div>
 
+    <% end %>
+    <% end %>
+
+  </div>
+</div>
 
 
 

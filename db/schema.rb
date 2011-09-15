@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110913140213) do
+ActiveRecord::Schema.define(:version => 20110915082612) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "number_id"
@@ -74,16 +74,6 @@ ActiveRecord::Schema.define(:version => 20110913140213) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "texts", :force => true do |t|
-    t.string   "content"
-    t.integer  "group_id"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "texts", ["user_id"], :name => "index_texts_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "name"

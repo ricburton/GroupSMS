@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
   #before_filter :authenticate, :only => [:edit, :update, :destroy]
 
+
+
   def deny_access
     #store_location #this will store where the user is trying to get to and then redirect after sign in
     redirect_to signin_path, :notice => "Please sign in to access this page."
@@ -14,12 +16,12 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   include SessionsHelper
 
-    private
+  private
 
   def authenticate
     deny_access unless signed_in?
   end
-  
+
   def correct_user
     @user = User.find(params[:id])
     redirect_to(root_path) unless current_user?(@user)

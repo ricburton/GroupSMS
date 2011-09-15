@@ -16,6 +16,11 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
     @message = Message.new
     @active_page = "UserHome"
+    @max_nums = Number.all.count
+    @used_nums = current_user.memberships.count
+    if @used_nums == @max_nums
+      @hide_form = true
+    end
     @group_messages = Message.order("created_at DESC").where(:group_id => @group.id)
 
     user_group_ids = Array.new    
@@ -23,15 +28,15 @@ class GroupsController < ApplicationController
       user_group_ids.push cuser.group_id
     end
     @user_groups = Group.where(:id => user_group_ids ).all.each
-    
+
     all_group_assignments = Assignment.where(:group_id => @group.id).all.each
     all_group_memberships = Membership.where(:group_id => @group.id).all.each
-    
+
     group_user_ids = Array.new
     all_group_memberships.each do |membership|
       group_user_ids.push membership.user_id
     end
-    
+
     user_number_ids = Array.new
     all_group_assignments.each do |ass|
       user_number_ids.push ass.number_id
@@ -43,7 +48,9 @@ class GroupsController < ApplicationController
       format.html
     end
 
-
+    #    if current_user.memberships.count == Number.all.count
+    #      @hide_form = true
+    #    end
 
   end
 

@@ -39,6 +39,7 @@ class User < ActiveRecord::Base
   :presence => true
   #:format => { :with => mobile_regex },
   #:uniqueness => true
+  #TODO - uniqeness checking still needs to be handled properly.
 
   validates :password, :presence	=> true,
   :confirmation => true,

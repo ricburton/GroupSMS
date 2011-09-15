@@ -53,7 +53,7 @@
 <h3>2) Add some people to your group: <span style="float:right;padding-right:12px"><input type="button" value="Add someone" id="add-member" class="btn success" style="font-size:17px;width:160px;height:36px;margin-left:13px"></span></h3>
         </div>
         <div class="users">
-          <%= form.fields_for :users, :url => {:action => 'new', :controller => 'users', :registered => false}, do |user_form| %>
+          <%= form.fields_for :users, @newadded do |user_form| %>
           <%= render 'user', :user_form => user_form, :collection => @group.users %>
 
           <% end %>

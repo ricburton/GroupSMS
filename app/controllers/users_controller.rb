@@ -55,12 +55,43 @@ class UsersController < ApplicationController
 
   end
 
- # def newadded
-  #logger.info("Newadded called")
-  #@user = User.new(params[:user])
-  #@user.save
-  #end
-  
+  def newadded
+    #logger.info("Newadded called")
+
+    #todo - need to catch the user before the save action otherwise uniqueness condition is not satisfied
+    @newuser = User.new(params[:user])
+    
+    @newuser.number.nil? ? test = "" : test = User.where(:number => @newuser.number)
+
+      if test.blank?
+        #already a non-registered member
+        @newuser.toggle!(:registered)
+      else
+        if @newuser.memberships.count > 0
+          user_group_ids = Array.new
+          @newuser.memberships.each do |member|
+            user_group_ids.push member.group_id
+          end
+
+          user_groups = Group.where(:id => user_group_ids).all.each
+
+          user_groups.each do |group|
+            p group.name
+          end  
+        else
+          flash.now[:error] = "Caught a random occurrence with user saving."
+          redirect_to root_path
+        end
+      end
+    
+    if @newuser.save
+    else
+      #todo redirection not working.
+      flash.now[:error] = "Welcome"
+      redirect_to root_path
+    end
+  end
+
   def edit
     @title = "Edit your account"
     @active_page = "EditUser"
@@ -100,5 +131,4 @@ class UsersController < ApplicationController
       format.html { redirect_to(@user) }
     end
   end
-
 end

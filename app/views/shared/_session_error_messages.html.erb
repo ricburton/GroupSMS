@@ -1,0 +1,14 @@
+<% if @session.errors.any? %>
+<div class="alert-message block-message error" style="padding:12px;">
+  <p style="text-align:center;"><strong>Sorry, there's <%= pluralize(@session.errors.count, "problem") %> with what you entered: </strong></p>
+  <p>
+    <ul>
+      <% @session.errors.full_messages.each do |msg| %>
+      <li style="color:black"><%= msg %></li>
+      <% end %>
+    </ul>
+  </p>
+</div>
+<% end %>
+
+

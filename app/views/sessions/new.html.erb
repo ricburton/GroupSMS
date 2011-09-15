@@ -1,36 +1,41 @@
 <script type="text/javascript">
 window.onload = function() {
-  document.getElementById('session_number').focus();
+document.getElementById('session_number').focus();
 }
 
 </script>
 <div class="span4 columns">
-  <div class="modal" style="position: relative; top: auto; left: auto; margin: 0 auto; z-index: 1;width:430px;margin-top:60px">
-    <div class="modal-header" style="text-align:center">
-      <h2>Sign into GroupHug</h2>
-    </div>
-    <%= form_for(:session, :url => sessions_path) do |f| %>
-    <div class="modal-body">
-      <fieldset>
-        <div class="clearfix">
-          <%= f.label "Mobile Number:" %>
-          <div class="input">
-            <%= f.text_field :number %>
-          </div>
-        </div>
-        <div class="clearfix">
-          <%= f.label :password %>
-          <div class="input">
-            <%= f.password_field :password %>
-          </div>
-        </div>
-      </fieldset>
-    </div>
-    <div class="modal-footer" style="margin-bottom:-17px">
-      <%= f.submit :value => 'Sign In', :class => 'btn large primary', :style => 'margin-right:20px' %>
-      <% end %>
-    </div>
+<div class="modal" style="position: relative; top: auto; left: auto; margin: 0 auto; z-index: 1;width:430px;margin-top:60px">
+  <div class="modal-header" style="text-align:center">
+    <h2>Sign into GroupHug</h2>
   </div>
+  <%= form_for(:session, :url => sessions_path) do |f| %>
+  <div class="modal-body">
+    <% flash.each do |key, value| %>
+    <div class="alert-message error <%= key %>" style="padding:12px;text-align:center">
+      <%= value %>
+    </div>
+    <% end %>
+    <fieldset>
+      <div class="clearfix">
+        <%= f.label "Mobile Number:" %>
+        <div class="input">
+          <%= f.text_field :number %>
+        </div>
+      </div>
+      <div class="clearfix">
+        <%= f.label :password %>
+        <div class="input">
+          <%= f.password_field :password %>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+  <div class="modal-footer" style="margin-bottom:-17px">
+    <%= f.submit :value => 'Sign In', :class => 'btn large primary', :style => 'margin-right:20px' %>
+    <% end %>
+  </div>
+</div>
 </div>
 
 

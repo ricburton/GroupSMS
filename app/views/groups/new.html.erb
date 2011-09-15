@@ -35,7 +35,7 @@
 
       };
 
-
+      //TODO - blank out or disable the first remove button
 
     });
 
@@ -77,8 +77,9 @@
       <% if @hide_form == true %>
       Sorry!
       <% else %>
-      <%= render 'shared/group_error_messages', :object => form.object %> 
+      
       <div class="modal-header" style="padding:20px">
+        <%= render 'shared/group_error_messages', :object => form.object %> 
         <h3>1) Name your group: <span style="float:right;padding-right:11px;"><%= form.text_field :name , :style => 'width:300px;'%></span></h3>
       </div>
       <div class="modal-body">
@@ -94,7 +95,7 @@
         </div>
       </div>
       <div class="modal-footer" style="margin-bottom:-17px">
-        <%= form.submit :id => :go, :value => 'Start the group', :name => :go, :class => 'btn large primary', :style => 'font-size:20px'%>
+        <%= form.submit :id => :go, :value => 'Start the group', :name => :go, :class => 'btn large primary', :style => 'font-size:20px;'%>
       </div>
     </div>
 

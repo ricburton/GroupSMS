@@ -1,10 +1,14 @@
 <% if @user.errors.any? %>
-<div id="error_explanationx" class="alert-message block-message error">
-  <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
-  <ul>
-    <% @user.errors.full_messages.each do |msg| %>
-    <li><%= msg %></li>
-    <% end %>
-  </ul>
+<div class="alert-message block-message error" style="padding:12px;">
+  <p style="text-align:center;"><strong>Sorry, there's <%= pluralize(@user.errors.count, "problem") %> with what you entered: </strong></p>
+  <p>
+    <ul>
+      <% @user.errors.full_messages.each do |msg| %>
+      <li style="color:black"><%= msg %></li>
+      <% end %>
+    </ul>
+  </p>
 </div>
 <% end %>
+
+

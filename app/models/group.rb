@@ -18,6 +18,13 @@ class Group < ActiveRecord::Base
     group.memberships.destroy_all
     group.assignments.destroy_all
     }
+    
+    
+  validates :name, :presence => true, #todo regexp for first name only
+  :length => { :maximum => 15 }
+  #todo - strip out random characters
+  
+  
   #attr_accessible :user_attributes
   
   #attr_accessible :name, :name, :number, :password #, :user_number

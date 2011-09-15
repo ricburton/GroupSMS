@@ -1,10 +1,8 @@
-  <script type="text/javascript">
-  
-  window.onload = function() {
-    document.getElementById('user_name').focus();
-  }
-
-  </script>
+<script type="text/javascript">
+window.onload = function() {
+  document.getElementById('user_name').focus();
+}
+</script>
 
 <%= form_for @user do |f| %>
 <fieldset>
@@ -25,6 +23,7 @@
     </div>
   </div>
   <div class="clearfix">
+    <!-- TODO fix password editing.-->
     <%= f.label :password %>
     <div class="input">
       <%= f.password_field :password %>
@@ -39,6 +38,6 @@
 
 <fieldset>
   <div class="actions" style="background:white;border:none;">
-<%= link_to 'Delete my account.', @user, :confirm => 'Are you sure?', :method => :delete, :class => 'btn danger' %>
-  </div>
+  <%= link_to 'Delete my account.', @user, :confirm => 'Are you sure?', :method => :delete, :class => 'btn danger' %>
+</div>
 </fieldset>

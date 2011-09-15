@@ -25,35 +25,13 @@ div.field, div.actions {
 }
 
 .field_with_errors {
-  padding: 2px;
-  background-color: red;
-  display: table;
+	display:inline;
 }
 
-#error_explanation {
-  width: 450px;
-  border: 2px solid red;
-  padding: 7px;
-  padding-bottom: 0;
-  margin-bottom: 20px;
-  background-color: #f0f0f0;
-}
-
-#error_explanation h2 {
-  text-align: left;
-  font-weight: bold;
-  padding: 5px 5px 5px 15px;
-  font-size: 12px;
-  margin: -7px;
-  margin-bottom: 0px;
-  background-color: #c00;
-  color: #fff;
-}
-
-#error_explanation ul li {
-  font-size: 12px;
-  list-style: square;
-}
+form div.field_with_errors>label,form div.field_with_errors span.help-inline,form div.field_with_errors span.help-block{color:#9d261d;}
+form div.field_with_errors input[type=text],form div.field_with_errors input[type=password],form div.field_with_errors textarea{border-color:#c87872;-webkit-box-shadow:0 0 3px rgba(171, 41, 32, 0.25);-moz-box-shadow:0 0 3px rgba(171, 41, 32, 0.25);box-shadow:0 0 3px rgba(171, 41, 32, 0.25);}
+form div.field_with_errors input[type=text]:focus,form div.field_with_errors input[type=password]:focus,form div.field_with_errors textarea:focus{border-color:#b9554d;-webkit-box-shadow:0 0 6px rgba(171, 41, 32, 0.5);-moz-box-shadow:0 0 6px rgba(171, 41, 32, 0.5);box-shadow:0 0 6px rgba(171, 41, 32, 0.5);}
+form div.field_with_errors div.input-prepend span.add-on,form div.field_with_errors div.input-append
 
 /* Floats */
 

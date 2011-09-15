@@ -1,6 +1,6 @@
 
 
-message = Message.new( :message => "blasshhh", :recipient => "447786201383" , :from => "7851864388")
+message = Message.new( :message => "+no", :recipient => "447786201383" , :from => "7851864388")
 #message = Message.new( :message => "+yes", :recipient => "447786201383" , :from => "7851864388")
 #message = Message.new
 
@@ -21,17 +21,29 @@ else
   #get the data about which group this is sent to
   
   @inbound_num_id = Number.where(:inbound_num => message.recipient).first.id
-  from_number_object = User.find(@inbound_num_id)
-  correct_group_id = Assignment.where(:number_id => @inbound_num_id, :user_id => from_number_object.id).first.group_id
+  user_from = User.find(@inbound_num_id)
+  correct_group_id = Assignment.where(:number_id => @inbound_num_id, :user_id => user_from.id).first.group_id
   if correct_group_id.blank?
     puts "No assignment found..."
   end
   
   if message.message.index("+") == 0
     #add command set and actions in here
+    user_from_membership = Membership.where(:user_id => user_from.id, :group_id => correct_group_id).first
 
-    if message.message.index("+yes") == 0
+    if message.message.index("+yes") == 0 || message.message.index("+start") == 0
       puts "change them to active"
+      
+      user_from_membership.active = true
+      p user_from_membership.active
+      #TODO - dont toggle status set it to active
+    end
+    
+    if message.message.index("+no") == 0 || message.message.index("+stop") == 0
+      puts "change them to inactive"
+      #TODO - dont toggle status set it to inactive
+      user_from_membership.active = false
+      p user_from_membership.active
     end
     
   else
@@ -56,11 +68,14 @@ else
       #send the messages out
       correct_assignment = Assignment.where(:user_id => user.id, :group_id => correct_group_id).first
       users_group_number = Number.find(correct_assignment.number_id)
+      correct_recipient_user_membership = Membership.where(:user_id => user.id, :group_id => correct_group_id).first
       if user.number == message.from
         puts "Message isn't sent back to sender!"
         #put the message in a stamped envelope
         env = user.envelopes.create!(:user_id => user.id, :group_id => correct_group_id, :message_id => message.id)
         p env
+      elsif correct_recipient_user_membership.active == false
+        p "Message isn't sent to inactive users"
       else
         puts "#{message.message} will be sent to #{user.number} from the number #{users_group_number.inbound_num}"
         # response = nexmo.send_message({from: users_group_number.inbound_num, to: user.number, text: message.message })

@@ -95,6 +95,7 @@ class UsersController < ApplicationController
   def edit
     @title = "Edit your account"
     @active_page = "EditUser"
+    @user = User.find(params[:id])
   end
 
   def create #TODO - figure out how fields_for functions

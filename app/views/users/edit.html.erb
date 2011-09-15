@@ -1,6 +1,14 @@
-<%= form_for(@user) do |f| %>
+  <script type="text/javascript">
+  
+  window.onload = function() {
+    document.getElementById('user_name').focus();
+  }
+
+  </script>
+
+<%= form_for @user do |f| %>
 <fieldset>
-  <legend>Edit your account</legend>
+  <legend>Your account</legend>
 
   <%= render 'shared/error_messages', :object => f.object %>
 
@@ -23,19 +31,14 @@
     </div>
   </div>
   <div class="actions" style="background:white;border:none;">
-    <%= f.submit :id => :go, :value => 'Save', :name => :go, :class => 'btn success' %>
+    <%= f.submit :id => :go, :value => 'Save changes', :name => :go, :class => 'btn success' %>
   </div>
 </fieldset>
 <% end %>
 
 
 <fieldset>
-  <legend>Delete your account?</legend>
   <div class="actions" style="background:white;border:none;">
-    <%= link_to 'Delete my account.', @user, :confirm => 'Are you sure?', :method => :delete, :class => 'btn danger' %>
+<%= link_to 'Delete my account.', @user, :confirm => 'Are you sure?', :method => :delete, :class => 'btn danger' %>
   </div>
 </fieldset>
-
-
-<%= link_to 'Show', @user %> |
-<%= link_to 'Back', users_path %>

@@ -97,7 +97,7 @@ class GroupsController < ApplicationController
         :group_id => @group.id)
 
         current_user.memberships.create!(:user_id => current_user.id,
-        :group_id => @group.id)
+        :group_id => @group.id, :active => true)
 
 
 
@@ -107,7 +107,7 @@ class GroupsController < ApplicationController
         member_number_ids = Array.new
 
         @group.users.each do |x|
-          @group.memberships.create!(:user_id => x.id, :group_id => @group.id)
+          @group.memberships.create!(:active => false, :user_id => x.id, :group_id => @group.id)
 
           x.assignments.each do |ass|
             member_number_ids.push ass.number_id
@@ -120,7 +120,9 @@ class GroupsController < ApplicationController
 
         end
 
-        format.html { redirect_to(@group, :notice => 'Success!') }
+        format.html { redirect_to(@group, :notice => 'Congratulations, your GroupHug is now live. People just have to opt-in and then you can start texting.') }
+        #TODO - how to get this to fade.
+        
       else
         format.html { render :action => "new" }
       end

@@ -54,7 +54,7 @@
           <!--TODO stop empty message sending -->
           <!--todo work out how to count chars and keep name untouchable-->
 
-
+          <%= f.hidden_field :origin, :value => "web" %>
           <%= f.hidden_field :group_id, :value => @group.id %>
           <%= f.hidden_field :user_id, :value => current_user.id %>
         </div>

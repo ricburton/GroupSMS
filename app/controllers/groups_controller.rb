@@ -112,7 +112,7 @@ class GroupsController < ApplicationController
 
         @group.users.each do |x|
           @group.memberships.create!(:active => false, :user_id => x.id, :group_id => @group.id)
-
+          logger.info("New membership created")
           x.assignments.each do |ass|
             member_number_ids.push ass.number_id
           end

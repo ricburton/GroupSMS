@@ -1,5 +1,5 @@
 class MessagesController < ApplicationController
-  #before_filter :authenticate
+  before_filter :authenticate, :only => [:show]
   before_filter :admin_user, :only => [:index]
   def index
     @messages = Message.all

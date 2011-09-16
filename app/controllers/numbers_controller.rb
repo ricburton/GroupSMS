@@ -1,5 +1,6 @@
 class NumbersController < ApplicationController
   before_filter :authenticate
+  before_filter :admin_user, :only => [:index, :create, :show, :destroy, :edit]
   def index
     @numbers = Number.all
 

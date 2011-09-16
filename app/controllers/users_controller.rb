@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
-  before_filter :authenticate, :only => [:index, :edit, :update, :destroy]
+  before_filter :authenticate, :only => [:edit, :update, :destroy]
   #before_filter :correct_user, :only => [:edit, :update]
-  #before_filter :admin_user, :only => [:destroy]
+  before_filter :admin_user, :only => [:index]
 
   def index
     @users = User.all
@@ -9,7 +9,7 @@ class UsersController < ApplicationController
       format.html # index.html.erb
     end
   end
-  
+
   def confirm
     @user = User.find(params[:id])
   end
@@ -64,30 +64,30 @@ class UsersController < ApplicationController
 
     #todo - need to catch the user before the save action otherwise uniqueness condition is not satisfied
     @newuser = User.new(params[:user])
-    
+
     @newuser.number.nil? ? test = "" : test = User.where(:number => @newuser.number)
 
-      if test.blank?
-        #already a non-registered member
-        @newuser.toggle!(:registered)
-      else
-        if @newuser.memberships.count > 0
-          user_group_ids = Array.new
-          @newuser.memberships.each do |member|
-            user_group_ids.push member.group_id
-          end
-
-          user_groups = Group.where(:id => user_group_ids).all.each
-
-          user_groups.each do |group|
-            p group.name
-          end  
-        else
-          flash.now[:error] = "Caught a random occurrence with user saving."
-          redirect_to root_path
+    if test.blank?
+      #already a non-registered member
+      @newuser.toggle!(:registered)
+    else
+      if @newuser.memberships.count > 0
+        user_group_ids = Array.new
+        @newuser.memberships.each do |member|
+          user_group_ids.push member.group_id
         end
+
+        user_groups = Group.where(:id => user_group_ids).all.each
+
+        user_groups.each do |group|
+          p group.name
+        end  
+      else
+        flash.now[:error] = "Caught a random occurrence with user saving."
+        redirect_to root_path
       end
-    
+    end
+
     if @newuser.save
     else
       #todo redirection not working.
@@ -136,4 +136,5 @@ class UsersController < ApplicationController
       format.html { redirect_to(@user) }
     end
   end
+
 end

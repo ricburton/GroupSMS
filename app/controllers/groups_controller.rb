@@ -1,5 +1,6 @@
 class GroupsController < ApplicationController
   before_filter :authenticate
+  before_filter :admin_user, :only => [:index]
   #before_filter :authenticate, :only => [:edit, :update, :show, :destroy, :create]
   #before_filter :correct_user, :only => [:edit, :update]
   #before_filter :admin_user, :only => [:index, :destroy, :edit, :show]

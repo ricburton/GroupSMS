@@ -31,7 +31,7 @@ div.field, div.actions {
 
 .adpop{}
 .adpop .inner{background:rgba(0, 0, 0, 0.8);
-							padding:1px;
+							padding:-1px;
 							overflow:hidden;
 							width:180px;
 							-webkit-border-radius:6px;
@@ -87,11 +87,11 @@ ul.grouptabs{margin:0 0 20px;padding:0;zoom:1;}
 ul.grouptabs:before,ul.grouptabs:after{display:table;content:"";}
 ul.grouptabs:after{clear:both;}
 ul.grouptabs li{clear:both;}
-ul.grouptabs li a{float:left;width:100px;}
-ul.grouptabs{width:100%;border-right:1px solid #bfbfbf;}
-ul.grouptabs li a{margin-right:-1px;margin-bottom:2px;padding:0 15px;line-height:35px;-webkit-border-radius:3px 0 0 3px;-moz-border-radius:3px 0 0 3px;border-radius:3px 0 0 3px;}
-ul.grouptabs li a:hover{background-color:#e6e6e6;border-right:1px solid #bfbfbf;}
-ul.grouptabs li.active a{background-color:#fff;padding:0 14px;border:1px solid #ccc;border-right:0;color:#808080;}
+ul.grouptabs li a{float:left;background-color:#e6e6e6;width:110px;}
+ul.grouptabs{border-right:0px solid #bfbfbf;}
+ul.grouptabs li a{margin-right:-1px;margin-bottom:2px;padding:0 9px;line-height:35px;-webkit-border-radius:3px 0 0 3px;-moz-border-radius:3px 0 0 3px;border-radius:3px 0 0 3px;}
+ul.grouptabs li a:hover{background-color:#e6e6e6;border-right:0px solid #bfbfbf;}
+ul.grouptabs li.active a{background-color:#fff;padding:0 8px;border:1px solid rgba(0, 0, 0, 0.5);border-right:0;color:#808080;}
 
 
 

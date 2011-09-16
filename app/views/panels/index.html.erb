@@ -1,0 +1,54 @@
+<div class="row">
+  <h1>Admin Panel</h1>
+</div>
+
+<div class="row">
+  <div class="span4 columns">
+    <div class="adpop">
+      <div class="inner">
+        <h4 class="title">Quick options</h4>
+        <div class="content">
+          <p>
+            <%= form_for(Panel.first) do |f| %>
+
+            <div class="inline-inputs">
+              <h6>Texting?: <span style="float:right"><%= f.check_box :sending %></span></h6>
+              <h6>New signups?: <span style="float:right"><%= f.check_box :signup %></span></h6>              
+
+            </div>
+            <div>
+              <%= f.submit "Update settings", :class => 'btn primary' %>
+            </div>
+            <% end %>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="span4 columns">
+    <div class="adpop">
+      <div class="inner">
+        <h4 class="title">Today's metrics</h4>
+        <div class="content">
+          <h5>New groups : 8</h5>
+          <h5>New users: 43</h5>
+          <h5>Messages sent: 230</h5>
+          <h5>Texts sent: 235</h5>
+          <h5>Text costs: £6.58</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+    <div class="span8 columns">
+    <div class="adpop">
+      <div class="inner span8 columns">
+        <h4 class="title">Graphs</h4>
+        <div class="content">
+          <h1>GRAPH HERE</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

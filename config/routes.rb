@@ -1,5 +1,7 @@
 Groupsms::Application.routes.draw do
   
+  resources :panels
+
   resources :numbers
   resources :messages
   resources :envelopes

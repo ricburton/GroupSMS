@@ -9,8 +9,8 @@ class MembershipsController < ApplicationController
   end
 
   def new
-   # @membership = Membership.new
-    
+    # @membership = Membership.new
+
 
     #   respond_to do |format|
     #     format.html # new.html.erb
@@ -19,23 +19,31 @@ class MembershipsController < ApplicationController
 
   def create
     #@membership = Membership.new(params[:membership])
-    
+
     #if @memebership.save
     #  format.html { redirect_to(@membership, :notice => 'Group was successfully created.') }
     #else
     #  format.html { render :action => "new" }
     #end
-    
+
     #@user = User.find(params[:membership][:group_id])
     #current_user.join!(@user)
     #redirect_to @user
-    
+
   end
-  
+
   def destroy
     @membership = Membership.find(params[:id])
+    group = Group.find(@membership.group_id)
+    user = User.find(@membership.user_id)
+    membership_id = @membership.user_id
     @membership.destroy
-    redirect_to root_path
+
+    if user.id == membership_id 
+      redirect_to root_path
+    else
+      redirect_to group
+    end
   end
 
 end

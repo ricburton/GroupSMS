@@ -57,7 +57,7 @@ class GroupsController < ApplicationController
     
   end
 
-  def new
+  def new #FIXME it's possible to create more than 3 groups....
     @group = Group.new
     @max_nums = Number.all.count
     @used_nums = current_user.memberships.count

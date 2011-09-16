@@ -1,5 +1,6 @@
 class AssignmentsController < ApplicationController
   before_filter :authenticate
+  before_filter :admin_user, :only => [:index]
   def index
     @assignments = Assignment.all
 

@@ -4,6 +4,7 @@
   <tr>
     <th>Message ID</th>
     <th>Group ID</th>
+    <th>Group Name</th>
     <th>Message</th>
     <th>From</th>
     <th>Recipient</th>
@@ -21,7 +22,10 @@
   <% @messages.each do |message| %>
   <tr>
     <td><%= message.id %></td>
-        <td><%= message.group_id %></td>
+    <td><%= message.group_id %></td>
+    <% if false %>
+    <td><%= message.group_id.nil? ? Group.find(message.group_id).name : message.group_id %></td>
+    <% end %>
     <td><%= message.message %></td>
     <td><%= message.from %></td>
     <td><%= message.recipient %></td>

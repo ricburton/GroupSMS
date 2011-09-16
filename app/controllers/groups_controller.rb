@@ -1,5 +1,6 @@
 class GroupsController < ApplicationController
   before_filter :authenticate
+  before_filter :admin_user, :only => [:index]
   #before_filter :authenticate, :only => [:edit, :update, :show, :destroy, :create]
   #before_filter :correct_user, :only => [:edit, :update]
   #before_filter :admin_user, :only => [:index, :destroy, :edit, :show]
@@ -111,7 +112,7 @@ class GroupsController < ApplicationController
 
         @group.users.each do |x|
           @group.memberships.create!(:active => false, :user_id => x.id, :group_id => @group.id)
-
+          logger.info("New membership created")
           x.assignments.each do |ass|
             member_number_ids.push ass.number_id
           end

@@ -1,135 +1,109 @@
 <div class="row">
   <div class="span2 columns">
-    <h4 style="margin-bottom:0">Your groups</h4>
-    <div class="list-groups" style="text-align:center">
-      <div class="clearfix">
-        <% if @hide_form == true %>
-          <div class="twipsy right">
-            <!--<div class="twipsy-arrow"></div>-->
-            <div class="twipsy-inner" style="margin:0px 0px 10px 2px">Max. <%= @max_nums %> groups</div>
-          </div>
-          <%= link_to 'New group', group_path, :class => 'btn success disabled', :style => 'margin-top:3px' %>
-
-
-        <% else %>
-        <%= link_to 'New Group', new_group_path, :class => 'btn success' %>
-        <% end %></div>
-      </div>
-
-      <ul class="pills" style="margin:0;list-style-type:none;padding:0;font-size:15px;text">
+    <div class="list-groups" style="text-align:center; margin-top:20px;">
+      <ul class="grouptabs" style="margin:0;list-style-type:none;padding:0;font-size:15px;text">
         <% @user_groups.each do |g| %>
         <% if g.id == @group.id %>
-        <li class="active" style="clear:both;"><%= link_to g.name, g, :style => "display:block;width:auto;" %></li>
+        <li class="active" style="clear:both;"><%= link_to g.name, g, :style => "display:block;" %></li>
         <% else %>
-        <li style="clear:both;"><%= link_to g.name, g,  :style => "display:block;width:auto;"  %></li>
+        <li style="clear:both;"><%= link_to g.name, g,  :style => "display:block;width:100px;"  %></li>
         <% end %>
         <% end %>
       </ul>
 
-    </div>
-    <div class="span11 columns" style="background:">
-      <% flash.each do |key, value| %>
-      <div class="alert-message success <%= key %>">
-        <%= value %>
-      </div>
-      <% end %>
-      <!-- Modal -->
-      <div class="modal" style="position: relative; top: auto; left: auto; margin: 0 auto; z-index: 1; width:100%">
-        <div class="modal-header">
-          <h3>
-            <%= @group.name %>
-            <span style="font-size:10px;text-decoration:underline;">
-              <!-- change name modal-->
-              <%= link_to 'Change name', @group, :confirm => 'Are you sure?', :method => :delete, :style => '' %>
-            </span> 
-            <span style="float:right;font-size:10px;text-decoration:underline;">
-              <%= link_to 'Delete group', @group, :confirm => 'Are you sure?', :method => :delete, :style => 'color:red' %>
-            </span>
-          </h3>
 
+      <div class="clearfix" style="width:120px;margin:8px 0 0 0px">
+        <% if @hide_form == true %>
+        <div class="twipsy right">
+          <!--<div class="twipsy-arrow"></div>-->
+          <div class="twipsy-inner" style="margin:0px 0px 10px 12px">Max. <%= @max_nums %> groups</div>
         </div>
-        <div class="modal-body">
-          <%= form_for(@message) do |f| %>
-          <% if @message.errors.any? %>
-          <div id="error_explanation">
-            <h2><%= pluralize(@message.errors.count, "error") %> prohibited this message from being sent:</h2>
-            <ul>
-              <% @message.errors.full_messages.each do |msg| %>
-              <li><%= msg %></li>
-              <% end %>
-            </ul>
-          </div>
-          <% end %>   
+        <%= link_to 'New group', group_path, :class => 'btn success disabled', :style => 'margin-top:3px' %>
+        <% else %>
+        <%= link_to 'New Group', new_group_path, :class => 'btn success' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
 
-          <div class="field" style="padding-right:10px">
-            <%= f.text_area :message, :class => "xxlarge", :rows => 5, :style => "resize:none; width:100%;", :value => current_user.name + ":" %>
-            <!--todo work out how to count chars and keep name untouchable-->
+  <div class="span11 columns">
+    <!-- Modal -->
+    <div class="modal" style="position: relative; top: auto; left: auto; margin: 0; z-index: 1; width:100%; border-top:0;-webkit-border-radius:0 0 6px 6px;-moz-border-radius:0 0 6px 6px;border-radius:0 0 6px 6px;">
+
+      <div class="modal-body">
+        <!-- TODO make flash disappear -->
+        <% flash.each do |key, value| %>
+        <div class="alert-message success <%= key %>">
+          <%= value %>
+        </div>
+        <% end %>
+        <%= form_for(@message) do |f| %>
+        <% if @message.errors.any? %>
+        <div id="error_explanation">
+          <h2><%= pluralize(@message.errors.count, "error") %> prohibited this message from being sent:</h2>
+          <ul>
+            <% @message.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+        <% end %>   
+
+        <div class="field" style="padding-right:10px">
+          <%= f.text_area :message, :class => "xxlarge", :rows => 3, :style => "resize:none; width:100%;font-size:19px" %>
+          <!--TODO stop empty message sending -->
+          <!--todo work out how to count chars and keep name untouchable-->
 
 
-            <%= f.hidden_field :group_id, :value => @group.id %>
-            <%= f.hidden_field :user_id, :value => current_user.id %>
-          </div>
+          <%= f.hidden_field :group_id, :value => @group.id %>
+          <%= f.hidden_field :user_id, :value => current_user.id %>
+        </div>
 
-          <span class="help-block" style="margin-top:6px">
-            You can send messages over the web.
-            <span style="float:right">
-              <%= f.submit :value => "Send message", :class => "btn primary" %>
-            </span>
+        <span class="help-block" style="margin-top:6px">
+          You can send messages over the web or to
+          <strong style="color:darkgrey">+<%= @cu_g_num %></strong>
+          <span style="float:right">
+            <%= f.submit :value => "Send message", :class => "btn primary" %>
           </span>
-          <% end %>
-        </div>
-        <div class="modal-body">
-          <% if @group_messages.empty? %>
-          <div style="width:100%;text-align:center;padding-bottom:20px">
-            No messages yet.
-            <!--todo - ajaxify showing and loading of messages -->
-          </div>
-          <% else %>
-          <% @group_messages.each do |mess| %>
-          <div>
-            <!-- todo stop overflow -->
-            <strong><%= User.find(mess.user_id).name %>:</strong>
-            <div class="span4 columns"><%= mess.message %></div>
-
-            <span style="float:right">
-              <% timediff = Time.now - mess.created_at %>
-              <i><%= time_ago_in_words(Time.now - timediff,include_seconds = false) %> ago </i>
-            </span>
-          </div>
-          <% end %>
-          <% end %>
-
-          <% if false %>
-          <div class="more-messages clearfix" style="margin:10px auto;text-align:center;">
-            <input type="button" class="btn large disabled" value="Load more messages" style="align:center"></input>
-            <!-- todo make this work -->
-          </div>
-          <% end %>
-
-        </div>
+        </span>
+        <% end %>
       </div>
+      <div class="modal-body">
+        <% if @group_messages.empty? %>
+        <div style="width:100%;text-align:center;padding-bottom:20px">
+          No messages yet.
+          <!--todo - ajaxify showing and loading of messages -->
+        </div>
+        <% else %>
+        <% @group_messages.each do |mess| %>
+        <div style="margin:0 0 10px 0;padding:5px 0px 15px 0; border-bottom:1px dotted #ccc;">
+          <!-- todo stop overflow -->
+          <strong><%= User.find(mess.user_id).name %>:</strong> <%= mess.message %>
+          <span style="float:right">
+            <% timediff = Time.now - mess.created_at %>
+            <i><%= time_ago_in_words(Time.now - timediff,include_seconds = false) %> ago </i>
+          </span>
+        </div>
+        <% end %>
+        <% end %>
 
+        <% if false %>
+        <div class="more-messages clearfix" style="margin:10px auto;text-align:center;">
+          <input type="button" class="btn large disabled" value="Load more messages" style="align:center"></input>
+          <!-- todo make this work -->
+        </div>
+        <% end %>
 
+      </div>
     </div>
-    <div class="span3 columns">
-      <h4>Group Members</h4>
-      <div class="clearfix" style="margin-bottom:9px;">
-        <% if current_user.id == @group.creator_id %>
-      <% if @group_users.each.count < 9 %>
-      <!--TODO make a add people modal -->
-      <%= link_to 'Add people', edit_group_path(@group), :class => 'btn success' %>
-      <% else %>
-      <div class="twipsy right">
-            <!--<div class="twipsy-arrow"></div>-->
-            <div class="twipsy-inner" style="margin:0px 0px 10px 1px">Max. 8 people</div>
-          </div>
-      <%= link_to 'Add people', group_path, :class => 'btn success disabled' , :style => 'margin-top:3px'%>
-      <% end %>
-      <% end %>
-      </div>
-      <ul class="unstyled">
+
+
+  </div>
+  <div class="span3 columns" style="padding-top:20px">
+    <div>
+      <ul class="unstyled" >
         <% @group_users.each do |user| %>
-        <li style="font-size:15px;padding-bottom:5px;">
+        <li style="font-size:15px;padding-bottom:5px;padding-left:10px">
           <% this_membership = Membership.where(:user_id => user.id, :group_id => @group.id).first %>
           <% if this_membership.active %>
           <%= image_tag("green.gif", :alt => "Active User") %>
@@ -137,21 +111,51 @@
           <%= image_tag("red.gif", :alt => "Active User") %>
           <% end %>
           <%= user.name %> 
-          
+
           <span style="float:right;font-size:10px">
             <% if this_membership.user_id == current_user.id %>
-                      <%= link_to 'Leave', this_membership, :confirm => 'Are you sure?', :method => :delete, :style => 'color:red;' %>
-            <% else %>
-          <%= link_to 'Remove', this_membership, :confirm => 'Are you sure?', :method => :delete, :style => 'color:red;' %>
+            <%= link_to 'Leave', this_membership, :confirm => 'Are you sure?', :method => :delete, :style => 'color:red;' %>
+            <% elsif current_user.id == @group.creator_id %>
+            <%= link_to 'Remove', this_membership, :confirm => 'Are you sure?', :method => :delete, :style => 'color:red;' %>
             <% end %>
           </span>
         </li>
         <% end %>
       </ul>
     </div>
+    <div class="clearfix" style="margin-bottom:9px;">
+
+      <% if current_user.id == @group.creator_id %>
+      <div class="adpop">
+        <div class="inner">
+          <h4 class="title">Admin options</h4>
+          <div class="content">
+            <p>    <% if @group_users.each.count < 9 %>
+              <!--TODO make a add people modal -->
+              <%= link_to 'Add people', edit_group_path(@group), :class => 'btn success' %>
+              <% else %>
+              <div class="twipsy right">
+                <!--<div class="twipsy-arrow"></div>-->
+                <div class="twipsy-inner" style="margin:0px 0px 10px 1px">Max. 8 people</div>
+              </div>
+              <%= link_to 'Add people', group_path, :class => 'btn success disabled' , :style => 'margin-top:3px'%>
+              <% end %></p>
+              <p>
+                <!-- change name modal-->
+                <%= link_to 'Change name', @group, :confirm => 'Are you sure?', :method => :delete, :class => 'btn default'%>
+              </p> 
+              <p>
+                <%= link_to 'Delete group', @group, :confirm => 'Are you sure?', :method => :delete, :class => 'btn danger' %>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% end %>
+    </div>
+  
   </div>
 </div>
-
 
 
 

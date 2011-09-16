@@ -18,6 +18,12 @@ class GroupsController < ApplicationController
     @active_page = "UserHome"
     @max_nums = Number.all.count
     @used_nums = current_user.memberships.count
+    
+    #FIXME = why is cu_ass returning whoops?
+    cu_ass = Assignment.where(:user_id => current_user.id, :group_id => @group.id).first
+    cu_ass.nil? ? @cu_g_num = "Woops!" : @cu_g_num = Number.find(cu_ass.number_id).inbound_num
+    
+    
     if @used_nums == @max_nums
       @hide_form = true
     end
@@ -47,14 +53,11 @@ class GroupsController < ApplicationController
     respond_to do |format|
       format.html
     end
-
-    #    if current_user.memberships.count == Number.all.count
-    #      @hide_form = true
-    #    end
-
+    
+    
   end
 
-  def new
+  def new #FIXME it's possible to create more than 3 groups....
     @group = Group.new
     @max_nums = Number.all.count
     @used_nums = current_user.memberships.count
@@ -120,7 +123,7 @@ class GroupsController < ApplicationController
 
         end
 
-        format.html { redirect_to(@group, :notice => 'Congratulations, your GroupHug is now live. People just have to opt-in and then you can start texting.') }
+        format.html { redirect_to(@group, :notice => 'Your GroupHug is now live. People just have to opt-in to start receiving messages.') }
         #TODO - how to get this to fade.
         
       else

@@ -1,3 +1,23 @@
+  def newpass( len )
+    chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
+    newpass = ""
+    1.upto(len) { |i| newpass << chars[rand(chars.size-1)] }
+    return newpass
+  end
+  
+  # nexmo = Nexmo::Client.new('fd74a959', 'af3fc79f')
+  # nexmo.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+  # response = nexmo.send_message({from: users_group_number.inbound_num, to: user.number, text: message.message })
+  
+  
+  #FIXME - is it worth creating my own sending function??? is that what the gem is for?
+=begin
+  def sendtext( from, to, text )
+    nexmo = Nexmo::Client.new('fd74a959', 'af3fc79f')
+    nexmo.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    response = nexmo.send_message({from: users_group_number.inbound_num, to: user.number, text: message.message })
+  end
+=end
 
 
 message = Message.new( :message => "+no", :recipient => "447786201383" , :from => "7851864388")

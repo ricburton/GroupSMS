@@ -9,6 +9,10 @@ class UsersController < ApplicationController
       format.html # index.html.erb
     end
   end
+  
+  def confirm
+    @user = User.find(params[:id])
+  end
 
   def show
     @user = User.find(params[:id])

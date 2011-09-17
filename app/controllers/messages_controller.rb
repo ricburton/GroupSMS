@@ -56,11 +56,10 @@ class MessagesController < ApplicationController
 
   def create
     @message = Message.new(params[:message])
-
+    #envelopes replace with message.group_id
     respond_to do |format|
       if @message.save
-        current_user.envelopes.create!(:user_id => current_user.id, :group_id => @message.group_id, :message_id => @message.id)
-
+         
 
         sendtext( 447851864388, 90909123049120, "boooasdfaklsjdklfjklj" )
 

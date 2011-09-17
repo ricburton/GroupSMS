@@ -10,11 +10,6 @@ class User < ActiveRecord::Base
   has_many :numbers, :through => :assignments, :uniq => true
   accepts_nested_attributes_for :numbers
 
-
-  has_many :envelopes
-  has_many :messages, :through => :envelopes
-  accepts_nested_attributes_for :envelopes
-
   #attr_accessible :name, :user_name, :user_number
   #accepts_nested_attributes_for :groups
   #attr_writer :name, :user_name, :user_number

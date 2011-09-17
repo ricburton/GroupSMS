@@ -1,10 +1,8 @@
 Groupsms::Application.routes.draw do
   
   resources :panels
-
   resources :numbers
   resources :messages
-  resources :envelopes
   resources :assignments
   resources :interstatials
   resources :groups

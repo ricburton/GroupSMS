@@ -13,8 +13,8 @@
 
             <div class="inline-inputs">
               <h6>Texting?: <span style="float:right"><%= f.check_box :sending %></span></h6>
-              <h6>New signups?: <span style="float:right"><%= f.check_box :signup %></span></h6>              
-
+              <h6>New signups?: <span style="float:right"><%= f.check_box :signup %></span></h6>             
+              <h6>Max. SMS: <span style="float:right"><%= f.text_field :max_messages, :style => 'width:40px' %></span></h6>
             </div>
             <div>
               <%= f.submit "Update settings", :class => 'btn primary' %>
@@ -24,7 +24,21 @@
         </div>
       </div>
     </div>
+
+    <div class="adpop" style="margin-top:20px">
+      <div class="inner">
+        <h4 class="title">Total metrics</h4>
+        <div class="content">
+          <h5>Total groups : <%= Group.all.count %></h5>
+          <h5>Total users: <%= User.all.count %></h5>
+          <h5>Total messages: <%= Message.all.count %></h5>
+          <h5>Total sent: 235</h5>
+          <h5>Total costs: £6.58</h5>
+        </div>
+      </div>
+    </div>
   </div>
+
 
   <div class="span4 columns">
     <div class="adpop">
@@ -40,12 +54,44 @@
       </div>
     </div>
   </div>
-    <div class="span8 columns">
+  <div class="span8 columns">
     <div class="adpop">
       <div class="inner span8 columns">
         <h4 class="title">Graphs</h4>
         <div class="content">
           <h1>GRAPH HERE</h1>
+        </div>
+      </div>
+    </div>
+    <div class="adpop" style="margin-top:150px">
+      <div class="inner span8 columns">
+        <h4 class="title">Broadcast</h4>
+        <div class="content">
+          <% flash.each do |key, value| %>
+          <div class="alert-message success <%= key %>">
+            <%= value %>
+          </div>
+          <% end %>
+          <%= form_for(@message) do |f| %>
+          
+
+          <div class="field" style="padding-right:10px">
+            <%= f.text_area :message, :class => "xxlarge", :rows => 3, :style => "resize:none; width:100%;font-size:19px" %>
+            <!--TODO stop empty message sending -->
+            <!--todo work out how to count chars and keep name untouchable-->
+
+            <%= f.hidden_field :origin, :value => "ad" %>
+
+          </div>
+
+          <span class="help-block" style="margin-top:6px">
+            This will go to 
+            <strong style="color:darkgrey">everyone.</strong>
+            <span style="float:right">
+              <%= f.submit :value => "Send message", :class => "btn primary" %>
+            </span>
+          </span>
+          <% end %>
         </div>
       </div>
     </div>

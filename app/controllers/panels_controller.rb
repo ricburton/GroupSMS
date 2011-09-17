@@ -3,6 +3,7 @@ class PanelsController < ApplicationController
   before_filter :admin_user
   def index
     @panels = Panel.all
+    @message = Message.new
 
     respond_to do |format|
       format.html # index.html.erb

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110917122806) do
+ActiveRecord::Schema.define(:version => 20110917170339) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "number_id"
@@ -44,9 +44,9 @@ ActiveRecord::Schema.define(:version => 20110917122806) do
     t.string   "message"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "recipient"
-    t.integer  "api_message_id"
-    t.integer  "from"
+    t.integer  "recipient",      :limit => 8
+    t.integer  "api_message_id", :limit => 8
+    t.integer  "from",           :limit => 8
     t.string   "origin"
     t.datetime "timestamps"
     t.integer  "user_id"
@@ -70,6 +70,7 @@ ActiveRecord::Schema.define(:version => 20110917122806) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "signup"
+    t.integer  "max_messages"
   end
 
   create_table "users", :force => true do |t|

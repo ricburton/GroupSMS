@@ -129,6 +129,7 @@ def mediaburst_create
                         elsif Panel.first.sending == false
                            logger.info("SENDING IS OFF")
                         else
+                           logger.info("Trying to send via Nexmo...")
                            response = nexmo.send_message({from: users_group_number, to: user.number, text: formatted_message})
                         end
                      end

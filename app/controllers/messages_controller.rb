@@ -1,6 +1,18 @@
 class MessagesController < ApplicationController
   before_filter :authenticate, :only => [:show]
   before_filter :admin_user, :only => [:index]
+
+=begin
+  def sendtext( from, to, text )
+    if Panel.first.sending = true
+      nexmo = Nexmo::Client.new('fd74a959', 'af3fc79f')
+      nexmo.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      response = nexmo.send_message({from: from, to: to, text: text })
+    else
+      logger.info("A text would have been sent.")
+    end
+  end
+=end
   def index
     @messages = Message.all
 
@@ -27,13 +39,13 @@ class MessagesController < ApplicationController
 
   def mediaburst_create
     message = Message.new( :message => params[:PAYLOAD], 
-                           :recipient => params[:DEST_ADDR], 
-                           :api_message_id => params[:MSG_ID], 
-                           :from => params[:SRC_ADDR], 
-                           :api_timestamp => params[:DATETIME], 
-                           :network => params[:NETWORK],
-                           :origin => "sms")
- 
+    :recipient => params[:DEST_ADDR], 
+    :api_message_id => params[:MSG_ID], 
+    :from => params[:SRC_ADDR], 
+    :api_timestamp => params[:DATETIME], 
+    :network => params[:NETWORK],
+    :origin => "sms")
+
     message.save
     redirect_to message
   end
@@ -44,10 +56,15 @@ class MessagesController < ApplicationController
 
   def create
     @message = Message.new(params[:message])
-                           
+
     respond_to do |format|
       if @message.save
         current_user.envelopes.create!(:user_id => current_user.id, :group_id => @message.group_id, :message_id => @message.id)
+
+
+        sendtext( 447851864388, 90909123049120, "boooasdfaklsjdklfjklj" )
+
+
         format.html { redirect_to group_path(@message.group_id), :notice => 'Message was sent.' } #
       else
         format.html { render :action => "new" }

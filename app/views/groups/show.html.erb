@@ -1,3 +1,30 @@
+<script type="text/javascript">
+$(function(){
+
+  // Dialog			
+  $('#editname').dialog({
+    autoOpen: false,
+    closeText: 'x',
+    width: 600,
+    resizable: false,
+    draggable: false
+  });
+
+  // Dialog Link
+  $('#editname_link').click(function(){
+    $('#editname').dialog('open');
+    return false;
+  });
+
+  //hover states on the static widgets
+  //$('#dialog_link, ul#icons li').hover(
+  //  function() { $(this).addClass('ui-state-hover'); }, 
+  //  function() { $(this).removeClass('ui-state-hover'); }
+  //);
+
+});
+</script>
+
 <div class="row">
   <div class="span2 columns">
     <div class="list-groups" style="text-align:center; margin-top:20px;">
@@ -143,7 +170,8 @@
               <p>
                 <!-- change name modal-->
                 <%= link_to 'Change name', @group, :confirm => 'Are you sure?', :method => :delete, :class => 'btn default'%>
-              </p> 
+              </p>
+              <p><a href="#" id="editname_link" class="ui-state-default ui-corner-all"><span class="ui-icon ui-icon-newwin"></span>Open Dialog</a></p>
               <p>
                 <%= link_to 'Delete group', @group, :confirm => 'Are you sure?', :method => :delete, :class => 'btn danger' %>
               </p>
@@ -153,8 +181,16 @@
       </div>
       <% end %>
     </div>
-  
+
   </div>
+</div>
+
+<!-- ui-dialog -->
+<div id="editname" title="Dialog Title">
+  <div id="ui-dialog-titlebar">
+    TESTSETST
+  </div>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
 </div>
 
 

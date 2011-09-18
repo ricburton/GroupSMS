@@ -1,5 +1,3 @@
-
-
 class Group < ActiveRecord::Base
 
   has_many :memberships#, :foreign_key => "group_id"
@@ -13,6 +11,8 @@ class Group < ActiveRecord::Base
   
   has_many :assignments
   accepts_nested_attributes_for :assignments
+  
+  has_many :messages
                                 
   before_destroy { |group| 
     group.memberships.destroy_all

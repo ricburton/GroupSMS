@@ -16,8 +16,8 @@
               <h6>New signups?: <span style="float:right"><%= f.check_box :signup %></span></h6>             
               <h6>Max. SMS: <span style="float:right"><%= f.text_field :max_messages, :style => 'width:40px' %></span></h6>
             </div>
-            <div>
-              <%= f.submit "Update settings", :class => 'btn primary' %>
+            <div style="text-align:center">
+              <%= f.submit "Update settings", :class => 'btn primary', :style => 'font-size:15px;margin-top:15px' %>
             </div>
             <% end %>
           </p>

@@ -3,6 +3,20 @@ class UsersController < ApplicationController
    #before_filter :correct_user, :only => [:edit, :update]
    before_filter :admin_user, :only => [:index]
 
+   def addmember
+      @user = User.new(params[:user])
+
+      if @user.save
+         sign_in @user
+         format.html { redirect_to root_path }
+         flash.now[:success] = "Welcome" #TODO add onboarding flash to new group
+      else
+         @title = "Sign up"
+         format.html { render :action => "new" }
+      end
+   end
+
+
    def index
       @users = User.all
       respond_to do |format|
@@ -103,31 +117,46 @@ class UsersController < ApplicationController
       @user = User.find(params[:id])
    end
 
+
+
+
    def create #TODO - figure out how fields_for functions
       @user = User.new(params[:user])
       logger.info("User creation")
-      
-      #THIS IS WHERE IT'S AT! 
+
+      #SORT ERROR HANDLING!!!
 
       user_check = User.where(:number => @user.number)
       if user_check.count == 0
-         respond_to do |format|
-            if @user.save
-               sign_in @user
-               format.html { redirect_to new_group_path }
-               flash.now[:success] = "Welcome" #TODO add onboarding flash to new group
-            else
-               @title = "Sign up"
-               format.html { render :action => "new" }
+         if @user.signup_source.to_s.index("addmember") == 0
+            @user.save
+            group_num = @user.signup_source.gsub!("addmember","").to_i
+            @user.memberships.create(:group_id => group_num, :user_id => @user.id)
+            redirect_to root_path #CHANGE THIS!
+         else
+            logger.info("User not found in DB")
+            respond_to do |format|
+               if @user.save
+                  logger.info("Save and sign-in user")
+                  sign_in @user
+                  format.html { redirect_to new_group_path }
+                  flash.now[:success] = "Welcome" #TODO add onboarding flash to new group
+               else
+                  @title = "Sign up"
+                  format.html { render :action => "new" }
+               end
             end
          end
+
       elsif user_check.count >= 1 && user_check.first.registered == false
+         logger.info("User found in DB")
          user_check.first.toggle!(:registered)
          user_check.first.name = @user.name
          user_check.first.password = @user.password
          sign_in user_check.first
          redirect_to root_path
       else
+         logger.info("User not there")
          user_check.blank? == false && @user.registered == true
          flash[:succes] = "Please sign in. Have you forgotten your password?"
          redirect_to signin_path   

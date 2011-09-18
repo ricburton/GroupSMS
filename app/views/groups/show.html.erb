@@ -278,8 +278,9 @@ $(function(){
 </div>
 
 <div id="adduser" title="Add someone to the group">
-<%= form_for :users, @newadded do |form| %>
+<%= form_for(@user) do |form| %>
 <%= form.hidden_field :password, :value => newpass(8) %>
+<%= form.hidden_field :signup_source, :value => "addmember#{@group.id}"%>
 <%= form.hidden_field :registered, :value => false %>
 <!--FIXME why does this forward to new? -->
 <%= render 'shared/group_error_messages', :object => form.object %>
@@ -287,7 +288,7 @@ $(function(){
 <div class="modal-header" style="padding:17px 0px">
 
   <div class="inline-inputs" style="color:black">
-    First Name: <%= form.text_field :name, :class => "small", :style => 'margin-right:5px' %> Mobile Number: <%= form.text_field :number, :style => "width:130px; margin-right:10px;" %> <%= form.submit 'Save Changes', :class => 'btn primary' %>
+    First Name: <%= form.text_field :name, :class => "small", :style => 'margin-right:5px' %> Mobile Number: <%= form.text_field :number, :style => "width:130px; margin-right:10px;" %> <%= form.submit 'Save Changes', :class => 'btn primary', :controller => 'users', :action => 'addmember' %>
   </div>
 </div>
 

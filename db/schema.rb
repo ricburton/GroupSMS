@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110917170339) do
+ActiveRecord::Schema.define(:version => 20110918163711) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "number_id"
@@ -84,10 +84,9 @@ ActiveRecord::Schema.define(:version => 20110917170339) do
     t.boolean  "registered"
     t.integer  "group_id"
     t.integer  "number_id"
-    t.integer  "envelope_id"
+    t.string   "signup_source"
   end
 
-  add_index "users", ["envelope_id"], :name => "index_users_on_envelope_id"
   add_index "users", ["number"], :name => "index_users_on_number", :unique => true
   add_index "users", ["number_id"], :name => "index_users_on_number_id"
 

@@ -44,6 +44,7 @@ class UsersController < ApplicationController
 
       if signed_in?
          if current_user.memberships.empty?
+            logger.info("No memberships found and redirecting to new group path")
             redirect_to new_group_path
          else
             user_memberships = Array.new
@@ -60,7 +61,7 @@ class UsersController < ApplicationController
    end
 
    def newadded
-      #logger.info("Newadded called")
+      logger.info("Newadded called")
 
       #todo - need to catch the user before the save action otherwise uniqueness condition is not satisfied
       @newuser = User.new(params[:user])
@@ -105,6 +106,8 @@ class UsersController < ApplicationController
    def create #TODO - figure out how fields_for functions
       @user = User.new(params[:user])
       logger.info("User creation")
+      
+      #THIS IS WHERE IT'S AT! 
 
       user_check = User.where(:number => @user.number)
       if user_check.count == 0

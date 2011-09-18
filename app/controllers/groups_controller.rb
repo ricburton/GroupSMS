@@ -15,6 +15,7 @@ class GroupsController < ApplicationController
 
   def show
     @group = Group.find(params[:id])
+    @newuser = User.new
     @message = Message.new
     @active_page = "UserHome"
     @max_nums = Number.all.count

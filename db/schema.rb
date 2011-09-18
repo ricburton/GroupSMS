@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110918163711) do
+ActiveRecord::Schema.define(:version => 20110918175523) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "number_id"
@@ -57,6 +57,13 @@ ActiveRecord::Schema.define(:version => 20110918163711) do
   end
 
   add_index "messages", ["user_id"], :name => "index_messages_on_user_id"
+
+  create_table "notifications", :force => true do |t|
+    t.string   "purpose"
+    t.string   "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "numbers", :force => true do |t|
     t.integer  "inbound_num", :limit => 8

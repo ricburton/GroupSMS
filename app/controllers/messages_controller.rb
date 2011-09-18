@@ -126,7 +126,7 @@ def mediaburst_create
 
                         if cu_membership.active == false
                            logger.info("Don't send to inactive users")
-                        elsif Panel.first.sending == false
+                        elsif Panel.first.sending == false #needs panel data
                            logger.info("SENDING IS OFF")
                         else
                            logger.info("Trying to send via Nexmo...")

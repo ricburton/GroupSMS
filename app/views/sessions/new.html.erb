@@ -1,7 +1,12 @@
 <script type="text/javascript">
 window.onload = function() {
 document.getElementById('session_number').focus();
-}
+};
+
+jQuery(function($){
+   $("#session_number").mask("99999 999 999");
+});
+
 
 </script>
 <div class="span4 columns">

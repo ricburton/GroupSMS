@@ -27,6 +27,8 @@ namespace :db do desc "Fill database with sample data"
     
     Panel.create!(:sending => true, :signup => true, :max_messages => 100)
     
+    Notification.create!(:purpose => 'welcome', :content => "Richard has added you to a GroupHug, it's like chat over SMS. Jack, Keira & Ali are all members of the group: Kite Uist. Text back '+join' to this number to be a part of it.")
+    
   end
 end
 

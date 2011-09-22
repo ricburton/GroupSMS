@@ -29,7 +29,7 @@ namespace :db do desc "Fill database with sample data"
     Number.create!(:inbound_num => "447786201384")
     Number.create!(:inbound_num => "447786201385")
     
-    Panel.create!(:sending => true, :signup => true, :max_messages => 100)
+    Panel.create!(:sending => false, :signup => true, :max_messages => 100)
     
     Notification.create!(:purpose => 'welcome_explanation', :content => "Richard has added you to a GroupHug, it's like chat over SMS. Jack, Keira & Ali are all members of the group: Kite Uist. Text back '+join' to this number to be a part of it.")
     

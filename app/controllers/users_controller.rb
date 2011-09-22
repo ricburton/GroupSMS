@@ -222,8 +222,8 @@ class UsersController < ApplicationController
             end
 
             if user_number_ids.count == Number.all.count
-               flash.now[:error] = "Sorry this person belongs to #{Number.all.count} groups" 
-               redirect_to root_path
+               logger.error("Belongs to max number of groups already")
+               redirect_to(group, :notice => 'Sorry. That person already belongs to #{Number.all.count} groups.')
             else
                
                #All number ids

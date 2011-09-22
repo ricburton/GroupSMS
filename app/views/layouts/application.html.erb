@@ -72,8 +72,6 @@
 
           <% end %>
 
-
-
           <ul class="nav secondary-nav">
             <% if signed_in? %>
             <% if is_admin? %>
@@ -83,7 +81,7 @@
             <li><%= link_to 'Groups', groups_path %></li>
             <li><%= link_to 'Memberships', memberships_path %></li>
             <li><%= link_to 'Assignments', assignments_path %></li>
-            <li><%= link_to 'Admin Panel', panels_path %></li>
+            <li><%= link_to 'Admin Panel', panels_path, :style => 'font-weight:bold' %></li>
             <% end %>
 
             <li class="<%= "active" if @active_page == "EditUser" %>"><%= link_to 'My Account', edit_user_path(current_user) %></li>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110918175523) do
+ActiveRecord::Schema.define(:version => 20110922184651) do
 
   create_table "assignments", :force => true do |t|
     t.integer  "number_id"
@@ -67,7 +67,6 @@ ActiveRecord::Schema.define(:version => 20110918175523) do
 
   create_table "numbers", :force => true do |t|
     t.integer  "inbound_num", :limit => 8
-    t.boolean  "assigned"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -111,6 +111,8 @@ class GroupsController < ApplicationController
         ### member-user attributes ###
         member_number_ids = Array.new
 
+
+
         @group.users.each do |x|
           @group.memberships.create!(:active => false, :user_id => x.id, :group_id => @group.id)
           logger.info("New membership created")
@@ -122,9 +124,12 @@ class GroupsController < ApplicationController
           x.assignments.create!(:number_id => free_number_ids_for_member.first, 
           :user_id => x.id, 
           :group_id => @group.id)   
+          
+          
+          #TODO SEND WELCOME MESSAGES HERE!!!
 
         end
-
+        
         format.html { redirect_to(@group, :notice => 'Your GroupHug is now live. People just have to opt-in to start receiving messages.') }
         #TODO - how to get this to fade.
         

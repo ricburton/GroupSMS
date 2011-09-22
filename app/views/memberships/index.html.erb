@@ -3,7 +3,9 @@
 <table class="zebra-striped">
   <tr>
     <th>Group ID</th>
+    <th>Group Name</th>
     <th>User ID</th>
+    <th>User Name</th>
     <th></th>
     <th></th>
     <th></th>
@@ -12,7 +14,10 @@
 <% @memberships.each do |member| %>
   <tr>
     <td><%= member.group_id %></td>
+    <td><%= member.group_name %></td>
+   
     <td><%= member.user_id %></td>
+    <td><%= member.user_name %></td>
     <td><%= link_to 'Show', member %></td>
     <td><%= link_to 'Edit', edit_user_path(member) %></td>
     <td><%= link_to 'Destroy', member, :confirm => 'Are you sure?', :method => :delete %></td>

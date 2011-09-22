@@ -1,5 +1,10 @@
 <div class="row">
   <h1>Admin Panel</h1>
+  <% flash.each do |key, value| %>
+  <div class="alert-message success <%= key %>">
+    <%= value %>
+  </div>
+  <% end %>
 </div>
 
 <div class="row">
@@ -67,13 +72,8 @@
       <div class="inner span8 columns">
         <h4 class="title">Broadcast</h4>
         <div class="content">
-          <% flash.each do |key, value| %>
-          <div class="alert-message success <%= key %>">
-            <%= value %>
-          </div>
-          <% end %>
           <%= form_for(@message) do |f| %>
-          
+
 
           <div class="field" style="padding-right:10px">
             <%= f.text_area :message, :class => "xxlarge", :rows => 3, :style => "resize:none; width:100%;font-size:19px" %>

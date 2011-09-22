@@ -1,0 +1,81 @@
+STOPPING PEOPLE BEING ADDED TO TOO MANY GROUPS
+
+class Library < ActiveRecord::Base
+  has_many :books
+  validates_associated :books
+end ???
+
+class Order < ActiveRecord::Base
+  validates :card_number, :presence => true, :if => :paid_with_card?
+ 
+  def paid_with_card?
+    payment_type == "card"
+  end
+end
+
+class Person < ActiveRecord::Base
+  validates :surname, :presence => true, :if => "name.nil?"
+end
+
+CUSTOMISE ERROR MESSAGES
+
+class Person < ActiveRecord::Base
+  validates :bio, :length => { :maximum => 1000,
+    :too_long => "%{count} characters is the maximum allowed" }
+end
+
+class Holiday < ActiveRecord::Base
+  validates :name, :uniqueness => { :scope => :year,
+    :message => "should happen once per year" }
+end
+
+CUT RANDOM CHARS FROM ENTRY
+
+class Person < ActiveRecord::Base
+  def a_method_used_for_validation_purposes
+    errors.add(:name, "cannot contain the characters !@#%*()_-+=")
+  end
+end
+ 
+person = Person.create(:name => "!@#")
+ 
+person.errors[:name]
+ # => ["cannot contain the characters !@#%*()_-+="]
+ 
+person.errors.full_messages
+ # => ["Name cannot contain the characters !@#%*()_-+="]
+
+
+
+ERROR HANDLING ON GROUP EDITING
+
+
+SORT NUMBER SAVING ONCE AND FOR ALL
+
+
+add flashes
+
+
+<div id="flashes">
+
+  <% if flash[:notice] %>
+    <p id="flash_notice" class="messages notice"><%= flash[:notice] %></p>
+    <%= javascript_tag "$('#flash_notice').effect('highlight',{},1000);" %>
+  <% end %>
+
+  <% if flash[:error] || flash[:errors] %>
+    <p id="flash_errors" class="messages errors"><%= flash[:error] || flash[:errors] %></p>
+    <%= javascript_tag "$('#flash_errors').effect('highlight',{},1000);" %>
+  <% end %>
+
+  <% flash[:error] = flash[:errors] = flash[:notice] = nil %>
+</div>
+
+
+git clone git://github.com/rails/rails.git
+cd rails
+git checkout origin/3-0-stable -b 3-0-stable
+cd railties/guides
+ruby rails_guides.rb
+cd output
+open index.html

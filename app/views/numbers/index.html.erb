@@ -2,6 +2,7 @@
 
 <table>
   <tr>
+    <th>Number ID</th>
     <th>Inbound num</th>
     <th>Assigned</th>
     <th></th>
@@ -11,6 +12,7 @@
 
 <% @numbers.each do |number| %>
   <tr>
+    <td><%= number.id %></td>
     <td><%= number.inbound_num %></td>
     <td><%= number.assigned %></td>
     <td><%= link_to 'Show', number %></td>

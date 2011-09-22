@@ -23,9 +23,7 @@
   <tr>
     <td><%= message.id %></td>
     <td><%= message.group_id %></td>
-    <% if false %>
-    <td><%= message.group_id.nil? ? Group.find(message.group_id).name : message.group_id %></td>
-    <% end %>
+    <td><%= message.group_name %></td>
     <td><%= message.message %></td>
     <td><%= message.from %></td>
     <td><%= message.recipient %></td>

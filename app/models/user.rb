@@ -29,12 +29,14 @@ class User < ActiveRecord::Base
   #mobile_regex = /\A(([0][7][5-9])(\d{8}))\Z/
 
   validates :name,     :presence => true, #todo regexp for first name only
-  :length => { :maximum => 15 }
+  :length => { :maximum => 15 },
+  :format => { :with => /\A[a-zA-Z]+\z/, :message => "Only letters allowed" }
+  
   validates :number, #todo - fix mobile regexp
-  :presence => true
-  :length => { :minimum => 11, :maximum => 11}
+  :presence => true,
+  :length => { :minimum => 5, :maximum => 11},
   #:format => { :with => mobile_regex },
-  #:uniqueness => true
+  :uniqueness => true
   #TODO - uniqeness checking still needs to be handled properly.
 
   validates :password, :presence	=> true,

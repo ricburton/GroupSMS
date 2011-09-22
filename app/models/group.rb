@@ -22,6 +22,13 @@ class Group < ActiveRecord::Base
     
   validates :name, :presence => true, #todo regexp for first name only
   :length => { :maximum => 15 }
+ 
+  def creator_name
+     creator_id.nil? ? "fucked" : User.find(creator_id).name
+  end
+  
+  
+  
   #todo - strip out random characters
   
   

@@ -4,13 +4,13 @@ namespace :db do desc "Fill database with sample data"
   task :populate => :environment do
     Rake::Task['db:reset'].invoke 
     User.create!(:name => "Richard",
-    :number => "07851864388", 
+    :number => "07851864389", 
     :password => "happy123",
     :admin => true,
     :registered => true)
     
     User.create!(:name => "Tim",
-    :number => "07851864389", 
+    :number => "07851864386", 
     :password => "plokijmn",
     :admin => false,
     :registered => true)
@@ -21,13 +21,17 @@ namespace :db do desc "Fill database with sample data"
     :admin => false,
     :registered => false)
     
+    Assignment.create!(:number_id => 1, :user_id => 3)
+    Assignment.create!(:number_id => 2, :user_id => 3)
+    Assignment.create!(:number_id => 3, :user_id => 3)
+            
     Number.create!(:inbound_num => "447786201383")
     Number.create!(:inbound_num => "447786201384")
     Number.create!(:inbound_num => "447786201385")
     
     Panel.create!(:sending => true, :signup => true, :max_messages => 100)
     
-    Notification.create!(:purpose => 'welcome', :content => "Richard has added you to a GroupHug, it's like chat over SMS. Jack, Keira & Ali are all members of the group: Kite Uist. Text back '+join' to this number to be a part of it.")
+    Notification.create!(:purpose => 'welcome_explanation', :content => "Richard has added you to a GroupHug, it's like chat over SMS. Jack, Keira & Ali are all members of the group: Kite Uist. Text back '+join' to this number to be a part of it.")
     
   end
 end

@@ -117,51 +117,164 @@ class UsersController < ApplicationController
       @user = User.find(params[:id])
    end
 
-
-
-
-   def create #TODO - figure out how fields_for functions
+   def create
       @user = User.new(params[:user])
       logger.info("User creation")
+      nexmo = Nexmo::Client.new('fd74a959', 'af3fc79f')
+      nexmo.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
-      #SORT ERROR HANDLING!!!
 
+      #establish whether the user is already in the system by their number
       user_check = User.where(:number => @user.number)
-      if user_check.count == 0
-         if @user.signup_source.to_s.index("addmember") == 0
-            @user.save
-            group_num = @user.signup_source.gsub!("addmember","").to_i
-            @user.memberships.create(:group_id => group_num, :user_id => @user.id)
-            redirect_to root_path #CHANGE THIS!
-         else
-            logger.info("User not found in DB")
-            respond_to do |format|
-               if @user.save
-                  logger.info("Save and sign-in user")
-                  sign_in @user
-                  format.html { redirect_to new_group_path }
-                  flash.now[:success] = "Welcome" #TODO add onboarding flash to new group
-               else
-                  @title = "Sign up"
-                  format.html { render :action => "new" }
-               end
+      existing_user = user_check.first
+      #establish the source of the user-creation
+      user_source = @user.signup_source.to_s
+
+      if user_source.index("regform") == 0
+         logger.info("regform")
+         if user_check.count == 0
+            logger.info("regform: New user")
+            if @user.save
+               logger.info("Save and sign-in new user")
+               sign_in @user
+               redirect_to new_group_path
+               flash.now[:success] = "Welcome" #TODO add onboarding flash to new group
+            else
+               @title = "Sign up"
+               render :action => "new"
             end
+         elsif user_check.count >= 1
+            logger.info("regform: Existing user")
+            if existing_user.registered == true
+               logger.info("regform:Registered user. Should not be signing up!")
+               flash[:success] = "Please sign in. Have you forgotten your password?"
+               redirect_to signin_path   
+            else existing_user.registered == false #Non-registered user
+               logger.info("regform:Non-registered user. Change details and sign in")
+               existing_user.update_attributes(:registered => true, :name => @user.name, :password => @user.password)
+               sign_in existing_user
+               redirect_to root_path
+            end
+         else
+            logger.error("Something weird is going on from the regform")
          end
 
-      elsif user_check.count >= 1 && user_check.first.registered == false
-         logger.info("User found in DB")
-         user_check.first.toggle!(:registered)
-         user_check.first.name = @user.name
-         user_check.first.password = @user.password
-         sign_in user_check.first
-         redirect_to root_path
-      else
-         logger.info("User not there")
-         user_check.blank? == false && @user.registered == true
-         flash[:succes] = "Please sign in. Have you forgotten your password?"
-         redirect_to signin_path   
-      end
+      elsif user_source.index("addmember") == 0 #Source: add person. New group is dealt with at the group level to get the group id for memberships
+         logger.info("addmember")
 
+         #find the group_id of the user_creation
+         scrub_addmember = user_source.gsub("addmember","")
+         scrub_newgroup = scrub_addmember.gsub("newgroup","")
+         group_id = scrub_newgroup.to_i
+         group = Group.find(group_id)
+
+         #TODO - assignment creation
+
+         if user_check.count == 0 #TODO - error catching
+            logger.info("addmember: New user")
+            @user.save
+            @user.memberships.create!(:group_id => group_id, :user_id => @user.id)
+            #redirect_to root_path
+            @user.assignments.create!(:user_id => @user.id, :number_id => Number.first.id, :group_id => group_id)
+
+
+            #send welcome text
+
+
+
+            #TODO how to get this recognize creator_name and group_name
+            #          replacements = {
+            #               "#{creator_name}" => creator_name,
+            #               "#{group_name}" => group_name
+            #            }
+
+            #welcome_explanation = Notification.where(:purpose => "welcome_explanation").first.content.to_s
+
+            #           replacements.each do |string, var|
+            #              welcome_explanation.gsub!(string, var)
+            #           end
+
+
+            creator_name = User.find(group.creator_id).name
+            group_name = group.name
+
+            welcome_explanation = "#{creator_name} has added you to a GroupHug called #{group_name}. It's like chat over SMS where one text reaches all the members. Reply with '+join' to opt-in."
+
+            if Panel.first.sending == false #needs panel data present to function
+               logger.info("SENDING OFF: welcome_explanation needs to be sent")
+               logger.info(welcome_explanation.to_s)
+            elsif Panel.first.sending == true #save this message in the message DB
+               logger.info("Trying to send via Nexmo...")
+               response = nexmo.send_message({from: Number.find(Assignment.where(:user_id => @user.id, :group_id => group_id).first.number_id).inbound_num, to: @user.number.to_s.insert(0, '44'), text: welcome_explanation})
+            end
+
+
+
+            #redirect_to Group.find(group_id)
+            redirect_to group
+         elsif user_check.count >= 1
+            logger.info("addmember: Existing user")
+
+            #fina all their existing number assignment id's
+            user_number_ids = Array.new
+            existing_user.assignments.each do |ass|
+               user_number_ids.push ass.number_id
+            end
+
+            if user_number_ids.count == Number.all.count
+               flash.now[:error] = "Sorry this person belongs to #{Number.all.count} groups" 
+               redirect_to root_path
+            else
+               
+               #All number ids
+               all_number_ids = Array.new
+               @numbers.each do |number|
+                  all_number_ids.push number.id
+               end
+
+               free_number_ids = all_number_ids - user_number_ids
+               first_free_num = free_number_ids.first
+
+               existing_user.memberships.create!(:user_id => user_check.id, :group_id => group_id)
+               existing_user.assignments.create!(:user_id => user_check.id, :number_id => first_free_num, :group_id => group_id)
+
+               creator_name = User.find(group.creator_id).name
+               group_name = group.name
+
+               welcome_explanation = "#{creator_name} has added you to a GroupHug called #{group_name}. It's like chat over SMS where one text reaches all the members. Reply with '+join' to opt-in."
+
+
+               if Panel.first.sending == false #needs panel data present to function
+                  logger.info("SENDING OFF: welcome_explanation needs to be sent")
+                  logger.info(welcome_explanation.to_s)
+               elsif Panel.first.sending == true #save this message in the message DB
+                  logger.info("Trying to send via Nexmo...")
+                  response = nexmo.send_message({from: Number.find(Assignment.where(:user_id => @user.id, :group_id => group_id).first.number_id).inbound_num, to: @user.number.to_s.insert(0, '44'), text: welcome_explanation})
+               end
+
+
+               if existing_user.registered == true
+                  flash.now[:success] = "New person added!"
+                  #TODO why doesn't flash load?
+                  logger.info("addmember:Registered user")
+
+                  #SEND WELCOMENEWGROUP TEXT!
+               else user_check.registered == false #Non-registered user
+                  flash.now[:success] = "New person added!"
+                  logger.info("addmember:Non-registered user")
+                  #SEND WELCOMEHALFINTRO TEXT!
+               end
+            end
+         else
+            logger.error("Something weird is going on from the addmember")
+         end
+
+      else
+         logger.info("new user trying to be created outside regform, addmember. It could be newgroup")
+
+         @user.save
+
+      end
    end
 
    def update

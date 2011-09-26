@@ -52,7 +52,7 @@
         <div class="container">
           <% if signed_in? %>
           <ul>
-            <li><%= image_tag("minilogo.png", :alt => "GroupHug Logo") %></li>
+            <li><%= link_to image_tag("minilogo.png", :alt => "GroupHug Logo"), root_path, style: "margin:0;padding:0;" %></li>
           </ul>
           <ul class="nav" style="padding-left:5px">
             <% if current_user.memberships.count > 0 %>
@@ -61,7 +61,7 @@
           </ul>
           <% else %>
           <ul>
-            <li><%= image_tag("minilogo.png", :alt => "GroupHug Logo") %></li>
+            <li><%= link_to image_tag("minilogo.png", :alt => "GroupHug Logo"), root_path, style: "margin:0;padding:0;" %></li>
             <% if false %>
             <li>
               <%= form_for(:session, :url => sessions_path) do |f| %>

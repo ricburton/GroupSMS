@@ -1,4 +1,9 @@
 <h1>Listing memberships</h1>
+  <% flash.each do |key, value| %>
+  <div class="alert-message success <%= key %>">
+    <%= value %>
+  </div>
+  <% end %>
 
 <table class="zebra-striped">
   <tr>
@@ -6,7 +11,7 @@
     <th>Group Name</th>
     <th>User ID</th>
     <th>User Name</th>
-    <th></th>
+    <th>Active?</th>
     <th></th>
     <th></th>
   </tr>
@@ -15,11 +20,10 @@
   <tr>
     <td><%= member.group_id %></td>
     <td><%= member.group_name %></td>
-   
     <td><%= member.user_id %></td>
     <td><%= member.user_name %></td>
-    <td><%= link_to 'Show', member %></td>
-    <td><%= link_to 'Edit', edit_user_path(member) %></td>
+    <td><%= member.active %></td>
+    <td><%= link_to 'Edit', edit_membership_path(member) %></td>
     <td><%= link_to 'Destroy', member, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>

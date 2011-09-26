@@ -13,4 +13,6 @@ class Membership < ActiveRecord::Base
      user_id.nil? ? "fucked" : User.find(user_id).name
   end
   
+  
+  
 end

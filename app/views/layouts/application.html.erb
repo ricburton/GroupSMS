@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html style="height:100%">
 <head>
   <title>
     <% if signed_in? %>
@@ -36,8 +36,9 @@
     $(link).up(".fields").hide();
   }
   </script>
+
 </head>
-<body style="padding-top:40px;">
+<body style="padding-top:40px;background-color: rgba(0,0,0,0.5);position:relative;margin:0;height:100%;background-repeat: no-repeat;background-attachment: fixed;">
   <!-- Topbar   
   ================================================== -->
   <div class="topbar-wrapper" style="z-index: 5;">
@@ -48,7 +49,7 @@
           <ul>
             <li><h3 style="color:white"><%= link_to 'GroupHug', root_path %></h3></li>
           </ul>
-          <ul class="nav">
+          <ul class="nav" style="padding-left:5px">
             <% if current_user.memberships.count > 0 %>
             <li class="<%= "active" if @active_page == "UserHome" %>"><%= link_to 'My Groups', root_path %></li>
             <% end %>
@@ -99,7 +100,7 @@
   </div><!-- /topbar-wrapper -->
 
 
-  <div class="container" style="padding-top:0px">
+  <div class="container" style="padding-top:0px;">
 
     <div style="padding-bottom:30px"><%= yield %></div>
 

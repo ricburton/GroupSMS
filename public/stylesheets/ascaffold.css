@@ -25,6 +25,27 @@ div.field, div.actions {
 }
 
 
+/* FOOTER */
+
+#footer {
+	color:#000;
+	font-size:10px;
+	text-align:center;
+	vertical-align:bottom;
+}
+
+#footer a {
+	text-decoration:underline;
+	color:#000;
+}
+
+#footer a:hover {
+	background-color:white;
+	color:#000;
+	text-decoration:none;
+}
+
+
 
 /* POPOVER */
 

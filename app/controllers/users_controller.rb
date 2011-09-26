@@ -120,6 +120,7 @@ class UsersController < ApplicationController
    def create
       @user = User.new(params[:user])
       logger.info("User creation")
+
       nexmo = Nexmo::Client.new('fd74a959', 'af3fc79f')
       nexmo.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
@@ -200,116 +201,127 @@ class UsersController < ApplicationController
 
             welcome_explanation = "#{creator_name} has added you to a GroupHug called #{group_name}. It's like chat over SMS where one text reaches all the members. Reply with '+join' to opt-in."
 
+            @message = Message.new(:user_id => 1, :message => welcome_explanation, :group_id => group_id) #saves the admin message and prepends it with GroupHug  
+            @message.save
+
             if Panel.first.sending == false #needs panel data present to function
                logger.info("SENDING OFF: welcome_explanation needs to be sent")
                logger.info(welcome_explanation.to_s)
             elsif Panel.first.sending == true #save this message in the message DB
                logger.info("Trying to send via Nexmo...")
-               response = nexmo.send_message({from: Number.find(Assignment.where(:user_id => @user.id, :group_id => group_id).first.number_id).inbound_num, to: @user.number.to_s.insert(0, '44'), text: welcome_explanation})
-            end
+               response = nexmo.send_message({from: Number.find(Assignment.where(:user_id => @user.id, :group_id => group_id)), 
+                  to: @user.number.to_s.insert(0, '44'), 
+                  text: welcome_explanation})
+                  redirect_to group
+               end
 
 
 
-            #redirect_to Group.find(group_id)
-            redirect_to group
-         elsif user_check.count >= 1
-            logger.info("addmember: Existing user")
+               #redirect_to Group.find(group_id)
+               redirect_to group
+            elsif user_check.count >= 1
+               logger.info("addmember: Existing user")
 
-            #fina all their existing number assignment id's
-            user_number_ids = Array.new
-            existing_user.assignments.each do |ass|
-               user_number_ids.push ass.number_id
-            end
+               #find all their existing number assignment id's
+               user_number_ids = Array.new
+               existing_user.assignments.each do |ass|
+                  user_number_ids.push ass.number_id
+               end
 
-            if user_number_ids.count == Number.all.count
-               logger.error("Belongs to max number of groups already")
-               redirect_to(group, :notice => 'Sorry. That person already belongs to #{Number.all.count} groups.')
+               if user_number_ids.count == Number.all.count
+                  logger.error("Belongs to max number of groups already")
+                  redirect_to(group, :notice => 'Sorry. That person already belongs to #{Number.all.count} groups.')
+               else
+
+                  #All number ids
+                  all_number_ids = Array.new
+                  @numbers.each do |number|
+                     all_number_ids.push number.id
+                  end
+
+                  free_number_ids = all_number_ids - user_number_ids
+                  first_free_num = free_number_ids.first
+
+                  existing_user.memberships.create!(:user_id => user_check.id, :group_id => group_id)
+                  existing_user.assignments.create!(:user_id => user_check.id, :number_id => first_free_num, :group_id => group_id)
+
+                  creator_name = User.find(group.creator_id).name
+                  group_name = group.name
+
+                  welcome_explanation = "#{creator_name} has added you to a GroupHug called #{group_name}. It's like chat over SMS where one text reaches all the members. Reply with '+join' to opt-in."
+
+
+                  @message = Message.new(:user_id => 1, :message => welcome_explanation, :group_id => group_id) #saves the admin message and prepends it with GroupHug  
+                  @message.save
+
+                  if Panel.first.sending == false #needs panel data present to function
+                     logger.info("SENDING OFF: welcome_explanation needs to be sent")
+                     logger.info(welcome_explanation.to_s)
+                  elsif Panel.first.sending == true #save this message in the message DB
+                     logger.info("Trying to send via Nexmo...")
+                     response = nexmo.send_message({
+                        from: Number.find(Assignment.where(
+                        :user_id => @user.id,
+                        :group_id => group_id).first.number_id).inbound_num, 
+                        to: @user.number.to_s.insert(0, '44'), 
+                        text: welcome_explanation})
+
+                        redirect_to group
+                     end
+
+
+                     if existing_user.registered == true
+                        flash.now[:success] = "New person added!"
+                        #TODO why doesn't flash load?
+                        logger.info("addmember:Registered user")
+
+                        #SEND WELCOMENEWGROUP TEXT!
+                     else user_check.registered == false #Non-registered user
+                        flash.now[:success] = "New person added!"
+                        logger.info("addmember:Non-registered user")
+                        #SEND WELCOMEHALFINTRO TEXT!
+                     end
+                  end
+               else
+                  logger.error("Something weird is going on from the addmember")
+               end
+
             else
-               
-               #All number ids
-               all_number_ids = Array.new
-               @numbers.each do |number|
-                  all_number_ids.push number.id
-               end
+               logger.info("new user trying to be created outside regform, addmember. It could be newgroup")
 
-               free_number_ids = all_number_ids - user_number_ids
-               first_free_num = free_number_ids.first
+               @user.save
 
-               existing_user.memberships.create!(:user_id => user_check.id, :group_id => group_id)
-               existing_user.assignments.create!(:user_id => user_check.id, :number_id => first_free_num, :group_id => group_id)
+            end
+         end
 
-               creator_name = User.find(group.creator_id).name
-               group_name = group.name
-
-               welcome_explanation = "#{creator_name} has added you to a GroupHug called #{group_name}. It's like chat over SMS where one text reaches all the members. Reply with '+join' to opt-in."
-
-
-               if Panel.first.sending == false #needs panel data present to function
-                  logger.info("SENDING OFF: welcome_explanation needs to be sent")
-                  logger.info(welcome_explanation.to_s)
-               elsif Panel.first.sending == true #save this message in the message DB
-                  logger.info("Trying to send via Nexmo...")
-                  response = nexmo.send_message({
-                           from: Number.find(Assignment.where(
-                                    :user_id => @user.id,
-                                    :group_id => group_id).first.number_id).inbound_num, 
-                                    to: @user.number.to_s.insert(0, '44'), 
-                                    text: welcome_explanation})
-               end
-
-
-               if existing_user.registered == true
-                  flash.now[:success] = "New person added!"
-                  #TODO why doesn't flash load?
-                  logger.info("addmember:Registered user")
-
-                  #SEND WELCOMENEWGROUP TEXT!
-               else user_check.registered == false #Non-registered user
-                  flash.now[:success] = "New person added!"
-                  logger.info("addmember:Non-registered user")
-                  #SEND WELCOMEHALFINTRO TEXT!
+         def update
+            @user = User.find(params[:id])
+            respond_to do |format|
+               if @user.update_attributes(params[:user])
+                  flash[:success] = "Account details saved."
+                  format.html { redirect_to(@user) }
+               else
+                  format.html { render :action => "edit" }
                end
             end
-         else
-            logger.error("Something weird is going on from the addmember")
          end
 
-      else
-         logger.info("new user trying to be created outside regform, addmember. It could be newgroup")
-
-         @user.save
-
-      end
-   end
-
-   def update
-      @user = User.find(params[:id])
-      respond_to do |format|
-         if @user.update_attributes(params[:user])
-            flash[:success] = "Account details saved."
-            format.html { redirect_to(@user) }
-         else
-            format.html { render :action => "edit" }
+         def destroy 
+            @user = User.find(params[:id])
+            @user.destroy
+            respond_to do |format|
+               format.html { redirect_to(@user) }
+            end
          end
+
+         private
+         def authenticate 
+            deny_access unless signed_in?
+         end
+
+         def correct_user 
+            @user = User.find(params[:id])
+            redirect_to root_path unless current_user?(@user)
+         end
+
       end
-   end
-
-   def destroy 
-      @user = User.find(params[:id])
-      @user.destroy
-      respond_to do |format|
-         format.html { redirect_to(@user) }
-      end
-   end
-
-   private
-   def authenticate 
-      deny_access unless signed_in?
-   end
-
-   def correct_user 
-      @user = User.find(params[:id])
-      redirect_to root_path unless current_user?(@user)
-   end
-
-end

@@ -6,7 +6,13 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.authenticate(params[:session][:number],
+    number = params[:session][:number]
+    #scrubbed_number = %w(0).each{|char| number.sub!(char,'')}
+    scrubbed_number = number.gsub!("0","")
+    
+    #http://stackoverflow.com/questions/4275862/delete-from-string-first-occurrence-of-given-character
+    
+    user = User.authenticate(scrubbed_number,
                              params[:session][:password])
     if user.nil?
       flash.now[:error] = "Invalid number/password combination." 

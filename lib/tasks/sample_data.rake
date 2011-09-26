@@ -3,7 +3,7 @@ require 'faker'
 namespace :db do desc "Fill database with sample data" 
   task :populate => :environment do
     Rake::Task['db:reset'].invoke 
-    User.create!(:name => "Richard",
+    User.create!(:name => "GroupHug",
     :number => "07851864389", 
     :password => "happy123",
     :admin => true,

@@ -186,7 +186,7 @@ $(function(){
               </div>
               <% else %>
               <% @group_messages.each do |mess| %>
-              <div style="margin:0 0 10px 0;padding:5px 0px 15px 0; border-bottom:1px dotted #ccc;">
+              <div style="margin:0 0 10px 0;padding:15px 0px 5px 0; border-top:1px dotted #ccc;">
                 <!-- todo stop overflow -->
                 <strong><%= mess.user_id.nil? ? "OOPS" : User.find(mess.user_id).name %>:</strong> <%= mess.message %>
                 <span style="float:right">

@@ -96,6 +96,9 @@ class GroupsController < ApplicationController
     respond_to do |format|
 
       if @group.save
+         
+         
+         
         ### creator-user attributes ###
         current_user.assignments.create!(:number_id => free_number_ids.first, 
         :user_id => current_user.id,
@@ -103,7 +106,15 @@ class GroupsController < ApplicationController
 
         current_user.memberships.create!(:user_id => current_user.id,
         :group_id => @group.id, :active => true)
-
+        
+        creator_name = User.find(current_user.id).name
+        group_name = @group.name
+        group_id = @group.id
+        
+         welcome_explanation = "#{creator_name} has added you to a GroupHug called #{group_name}. It's like chat over SMS where one text reaches all the members. Reply with '+join' to opt-in."
+        
+        @message = Message.new(:user_id => 1, :message => welcome_explanation, :group_id => group_id) #saves the admin message and prepends it with GroupHug  
+        @message.save
 
 
         #current_user(:creator => true) #TODO - get this to work...

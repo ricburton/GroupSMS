@@ -249,7 +249,12 @@ class UsersController < ApplicationController
                   logger.info(welcome_explanation.to_s)
                elsif Panel.first.sending == true #save this message in the message DB
                   logger.info("Trying to send via Nexmo...")
-                  response = nexmo.send_message({from: Number.find(Assignment.where(:user_id => @user.id, :group_id => group_id).first.number_id).inbound_num, to: @user.number.to_s.insert(0, '44'), text: welcome_explanation})
+                  response = nexmo.send_message({
+                           from: Number.find(Assignment.where(
+                                    :user_id => @user.id,
+                                    :group_id => group_id).first.number_id).inbound_num, 
+                                    to: @user.number.to_s.insert(0, '44'), 
+                                    text: welcome_explanation})
                end
 
 

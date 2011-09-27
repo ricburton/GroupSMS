@@ -47,9 +47,15 @@ def mediaburst_create
    :origin => "sms")
 
    #DATA CHECKING
+   
+   stripped_recip = message.recipient.slice(0..1) #strip
+   stripped_from = message.from.slick(0..1) #strip
+   
+   logger.info(stripped_recip)
+   logger.info(stripped_from)
 
-   group_num = Number.where(:inbound_num => message.recipient).first
-   sending_user = User.where(:number => message.from).first
+   group_num = Number.where(:inbound_num => stripped_recip).first
+   sending_user = User.where(:number => stripped_from).first
    if group_num.blank? || sending_user.blank?
       logger.info("Group or user number not recognised")
    else

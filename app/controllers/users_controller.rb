@@ -212,16 +212,19 @@ class UsersController < ApplicationController
                logger.info(user_id)
                user_id2 = @user.id.to_s
                logger.info(user_id2)
-               response = nexmo.send_message({from: Number.find(Assignment.where(:user_id => user_id, :group_id => group_id)), 
-                  to: @user.number.to_s.insert(0, '44'), 
+               #prepare info for Nexmo
+               to_number = User.find(user_id).number.to_s.insert(0, '44')
+               correct_assignment = Assignment.where(:user_id => user_id, :group_id => group_id).first
+               from_number = Number.find(correct_assignment.number_id)
+               logger.info(to_number)
+               logger.info(correct_assignment)
+               logger.info(from_number)
+               response = nexmo.send_message({from: from_number, 
+                  to: to_number, 
                   text: welcome_explanation})
                   redirect_to group
                end
 
-
-
-               #redirect_to Group.find(group_id)
-               redirect_to group
             elsif user_check.count >= 1
                logger.info("addmember: Existing user")
 
@@ -271,60 +274,61 @@ class UsersController < ApplicationController
 
                         redirect_to group
                      end
+                  
 
 
-                     if existing_user.registered == true
-                        flash.now[:success] = "New person added!"
-                        #TODO why doesn't flash load?
-                        logger.info("addmember:Registered user")
+                  if existing_user.registered == true
+                     flash.now[:success] = "New person added!"
+                     #TODO why doesn't flash load?
+                     logger.info("addmember:Registered user")
 
-                        #SEND WELCOMENEWGROUP TEXT!
-                     else user_check.registered == false #Non-registered user
-                        flash.now[:success] = "New person added!"
-                        logger.info("addmember:Non-registered user")
-                        #SEND WELCOMEHALFINTRO TEXT!
-                     end
+                     #SEND WELCOMENEWGROUP TEXT!
+                  else user_check.registered == false #Non-registered user
+                     flash.now[:success] = "New person added!"
+                     logger.info("addmember:Non-registered user")
+                     #SEND WELCOMEHALFINTRO TEXT!
                   end
-               else
-                  logger.error("Something weird is going on from the addmember")
                end
-
             else
-               logger.info("new user trying to be created outside regform, addmember. It could be newgroup")
-
-               @user.save
-
+               logger.error("Something weird is going on from the addmember")
             end
-         end
 
-         def update
-            @user = User.find(params[:id])
-            respond_to do |format|
-               if @user.update_attributes(params[:user])
-                  flash[:success] = "Account details saved."
-                  format.html { redirect_to(@user) }
-               else
-                  format.html { render :action => "edit" }
-               end
-            end
-         end
+         else
+            logger.info("new user trying to be created outside regform, addmember. It could be newgroup")
 
-         def destroy 
-            @user = User.find(params[:id])
-            @user.destroy
-            respond_to do |format|
-               format.html { redirect_to(@user) }
-            end
-         end
+            @user.save
 
-         private
-         def authenticate 
-            deny_access unless signed_in?
          end
-
-         def correct_user 
-            @user = User.find(params[:id])
-            redirect_to root_path unless current_user?(@user)
-         end
-
       end
+
+      def update
+         @user = User.find(params[:id])
+         respond_to do |format|
+            if @user.update_attributes(params[:user])
+               flash[:success] = "Account details saved."
+               format.html { redirect_to(@user) }
+            else
+               format.html { render :action => "edit" }
+            end
+         end
+      end
+
+      def destroy 
+         @user = User.find(params[:id])
+         @user.destroy
+         respond_to do |format|
+            format.html { redirect_to(@user) }
+         end
+      end
+
+      private
+      def authenticate 
+         deny_access unless signed_in?
+      end
+
+      def correct_user 
+         @user = User.find(params[:id])
+         redirect_to root_path unless current_user?(@user)
+      end
+
+   end

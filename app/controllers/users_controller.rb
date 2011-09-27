@@ -177,7 +177,7 @@ class UsersController < ApplicationController
             @user.memberships.create!(:group_id => group_id, :user_id => @user.id)
             #redirect_to root_path
             @user.assignments.create!(:user_id => @user.id, :number_id => Number.first.id, :group_id => group_id)
-
+            user_id = @user.id.to_s
 
             #send welcome text
 
@@ -209,6 +209,9 @@ class UsersController < ApplicationController
                logger.info(welcome_explanation.to_s)
             elsif Panel.first.sending == true #save this message in the message DB
                logger.info("Trying to send via Nexmo...")
+               logger.info(user_id)
+               user_id2 = @user.id.to_s
+               logger.info(user_id2)
                response = nexmo.send_message({from: Number.find(Assignment.where(:user_id => @user.id, :group_id => group_id)), 
                   to: @user.number.to_s.insert(0, '44'), 
                   text: welcome_explanation})

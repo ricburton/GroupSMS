@@ -212,7 +212,7 @@ class UsersController < ApplicationController
                logger.info(user_id)
                user_id2 = @user.id.to_s
                logger.info(user_id2)
-               response = nexmo.send_message({from: Number.find(Assignment.where(:user_id => @user.id, :group_id => group_id)), 
+               response = nexmo.send_message({from: Number.find(Assignment.where(:user_id => user_id, :group_id => group_id)), 
                   to: @user.number.to_s.insert(0, '44'), 
                   text: welcome_explanation})
                   redirect_to group

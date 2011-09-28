@@ -227,12 +227,14 @@ $(function(){
 
                     <span style="float:right;font-size:10px">
                       <% if this_membership.user_id == current_user.id %>
+                      <% if false %>
                       <% if this_membership.active %>
                       <%= link_to("Pause", toggle(membership), :method => :put, :title => "This toggles it off") %>
                       <% else %>
                       <%= link_to("Toggle On", toggle(membership), :method => :put, :title => "This toggles it on") %>
                       <% end %>
                        | 
+                       <% end %>
                       <%= link_to 'Leave', this_membership, :confirm => 'Are you sure?', :method => :delete, :style => 'color:red' %>
                       <% elsif current_user.id == @group.creator_id %>
                       <%= link_to 'Remove', this_membership, :confirm => 'Are you sure?', :method => :delete, :style => 'color:red' %>

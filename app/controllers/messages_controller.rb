@@ -49,7 +49,7 @@ def mediaburst_create
    #DATA CHECKING
    
    stripped_recip = message.recipient.to_s.slice(0..1) #strip
-   stripped_from = message.from.to_s.slick(0..1) #strip
+   stripped_from = message.from.to_s.slice(0..1) #strip
    
    logger.info(stripped_recip)
    logger.info(stripped_from)

@@ -21,6 +21,31 @@ class MembershipsController < ApplicationController
    def edit
       @membership = Membership.find(params[:id])
    end
+   
+   def toggle
+      @membership = Membership.find(params[:id])
+      @membership.toggle!(active)
+   end
+   
+   def toggleon
+      @membership = Membership.find(params[:id])
+      @membership.update_attributes(:active => true)
+      if user.id == membership_id 
+         redirect_to root_path
+      else
+         redirect_to group
+      end
+   end
+
+   def toggleoff
+      @membership = Membership.find(params[:id])
+      @membership.update_attributes(:active => false)
+            if user.id == membership_id 
+         redirect_to root_path
+      else
+         redirect_to group
+      end
+   end
 
    def update
       @membership = Membership.find(params[:id])

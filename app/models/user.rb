@@ -34,9 +34,9 @@ class User < ActiveRecord::Base
   
   validates :number, #todo - fix mobile regexp
   :presence => true,
-  :length => { :minimum => 5, :maximum => 11},
+  :length => { :minimum => 5, :maximum => 11}
   #:format => { :with => mobile_regex },
-  :uniqueness => true
+  #:uniqueness => true
   #TODO - uniqeness checking still needs to be handled properly.
 
   validates :password, :presence	=> true,

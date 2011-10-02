@@ -114,7 +114,7 @@ ul.grouptabs li a{float:left;background-color:#e6e6e6;width:110px;}
 ul.grouptabs{border-right:0px solid #bfbfbf;}
 ul.grouptabs li a{margin-right:-1px;margin-bottom:2px;padding:0 9px;line-height:35px;-webkit-border-radius:6px 0 0 6px;-moz-border-radius:6px 0 0 6px;border-radius:6px 0 0 6px;}
 ul.grouptabs li a:hover{background-color:#e6e6e6;border-right:0px solid #bfbfbf;}
-ul.grouptabs li.active a{background-color:#fff;padding:0 8px;border:1px solid rgba(0, 0, 0, 0.5);border-right:0;color:#808080;}
+ul.grouptabs li.active a{background-color:#fff;padding:0 8px;border:0px solid rgba(0, 0, 0, 0.5);border-right:0;color:#808080;}
 
 
 /* Editing modals */

@@ -7,7 +7,9 @@
 
     var memberIndex = 1;
 
-    var totalMembers = 1;
+    var totalMembers = 3;
+    
+    var underMembers = totalMembers - 1;
 
     $('#add-member').click(function () {
       var r1 = new RegExp("\\[0\\]", "g");
@@ -17,7 +19,7 @@
       ///TODO get the highlight to work
 
 
-      if (totalMembers == 8) {
+      if (totalMembers == 7) {
         alert('The maximum number of members you can have is 8.');
       } else {
         members.append(memberDiv.replace(r1, '[' + memberIndex.toString() + ']').replace(r2, '_' + memberIndex.toString() + '_').replace('member', 'member ' + memberIndex.toString()));
@@ -27,87 +29,137 @@
         totalMembers += 1;
 
         // $(".clearfix member " + plusIndex.toString() + " well").effect("highlight", {}, 1000);
-        
-      //          $(".users").click(function () {
-      //  $(this).effect("highlight", {}, 3000);
-      //});
-  
 
-      };
+        //          $(".users").click(function () {
+          //  $(this).effect("highlight", {}, 3000);
+          //});
 
-      //TODO - blank out or disable the first remove button
 
-    });
+        };
 
-    $('.remove-member').live('click', function (event) {
-      $(event.target).closest('.member').remove();
-      totalMembers -= 1;
-    });
-  });
-  })(jQuery);
+        //TODO - blank out or disable the first remove button
 
-  </script>
-
-  <script type="text/javascript">
-  
-  window.onload = function() {
-    document.getElementById('group_name').focus();
-  }
-  
-  
-
-  </script>
-
-  <% if current_user.memberships.count == 0 %>
-
-  <% if false %>
-  <div class="row" style="background-color:#ccc;opacity:0.3;"> 
-    <div class="span8 columns offset4">
-      Onboard explanation.
-    </div>
-  </div>
-  <% end %>
-
-  <% end %>
-
-  <div class="span12 columns">
-    <!-- Modal -->
-    <div class="modal" style="position: relative; top: auto; left: auto; margin: 0 auto; z-index: 1;width:580px;margin-top:55px;">
-      <%= form_for(@group) do |form| %>
-      <div class="modal-header" style="padding:15px 15px 0px 18px">
-        <h1>Create a new group</h1>
-      </div>
-
-      <% if @hide_form == true %>
-      Sorry!
-      <% else %>
+      });
       
-      <div class="modal-header" style="padding:20px">
-        <%= render 'shared/group_error_messages', :object => form.object %> 
-        <h3>1) Name your group: <span style="float:right;padding-right:11px;"><%= form.text_field :name , :style => 'width:300px;'%></span></h3>
-      </div>
-      <div class="modal-body">
+      if (totalMembers == 2) {
+        alert('You need at least 3 members to make a group :)');
+      } else {
+      $('.remove-member').live('click', function (event) {
+        $(event.target).closest('.member').remove();
+        totalMembers -= 1;
+      });
+    };
+      
+      
+    });x
+    })(jQuery);
 
-        <div class="clearfix" style="padding-bottom:15px">
-          <h3>2) Add up to 8 people to your group: <span style="float:right;padding-right:12px"><input type="button" value="Add someone" id="add-member" class="btn success" style="font-size:17px;width:160px;height:36px;margin-left:13px"></span></h3>
-        </div>
-        <div class="users">
-          <%= form.fields_for :users, @newadded do |user_form| %>
-          <%= render 'user', :user_form => user_form, :collection => @group.users %>
+    </script>
 
-          <% end %>
-        </div>
-      </div>
-      <div class="modal-footer" style="margin-bottom:-17px">
-        <%= form.submit :id => :go, :value => 'Start the group', :name => :go, :class => 'btn large primary', :style => 'font-size:20px;'%>
+    <script type="text/javascript">
+
+    window.onload = function() {
+      document.getElementById('group_name').focus();
+    }
+
+
+    jQuery(function($){
+      $(".mobilemask").mask("99999999999");
+    });
+    </script>
+
+
+
+
+    <% if current_user.memberships.count == 0 %>
+
+    <% if false %>
+    <div class="row" style="background-color:#ccc;opacity:0.3;"> 
+      <div class="span8 columns offset4">
+        Onboard explanation.
       </div>
     </div>
-
-    <% end %>
     <% end %>
 
-  </div>
+    <% end %>
+
+    <div class="span12 columns">
+      <!-- Modal -->
+      <div class="modal" style="position: relative; top: auto; left: auto; margin: 0 auto; z-index: 1;width:580px;margin-top:35px;">
+        <%= form_for(@group) do |form| %>
+        <div class="modal-header" style="padding:15px 15px 0px 18px">
+          <h1>Create a new group</h1>
+        </div>
+
+        <% if @hide_form == true %>
+        Sorry!
+        <% else %>
+
+        <div class="modal-header" style="padding:20px">
+          <%= render 'shared/group_error_messages', :object => form.object %> 
+          <h3>1) Name your group: <span style="float:right;padding-right:11px;"><%= form.text_field :name , :style => 'width:300px;'%></span></h3>
+        </div>
+        <div class="modal-body">
+
+          <div class="clearfix" style="padding-bottom:0px">
+            <h3>
+              2) Add up to 8 people to your group:
+                          <span style="float:right;padding-right:12px">
+              <input type="button" value="Add someone" id="add-member" class="btn success" style="font-size:17px;width:160px;height:36px;margin-left:13px">
+            </span>
+              </h3>
+          </div>
+          
+          <% if false %>
+          <div class="testtwo">
+            <%= form.fields_for :users, @newadded do |user_form| %>
+
+
+            <div class="clearfix member well" style="padding:15px 10px;background:white;border:1px dotted #ccc;">
+              <div class="inline-inputs" style="color:black">
+                First Name: <%= user_form.text_field :name, :class => "small", :style => 'margin-right:5px' %> Mobile Number: <%= user_form.text_field :number, :style => "width:130px; margin-right:10px;", :class => "mobilemask" %> 
+              </div>
+
+              <div class="clearfix" style="display:none">
+                <%= user_form.hidden_field :password, :value => newpass(8) %>
+                <%= user_form.hidden_field :registered, :value => false %>
+                <%= user_form.hidden_field :signup_source, :value => "newgroup" %>
+              </div>
+            </div>
+            
+                        <div class="clearfix member well" style="padding:15px 10px;background:white;border:1px dotted #ccc;">
+              <div class="inline-inputs" style="color:black">
+                First Name: <%= user_form.text_field :name, :class => "small", :style => 'margin-right:5px' %> Mobile Number: <%= user_form.text_field :number, :style => "width:130px; margin-right:10px;", :class => "mobilemask" %> 
+              </div>
+
+              <div class="clearfix" style="display:none">
+                <%= user_form.hidden_field :password, :value => newpass(8) %>
+                <%= user_form.hidden_field :registered, :value => false %>
+                <%= user_form.hidden_field :signup_source, :value => "newgroup" %>
+              </div>
+            </div>
+            
+            
+
+            <% end %>
+          </div>
+          <% end %>
+          <div class="users">
+            <%= form.fields_for :users, @newadded do |user_form| %>
+            <%= render 'user', :user_form => user_form, :collection => @group.users %>
+            <% end %>
+          </div>
+          
+        </div>
+        <div class="modal-footer" style="margin-bottom:-17px">
+          <%= form.submit :id => :go, :value => 'Start the group', :name => :go, :class => 'btn large primary', :style => 'font-size:20px;'%>
+        </div>
+      </div>
+
+      <% end %>
+      <% end %>
+
+    </div>
 </div>
-
 
 

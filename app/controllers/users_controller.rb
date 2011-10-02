@@ -121,9 +121,6 @@ class UsersController < ApplicationController
       @user = User.new(params[:user])
       logger.info("User creation")
 
-      nexmo = Nexmo::Client.new('fd74a959', 'af3fc79f')
-      nexmo.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-
 
       #establish whether the user is already in the system by their number
       user_check = User.where(:number => @user.number)
@@ -178,37 +175,20 @@ class UsersController < ApplicationController
             #redirect_to root_path
             @user.assignments.create!(:user_id => @user.id, :number_id => Number.first.id, :group_id => group_id)
             user_id = @user.id.to_s
-
-            #send welcome text
-
-
-
-            #TODO how to get this recognize creator_name and group_name
-            #          replacements = {
-            #               "#{creator_name}" => creator_name,
-            #               "#{group_name}" => group_name
-            #            }
-
-            #welcome_explanation = Notification.where(:purpose => "welcome_explanation").first.content.to_s
-
-            #           replacements.each do |string, var|
-            #              welcome_explanation.gsub!(string, var)
-            #           end
-
-
             creator_name = User.find(group.creator_id).name
             group_name = group.name
 
             welcome_explanation = "#{creator_name} has added you to a GroupHug called #{group_name}. It's like chat over SMS where one text reaches all the members. Reply with '+join' to opt-in."
-
-            @message = Message.new(:user_id => 1, :message => welcome_explanation, :group_id => group_id) #saves the admin message and prepends it with GroupHug  
+            
+            #saves the admin message and prepends it with GroupHug  
+            @message = Message.new(:user_id => 1, :message => welcome_explanation, :group_id => group_id) 
             @message.save
 
             if Panel.first.sending == false #needs panel data present to function
                logger.info("SENDING OFF: welcome_explanation needs to be sent")
                logger.info(welcome_explanation.to_s)
             elsif Panel.first.sending == true #save this message in the message DB
-               logger.info("Trying to send via Nexmo...")
+               logger.info("Trying to send via @nexmo...")
                logger.info(user_id)
                user_id2 = @user.id.to_s
                logger.info(user_id2)
@@ -219,7 +199,10 @@ class UsersController < ApplicationController
                logger.info(to_number)
                logger.info(correct_assignment)
                logger.info(from_number)
-               response = nexmo.send_message({from: from_number, 
+               #connects to Nexmo
+               @nexmo = Nexmo::Client.new('fe5bb9db', '4589a092')
+               @nexmo.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+               response = @nexmo.send_message({from: from_number, 
                   to: to_number, 
                   text: welcome_explanation})
                   redirect_to group
@@ -254,7 +237,7 @@ class UsersController < ApplicationController
                   creator_name = User.find(group.creator_id).name
                   group_name = group.name
 
-                  welcome_explanation = "#{creator_name} has added you to a GroupHug called #{group_name}. It's like chat over SMS where one text reaches all the members. Reply with '+join' to opt-in."
+                  welcome_explanation = "#{creator_name} has added you to a GroupHug called #{group_name}. Reply with '+join' to opt-in."
 
 
                   @message = Message.new(:user_id => 1, :message => welcome_explanation, :group_id => group_id) #saves the admin message and prepends it with GroupHug  
@@ -264,8 +247,11 @@ class UsersController < ApplicationController
                      logger.info("SENDING OFF: welcome_explanation needs to be sent")
                      logger.info(welcome_explanation.to_s)
                   elsif Panel.first.sending == true #save this message in the message DB
-                     logger.info("Trying to send via Nexmo...")
-                     response = nexmo.send_message({
+                     logger.info("Trying to send via @nexmo...")
+                     #send welcome-to-group via Nexmo
+                     @nexmo = Nexmo::Client.new('fe5bb9db', '4589a092')
+                     @nexmo.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+                     response = @nexmo.send_message({
                         from: Number.find(Assignment.where(
                         :user_id => @user.id,
                         :group_id => group_id).first.number_id).inbound_num, 

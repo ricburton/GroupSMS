@@ -5,15 +5,17 @@ window.onload = function() {
 </script>
 
 
-<div class="modal" style="position: relative; top: auto; left: auto; margin: 0 auto; z-index: 1;width:580px;margin-top:55px;">
+<div class="modal" style="position: relative; top: auto; left: auto; margin: 0 auto; z-index: 1; width:450px;margin-top:25px;">
 <%= form_for @user do |f| %>
 
-
-  <fieldset style="background-color:#fff">
-    <div class="modal-header" style="padding:0px 15px 0px 18px">
-      <h1>Your account<span style="float:right;margin-bottom:15px"> <%= link_to 'Delete my account', @user, :confirm => 'Are you sure?', :method => :delete, :class => 'btn danger' %></span></h1>
+    <div class="modal-header" style="padding:10px 15px 0px 15px">
+  
+<span style="float:right;margin-top:25px"><%= link_to 'Delete my account', @user, :confirm => 'Are you sure?', :method => :delete, :class => '', :style => 'color:red;font-size:11px' %></span>
+      <h1 style="padding-top:10px">Your account</h1>
+      
     </div>
     <div class="modal-body">
+      <fieldset style="background-color:#fff">
     <%= render 'shared/error_messages', :object => f.object %>
 
     <div class="clearfix">

@@ -1,12 +1,12 @@
 <script type="text/javascript">
 jQuery(function($){
-   $(".mobilemask").mask("99999999999");
+  $(".mobilemask").mask("99999999999");
 });
 </script>
 
 <div class="clearfix member well" style="padding:15px 10px;background:white;border:1px dotted #ccc;">
   <div class="inline-inputs" style="color:black">
-    First Name: <%= user_form.text_field :name, :class => "small", :style => 'margin-right:5px' %> Mobile Number: <%= user_form.text_field :number, :style => "width:130px; margin-right:10px;", :class => "mobilemask" %> <input type="button" value="Remove" class="remove-member btn danger" id="first_button">
+    First Name: <%= user_form.text_field :name, :class => "small", :style => 'margin-right:5px' %> Mobile Number: <%= user_form.text_field :number, :style => "width:130px; margin-right:10px;", :class => "mobilemask" %> <input type="button" value="Remove" class="remove-member btn danger" id="first_button" tabindex="-1">
   </div>
 
   <div class="clearfix" style="display:none">

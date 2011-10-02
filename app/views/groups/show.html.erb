@@ -135,9 +135,9 @@ $(function(){
           </div>
         </div>
 
-        <div class="span11 columns">
+        <div class="span10 columns">
           <!-- Modal -->
-          <div class="modal" style="position: relative; top: auto; left: auto; margin: 0; z-index: 1; width:100%; border-top:0;border-left:0px;-webkit-border-radius:0 0 6px 6px;-moz-border-radius:0 0 6px 6px;border-radius:0 0 6px 6px;">
+          <div class="modal" style="position: relative; top: auto; left: auto; margin: 0; z-index: 1; width:100%; border-top:0;-webkit-border-radius:0 0 6px 6px;-moz-border-radius:0 0 6px 6px;border-radius:0 0 6px 6px;">
 
             <div class="modal-body">
               <!-- TODO make flash disappear -->
@@ -227,14 +227,14 @@ $(function(){
 
                     <span style="float:right;font-size:10px">
                       <% if this_membership.user_id == current_user.id %>
-                      <% if false %>
+                      
                       <% if this_membership.active %>
-                      <%= link_to("Pause", toggle(membership), :method => :put, :title => "This toggles it off") %>
+                      <%= link_to("Pause", toggle(@membership), :method => :put, :title => "This toggles it off") %>
                       <% else %>
-                      <%= link_to("Toggle On", toggle(membership), :method => :put, :title => "This toggles it on") %>
+                      <%= link_to("Toggle On", toggle(@membership), :method => :put, :title => "This toggles it on") %>
                       <% end %>
                        | 
-                       <% end %>
+                       
                       <%= link_to 'Leave', this_membership, :confirm => 'Are you sure?', :method => :delete, :style => 'color:red' %>
                       <% elsif current_user.id == @group.creator_id %>
                       <%= link_to 'Remove', this_membership, :confirm => 'Are you sure?', :method => :delete, :style => 'color:red' %>

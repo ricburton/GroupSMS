@@ -16,19 +16,19 @@
     <th></th>
   </tr>
 
-<% @memberships.each do |member| %>
+<% @memberships.each do |membership| %>
   <tr>
-    <td><%= member.group_id %></td>
-    <td><%= member.group_name %></td>
-    <td><%= member.user_id %></td>
-    <td><%= member.user_name %></td>
-    <td><%= member.active %></td>
-    <td><%= link_to 'Edit', edit_membership_path(member) %></td>
-    <td><%= link_to 'Destroy', member, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= membership.group_id %></td>
+    <td><%= membership.group_name %></td>
+    <td><%= membership.user_id %></td>
+    <td><%= membership.user_name %></td>
+    <td><%= membership.active %> | <%= link_to activate_link_text(membership), toggle_activate_admin_membership_path(membership)%></td>
+    <td><%= link_to 'Edit', edit_membership_path(membership) %></td>
+    <td><%= link_to 'Destroy', membership, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New Membership', new_membership_path %>
+<%= link_to 'New membershipship', new_membership_path %>

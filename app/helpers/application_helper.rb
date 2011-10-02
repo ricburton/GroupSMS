@@ -1,9 +1,10 @@
 module ApplicationHelper
 
-   def toggle
-      @membership = Membership.find(params[:id])
-      @membership.toggle!(active)
+   def activate_link_text(activatable)
+      activatable.active? ? 'Pause' : 'Start'
    end
+   
+   
 
    def link_to_remove_fields(name, f)
       f.hidden_field(:_destroy) + link_to_function(name, "remove_fields(this)")

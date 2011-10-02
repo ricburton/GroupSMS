@@ -1,6 +1,24 @@
 class MembershipsController < ApplicationController
    before_filter :authenticate
    before_filter :admin_user, :only => [:index]
+
+   def toggle_activate
+      #@memberships = Membership.all
+      @m = Membership.find(params[:id])
+      group_id = @m.group_id
+      group = Group.find(group_id)
+      @m.toggle!(:active)
+      redirect_to group
+   end
+
+   def toggle_activate_admin
+      #@memberships = Membership.all
+      @m = Membership.find(params[:id])
+      @m.toggle!(:active)
+      redirect_to memberships_path
+   end
+
+
    def index
       @memberships = Membership.all
 
@@ -21,12 +39,8 @@ class MembershipsController < ApplicationController
    def edit
       @membership = Membership.find(params[:id])
    end
-   
-   def toggle
-      @membership = Membership.find(params[:id])
-      @membership.toggle!(active)
-   end
-   
+
+
    def toggleon
       @membership = Membership.find(params[:id])
       @membership.update_attributes(:active => true)
@@ -40,7 +54,7 @@ class MembershipsController < ApplicationController
    def toggleoff
       @membership = Membership.find(params[:id])
       @membership.update_attributes(:active => false)
-            if user.id == membership_id 
+      if user.id == membership_id 
          redirect_to root_path
       else
          redirect_to group

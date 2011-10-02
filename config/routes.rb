@@ -10,10 +10,10 @@ Groupsms::Application.routes.draw do
    resources :groups
    resources :users
    resources :memberships do
-      member do
-         put :toggle
-      end
+      get 'toggle_activate', :on => :member 
+      get 'toggle_activate_admin', :on => :member
    end
+
 
    root :to => "users#new"
    get "sessions/new"

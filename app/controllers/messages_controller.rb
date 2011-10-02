@@ -48,14 +48,20 @@ def mediaburst_create
 
    #DATA CHECKING
    
-   stripped_recip = message.recipient.to_s.slice(0..1) #strip
-   stripped_from = message.from.to_s.slice(0..1) #strip
+   recip = message.recipient.to_s
+   from = message.from.to_s
    
-   logger.info(stripped_recip)
-   logger.info(stripped_from)
+   logger.info(recip)
+   logger.info(from)
+   
+   recip.slice!(0..1)
+   from.slice!(0..1)
+   
+   logger.info(recip)
+   logger.info(from)
 
-   group_num = Number.where(:inbound_num => stripped_recip).first
-   sending_user = User.where(:number => stripped_from).first
+   group_num = Number.where(:inbound_num => recip).first
+   sending_user = User.where(:number => from).first
    if group_num.blank? || sending_user.blank?
       logger.info("Group or user number not recognised")
    else

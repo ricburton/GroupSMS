@@ -25,9 +25,9 @@ namespace :db do desc "Fill database with sample data"
     Assignment.create!(:number_id => 2, :user_id => 3)
     Assignment.create!(:number_id => 3, :user_id => 3)
             
-    Number.create!(:inbound_num => "447786201383")
-    Number.create!(:inbound_num => "447786201384")
-    Number.create!(:inbound_num => "447786201385")
+    Number.create!(:inbound_num => "7786201383")
+    Number.create!(:inbound_num => "7786201384")
+    Number.create!(:inbound_num => "7786201385")
     
     Panel.create!(:sending => false, :signup => true, :max_messages => 100)
     

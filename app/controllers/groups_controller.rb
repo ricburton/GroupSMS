@@ -23,8 +23,10 @@ class GroupsController < ApplicationController
 
       #FIXME = why is cu_ass returning whoops?
       cu_ass = Assignment.where(:user_id => current_user.id, :group_id => @group.id).first
-      #cu_ass.nil? ? @cu_g_num = "Woops!" : @cu_g_num = Number.find(cu_ass.number_id).inbound_num
-      @cu_g_num = "Woops!" 
+      cu_ass.nil? ? @cu_g_num = "Woops!" : @cu_g_num = "+44" + Number.find(cu_ass.number_id).inbound_num.to_s
+      #@cu_g_num = "Woops!"
+      
+      #@cu_g_num = Number.find(cu_ass.number_id).inbound_num 
 
       if @used_nums >= @max_nums
          @hide_form = true
@@ -113,11 +115,10 @@ class GroupsController < ApplicationController
             ### member-user attributes ###
             member_number_ids = Array.new
 
-
+            ### define info for the text ###
             creator_name = current_user.name
             group_name = @group.name
             welcome_explanation = "#{creator_name} has added you to a GroupHug called #{group_name}. It's like chat over SMS where one text reaches all the members. Reply with '+join' to opt-in."
-
 
 
 
@@ -135,20 +136,26 @@ class GroupsController < ApplicationController
                :group_id => @group.id)   
 
 
-               #TODO SEND WELCOME MESSAGES HERE!!!
-               @nexmo = Nexmo::Client.new('fe5bb9db', '4589a092')
-               @nexmo.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+               #SEND WELCOME MESSAGES HERE!!!
+               if Panel.first.sending == false #needs panel data present to function
+                  logger.info("SENDING OFF: welcome_explanation needs to be sent")
+                  logger.info(welcome_explanation.to_s)
+               elsif Panel.first.sending == true #save this message in the message DB
+
+                  @nexmo = Nexmo::Client.new('fe5bb9db', '4589a092')
+                  @nexmo.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
 
-               from_number = Number.find(first_free_num_id).inbound_num
-               correct_num = "44" + x.number.to_s
+                  from_number = "44" + Number.find(first_free_num_id).inbound_num
+                  correct_num = "44" + x.number.to_s
 
-               response = @nexmo.send_message({from: from_number, 
-                  to: correct_num, 
-                  text: welcome_explanation})
+                  response = @nexmo.send_message({from: from_number, 
+                     to: correct_num, 
+                     text: welcome_explanation})
 
-                  logger.info(response)
+                     logger.info(response)
 
+                  end
                end
 
                format.html { redirect_to(@group, :notice => 'Your GroupHug is now live. People just have to opt-in to start receiving messages.') }

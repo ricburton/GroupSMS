@@ -62,6 +62,8 @@ def mediaburst_create
 
    group_num = Number.where(:inbound_num => recip).first
    sending_user = User.where(:number => from).first
+   
+   ### Check if there is data-matching present ###
    if group_num.blank? || sending_user.blank?
       logger.info("Group or user number not recognised")
    else
@@ -98,6 +100,7 @@ def mediaburst_create
 
                message.group_id = correct_group_id
                message.save
+               message.update_attributes(user_id: check_ass.user_id)
 
                logger.info("Message for #{Group.find(message.group_id).name}")
 

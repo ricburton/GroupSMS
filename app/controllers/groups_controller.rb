@@ -146,7 +146,7 @@ class GroupsController < ApplicationController
                   @nexmo.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
 
-                  from_number = "44" + Number.find(first_free_num_id).inbound_num
+                  from_number = "44" + Number.find(first_free_num_id).inbound_num.to_s
                   correct_num = "44" + x.number.to_s
 
                   response = @nexmo.send_message({from: from_number, 

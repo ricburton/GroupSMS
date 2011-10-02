@@ -188,11 +188,19 @@ $(function(){
               <% @group_messages.each do |mess| %>
               <div style="margin:0 0 10px 0;padding:15px 0px 5px 0; border-top:1px dotted #ccc;">
                 <!-- todo stop overflow -->
+
                 <strong><%= mess.user_id.nil? ? "OOPS" : User.find(mess.user_id).name %>:</strong> <%= mess.message %>
                 <span style="float:right">
+               
                   <% timediff = Time.now - mess.created_at %>
-                  <i><%= time_ago_in_words(Time.now - timediff,include_seconds = false) %> ago </i>
+                  <i><%= time_ago_in_words(Time.now - timediff,include_seconds = false) %> ago </i> 
+                <% if mess.origin == "sms" %>
+                <%= image_tag("phone_icon.png", :alt => "Phone Icon") %>
+                <% elsif mess.origin == "web" %>
+                <%= image_tag("web_message_icon.png", :alt => "Web message icon") %>
+                <% end %>
                 </span>
+               
               </div>
               <% end %>
               <% end %>

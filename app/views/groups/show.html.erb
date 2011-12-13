@@ -226,7 +226,7 @@ $(function(){
                   <% @group_users.each do |user| %>
                   <li style="font-size:15px;padding-bottom:5px">
                     <% this_membership = Membership.where(:user_id => user.id, :group_id => @group.id).first %>
-                    <% if this_membership.active %>
+                    <% if this_membership.active? %>
                     <%= image_tag("green.gif", :alt => "Active User") %>
                     <% else %>
                     <%= image_tag("red.gif", :alt => "Active User") %>

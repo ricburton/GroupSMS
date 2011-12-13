@@ -84,16 +84,19 @@ def mediaburst_create
             #COMMANDS
 
             if message.message.index("+") == 0
-               if message.message.index("+yes") == 0 || message.message.index("+start") == 0
+               if message.message.index("+start") == 0 || message.message.index("+join") == 0
+                  logger.info(user_from_membership.active)
                   logger.info("change them to active")
-
-                  user_from_membership.active = true
+                  user_from_membership.update_attributes!(:active => true)
+                  logger.info(user_from_membership.active)
                   
                end
 
-               if message.message.index("+no") == 0 || message.message.index("+stop") == 0
+               if message.message.index("+stop") == 0
+                  logger.info(user_from_membership.active)
                   logger.info("change them to inactive")
-                  user_from_membership.active = false
+                  user_from_membership.update_attributes!(:active => false)
+                  logger.info(user_from_membership.active)
                end
             else
                logger.info("It's not a command")
